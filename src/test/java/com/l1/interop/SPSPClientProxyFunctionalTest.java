@@ -36,8 +36,6 @@ import io.restassured.path.json.JsonPath;
 import static com.l1.interop.util.Utils.readCSVFile;
 import static com.l1.interop.util.StringContainsIgnoringCase.containsStringIgnoringCase;
 
-
-
 public class SPSPClientProxyFunctionalTest {
 	
 	private static String host;
@@ -159,6 +157,20 @@ public class SPSPClientProxyFunctionalTest {
 	private Iterator<Object []> dpSPSPClientProxy_setupNegative( ) throws Exception
     {
         List<Object []> testCases = readCSVFile("test-data/spspclientproxy/setup_negative.csv");
+        return testCases.iterator();
+    }
+	
+	@DataProvider(name = "payment_positive")
+	private Iterator<Object []> dpSPSPClientProxy_paymentPositive( ) throws Exception
+    {
+        List<Object []> testCases = readCSVFile("test-data/spspclientproxy/payment_positive.csv");
+        return testCases.iterator();
+    }
+	
+	@DataProvider(name = "payment_negative")
+	private Iterator<Object []> dpSPSPClientProxy_paymentNegative( ) throws Exception
+    {
+        List<Object []> testCases = readCSVFile("test-data/spspclientproxy/payment_negative.csv");
         return testCases.iterator();
     }
 	
@@ -532,13 +544,13 @@ public class SPSPClientProxyFunctionalTest {
 		}
 	}
 	
-	@Test
-	public void paymentExistingReceiver(){
+	@Test(dataProvider="payment_positive")
+	public void payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiver, String amount){
 		
 		String setupRequest = Json.createObjectBuilder()
-	            .add("receiver", "http://ec2-52-37-54-209.us-west-2.compute.amazonaws.com:3046/v1/receivers/bob")
-	            .add("sourceAccount", "http://ec2-52-37-54-209.us-west-2.compute.amazonaws.com:8088/ledger/accounts/alice")
-	            .add("destinationAmount", "97.90")
+	            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
+	            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+	            .add("destinationAmount", amount)
 	            .add("memo", "Hi Bobb!")
 	            .add("sourceIdentifier", "")
 	            .build()
@@ -571,8 +583,9 @@ public class SPSPClientProxyFunctionalTest {
      		put(url+"/spsp/client/v1/payments/"+setUpResponse.getString("id")).
      	then().
      		statusCode(200).
-     		//TODO Need to check why it is returning error
-     		body("id",equalTo("Error"));
+     		body("id",equalTo(setUpResponse.getString("id")));
+     		
+     		
 		
 	}
 	
