@@ -2,5 +2,5 @@
 Repo that holds the functional tests
 
 - Steps to run tests:
-1. After checkout, at the project root folder issue "mvn clean run" command.
-2. In target/surefire-reports folder, open index.html file to the TestNG report
+1. After checkout, at the project root folder issue "mvn clean test" command.
+2. In target/surefire-reports folder, open index.html file to view the TestNG report. This report lists out the total test cases executed, number of passed and failed test cases3. In targe/failed-reports folder, there will be html file for each corresponding api against which the functional test cases has been executed. This report has additional details around request and response payloads, end-point information and the query parameters, if any.
