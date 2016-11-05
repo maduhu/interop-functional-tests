@@ -43,7 +43,6 @@ public class SPSPClientProxyFunctionalTest {
 	private static String port;
 	private static String url;
 	private Properties prop = new Properties();
-	private static String filename = "target\\surefire-reports\\spsp-client-proxy.txt";
 	FileWriter writer;
     PrintStream captor;
 	
@@ -61,8 +60,10 @@ public class SPSPClientProxyFunctionalTest {
 		host = prop.getProperty("host");
 		port = prop.getProperty("port");
 		url = "http://"+host+":"+port;
+		if(!(new File("target/failure-reports")).exists())
+			new File("target/failure-reports").mkdirs();
 		
-		writer = new FileWriter("spsp-client-proxy.html");
+		writer = new FileWriter("target/failure-reports/spsp-client-proxy.html");
 		captor = new PrintStream(new WriterOutputStream(writer), true);
 		captor.println( "<html lang='en'>\n" );
 
