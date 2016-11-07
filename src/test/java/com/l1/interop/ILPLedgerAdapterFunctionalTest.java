@@ -17,7 +17,6 @@ import java.util.UUID;
 import javax.json.Json;
 
 import org.apache.commons.io.output.WriterOutputStream;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
@@ -139,7 +138,12 @@ public class ILPLedgerAdapterFunctionalTest {
     }
 	
 	/**
-	 * 
+	 * For a valid sender and receiver, this test checks that for a prepareTransfer endpoint, the returnvalue
+	 * is 200, and the response json fields are cheked as below:
+	 * id - Equals the value from the value that was supplied in the input
+	 * debits.account - Contains sender information
+	 * debits.amount - Equals the value from the data file
+	 * credits
 	 * @param sender
 	 * @param receiver
 	 * @param amount
@@ -233,18 +237,174 @@ public class ILPLedgerAdapterFunctionalTest {
 		
 	}
 	
-	@Test(dataProvider="prepare_transfer_negative")
+	@Test(dataProvider="prepare_transfer_positive")
 	public void prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse(String sender, String receiver, String amount){
-		
+		final StringWriter twriter = new StringWriter();
+        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+
+		try {
+			JsonPath fromUserResponse = given().
+				contentType("application/json").
+			when().
+				get(url+"/ledger/accounts/"+sender).jsonPath();
+			String fromId = fromUserResponse.getString("id");
+			
+			JsonPath toUserResponse = given().
+					contentType("application/json").
+				when().
+					get(url+"/ledger/accounts/"+receiver).jsonPath();
+			String toId = toUserResponse.getString("id");
+			
+			String setupRequest = Json.createObjectBuilder()
+		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
+		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+		            .add("destinationAmount", amount)
+		            .add("memo", "Hi Bobb!")
+		            .add("sourceIdentifier", "")
+		            .build()
+		            .toString();
+			
+			JsonPath setupResponse = 
+			given().
+				contentType("application/json").
+				body(setupRequest).
+			when().
+	         	post(url+"/spsp/client/v1/setup").jsonPath();
+				
+			String prepareTransferRequest = Json.createObjectBuilder()
+											.add("id","http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id"))
+											.add("ledger", "http://"+host+":8014"+"/ledger")
+											.add("debits", Json.createArrayBuilder().
+																add(Json.createObjectBuilder()
+																		.add("account", fromId)
+																		.add("amount", amount)))
+											.add("credits", Json.createArrayBuilder().
+																add(Json.createObjectBuilder()
+																		.add("account", toId)
+																		.add("amount", amount)))
+											.add("execution_condition", setupResponse.getString("condition"))
+											.add("expires_at", setupResponse.getString("expiresAt"))
+											.build()
+											.toString();
+				
+				
+			given().
+				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+				contentType("application/json").
+				body(prepareTransferRequest).
+			when().
+				put("http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id"));
+			
+			//Preparing the transfer again for the same id.
+			given().
+				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+				contentType("application/json").
+				body(prepareTransferRequest).
+			when().
+				put("http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id")).
+			then().
+				statusCode(422).
+				body("error_id",equalTo("AlreadyExistsError")).
+				body("message",equalTo("Can't modify transfer after execution."));
+			
+		} catch(java.lang.AssertionError e){
+        	captor.println("<ul>");
+        	captor.println("<h2>Test Case: <i>prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse</i></h2>");
+        	captor.printf("<h3>%s</h3> %s, %s, %s \n","parameters: ", sender, receiver,amount);
+        	captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+        	captor.print("<h3>Request and Response: </h3>");
+        	captor.println("<pre>"+twriter.toString()+"</pre>");
+        	captor.println("</ul>");
+        	
+        	throw e;
+        }
 	}
 	
 	@Test(dataProvider="prepare_transfer_negative")
 	public void prepareTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
+		final StringWriter twriter = new StringWriter();
+        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+		try {
+			
+			String prepareTransferRequest = Json.createObjectBuilder()
+					.add("id","http://"+host+":8014"+"/ledger/transfers/"+"123")
+					.add("ledger", "http://"+host+":8014"+"/ledger")
+					.add("debits", Json.createArrayBuilder().
+										add(Json.createObjectBuilder()
+												.add("account", sender)
+												.add("amount", amount)))
+					.add("credits", Json.createArrayBuilder().
+										add(Json.createObjectBuilder()
+												.add("account", receiver)
+												.add("amount", amount)))
+					.add("execution_condition", "")
+					.add("expires_at", "")
+					.build()
+					.toString();
+			
+			given().
+				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+				contentType("application/json").
+				body(prepareTransferRequest).
+			when().
+				put("http://"+host+":8014"+"/ledger/transfers/"+"123").
+			then().
+				statusCode(422).
+				body("error_id",equalTo("InvalidUriParameterError")).
+				body("message",equalTo("id is not a valid Uuid")).
+				body("validationErrors[0].message",containsString("String does not match pattern:"));
+				//body("code",equalTo("id is not a valid Uuid")).
+				
+		} catch(java.lang.AssertionError e){
+        	captor.println("<ul>");
+        	captor.println("<h2>Test Case: <i>prepareTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse</i></h2>");
+        	captor.printf("<h3>%s</h3> %s, %s, %s \n","parameters: ", sender, receiver,amount);
+        	captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+        	captor.print("<h3>Request and Response: </h3>");
+        	captor.println("<pre>"+twriter.toString()+"</pre>");
+        	captor.println("</ul>");
+        	
+        	throw e;
+        }
 	}
 	
 	@Test(dataProvider="prepare_transfer_negative")
 	public void prepareTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse(String sender, String receiver, String amount){
+		
+		final StringWriter twriter = new StringWriter();
+        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+		try {
+			String uuid = UUID.randomUUID().toString();
+			
+			String prepareTransferRequest = "Not a valid request";
+			
+			given().
+				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+				contentType("application/json").
+				body(prepareTransferRequest).
+			when().
+				put("http://"+host+":8014"+"/ledger/transfers/"+uuid).
+			then().
+				statusCode(400).
+				body("error_id",equalTo("InvalidBodyError")).
+				body("message",equalTo("Body did not match schema Transfer")).
+				body("validationErrors[0].message",containsString("Missing required property"));
+				//body("code",equalTo("id is not a valid Uuid")).
+				
+		} catch(java.lang.AssertionError e){
+        	captor.println("<ul>");
+        	captor.println("<h2>Test Case: <i>prepareTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse</i></h2>");
+        	captor.printf("<h3>%s</h3> %s, %s, %s \n","parameters: ", sender, receiver,amount);
+        	captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+        	captor.print("<h3>Request and Response: </h3>");
+        	captor.println("<pre>"+twriter.toString()+"</pre>");
+        	captor.println("</ul>");
+        	
+        	throw e;
+        }
 		
 	}
 	
@@ -309,6 +469,7 @@ public class ILPLedgerAdapterFunctionalTest {
 			
 			//Check the status of the transfer
 			given().
+			config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
 				contentType("application/json").
 			when().
 				get(url+"/ledger/transfers/"+setupResponse.getString("id")).
@@ -332,7 +493,34 @@ public class ILPLedgerAdapterFunctionalTest {
 	
 	@Test(dataProvider="get_prepared_transfer_negative")
 	public void getPreparedTransfer_ForTransferThatDoesNotExist_ShouldReturn404_ShouldReturnErrorResponse(String sender, String receiver, String amount){
-		
+		final StringWriter twriter = new StringWriter();
+        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+		try {
+			String uuid = UUID.randomUUID().toString();
+			
+			//Check the status of the transfer
+			given().
+				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+				contentType("application/json").
+			when().
+				get(url+"/ledger/transfers/"+uuid).
+			then().
+				statusCode(404).
+				body("error_id",equalTo("NotFoundError")).
+				body("message",equalTo("Unknown transfer."));
+				
+		} catch(java.lang.AssertionError e){
+        	captor.println("<ul>");
+        	captor.println("<h2>Test Case: <i>getPreparedTransfer_ForTransferThatDoesNotExist_ShouldReturn404_ShouldReturnErrorResponse</i></h2>");
+        	captor.printf("<h3>%s</h3> %s, %s, %s \n","parameters: ", sender, receiver,amount);
+        	captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+        	captor.print("<h3>Request and Response: </h3>");
+        	captor.println("<pre>"+twriter.toString()+"</pre>");
+        	captor.println("</ul>");
+        	
+        	throw e;
+        }
 	}
 	
 	@Test(dataProvider="get_prepared_transfer_negative")
