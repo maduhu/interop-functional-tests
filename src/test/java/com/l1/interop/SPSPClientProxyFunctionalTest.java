@@ -498,10 +498,15 @@ public class SPSPClientProxyFunctionalTest {
 	}
 	
 	/**
-	 * 
-	 * @param sender
-	 * @param receiver
-	 * @param amount
+	 * For a receiver that does not exist, this test checks that the return code is 404 and the below response json fields are checked:
+	 * <ul>
+	 * 	<li>id - Error</li>
+	 * 	<li>message - Receiver Not Found</li>
+	 * 	<li></li>
+	 * </ul>
+	 * @param sender address of sender
+	 * @param receiver address of receiver
+	 * @param amount amount that is being transferred
 	 */
 	@Test(dataProvider="setup_negative")
 	public void setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(String sender, String receiver, String amount){
@@ -544,8 +549,18 @@ public class SPSPClientProxyFunctionalTest {
 		}
 	}
 	
+	/**
+	 * For a setup that was successful, this test validates that for that ID, response is 200 and the below are fields in response json are validated:
+	 * <ul>
+	 * 	<li>status - executed</li>
+	 * <li></li>
+	 * </ul>
+	 * @param sender
+	 * @param receiver
+	 * @param amount
+	 */
 	@Test(dataProvider="payment_positive")
-	public void payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiver, String amount){
+	public void payment_ForSuccessfulSetup_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiver, String amount){
 		
 		String setupRequest = Json.createObjectBuilder()
 	            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
