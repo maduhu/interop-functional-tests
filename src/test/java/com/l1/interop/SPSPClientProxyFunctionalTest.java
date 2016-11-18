@@ -741,13 +741,13 @@ public class SPSPClientProxyFunctionalTest {
             
             JsonPath quoteResponse =
             given().
-            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            contentType("application/json").
-            param("invoiceUrl", invoiceUrl).
+            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            	contentType("application/json").
+            	param("invoiceUrl", invoiceUrl).
             when().
-            get(url+"/spsp/client/v1/invoice").
+            	get(url+"/spsp/client/v1/invoice").
             then().
-            statusCode(404).extract().jsonPath();
+            	statusCode(404).extract().jsonPath();
             
             //			assertThat(quoteResponse.getString("name"), is(equalTo(name)));
             //			assertThat(quoteResponse.getString("currencyCode"), is(equalTo(currencyCode)));
@@ -876,7 +876,10 @@ public class SPSPClientProxyFunctionalTest {
     @Test(dataProvider="invoice_create_positive", enabled=true)
     public void invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(String invoiceUrl, String dfsp, String memo) {
         
-        /*
+    	// Override the URL for local testing until Brian gets this working locally.
+    	String url = "http://localhost:8081";
+
+    	/*
          * Sample Post:
          *
          * 	{
@@ -891,30 +894,50 @@ public class SPSPClientProxyFunctionalTest {
          */
         
         String invoiceCreateRequest = Json.createObjectBuilder()
-        //	            .add("invoiceUrl", "http://"+host+":3046/v1/receivers/"+receiver)
+        //	            .add("invoiceUrl", "http://"+host+":3046/spsp/client/v1/invoice)
         .add("invoiceUrl", invoiceUrl)
         .add("dfsp", dfsp)
         .add("memo", memo)
         .build()
         .toString();
         
-        // Override the URL for local testing until Brian gets this working locally.
-        String url = "http://localhost:8081";
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
         try {
             
-            JsonPath setUpResponse =
+        	/*
+        	 * 
+        	 * Create the invoice 
+        	 * 
+        	 */
+            JsonPath createInvoiceResponse =
             given().
-            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            contentType("application/json").
-            body(invoiceCreateRequest).
+            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            	contentType("application/json").
+            	body(invoiceCreateRequest).
             when().
-		         	post(url+"/spsp/client/v1/invoice").
+	         	post(url+"/spsp/client/v1/invoice").
             then().
-		         	statusCode(201).extract().jsonPath();
+	         	statusCode(201).extract().jsonPath();
+            
+            
+            /*
+             * Now that we just posted/created an invoice, now try to get it from the API.  
+             * This will exercise the full API process flow flow from end to end.
+             * 
+             */
+            
+            JsonPath getInvoiceResponse =
+                given().
+                	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+                	contentType("application/json").
+                	param("invoiceUrl", invoiceUrl).
+                when().
+                	get(url+"/spsp/client/v1/invoice").
+                then().
+                	statusCode(200).extract().jsonPath();
             
         } catch(java.lang.AssertionError e){
             captor.println("<ul>");

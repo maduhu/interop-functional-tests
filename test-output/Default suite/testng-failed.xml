@@ -6,11 +6,18 @@
       <class name="com.l1.interop.SPSPClientProxyFunctionalTest">
         <methods>
           <include name="invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response" invocation-numbers="0"/>
+          <include name="setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse" invocation-numbers="0"/>
+          <include name="payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse" invocation-numbers="0"/>
           <include name="setup"/>
+          <include name="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" invocation-numbers="0 1"/>
+          <include name="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" invocation-numbers="0 1"/>
           <include name="afterClass"/>
-          <include name="invoice_GetInvoiceDetails_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse"/>
           <include name="invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response" invocation-numbers="0"/>
-          <include name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse"/>
+          <include name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" invocation-numbers="0 1"/>
+          <include name="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse" invocation-numbers="0 1"/>
+          <include name="setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse" invocation-numbers="0"/>
+          <include name="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse" invocation-numbers="0 1"/>
+          <include name="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" invocation-numbers="0"/>
           <include name="beforeClass"/>
         </methods>
       </class> <!-- com.l1.interop.SPSPClientProxyFunctionalTest -->
