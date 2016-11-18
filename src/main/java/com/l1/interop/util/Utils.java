@@ -27,7 +27,7 @@ public class Utils {
 	}
 	
 	public static void write(String filename, String data) throws Exception {
-		FileUtils.write(new File(filename), data,null,true);
+		FileUtils.write(new File(filename), data, "UTF-8",true);
 	}
 
 }
