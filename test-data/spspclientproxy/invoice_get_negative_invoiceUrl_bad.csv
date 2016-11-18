@@ -1,6 +1,1 @@
 Bob,http://localhost:8082/spsp/client/v1/invoice?invoiceUrl=http://brian.com,dfsp2.bob.dylan.account,Bob Dylan,USD,$,999.99,unpaid,https://www.example.com/gp/your-account/order-details?ie=UTF8&orderID=111-7777777-1111111
-
-
-
-invoice_get_negative_invoiceUrl_bad.csv
-
