@@ -44,7 +44,7 @@ public class SPSPClientProxyFunctionalTest {
     FileWriter writer;
     PrintStream captor;
     
-    private static final boolean IS_TEST_ENABLED = false;
+    private static final boolean IS_TEST_ENABLED = true;
     
     @BeforeClass
     private void beforeClass() throws Exception {
