@@ -9,9 +9,11 @@
 
 	<name>LevelOne</name>
 	<url>http://maven.apache.org</url>
+	
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<interop-common-version>1.0.7</interop-common-version>
 	</properties>
 
 	<dependencies>
@@ -22,6 +24,11 @@
 			<artifactId>testng</artifactId>
 			<version>6.8.8</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.l1p.interop</groupId>
+			<artifactId>interop-common</artifactId>
+			<version>${interop-common-version}</version>
 		</dependency>
 		<!-- 
 		<dependency>

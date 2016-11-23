@@ -1,6 +1,7 @@
 # interop-functional-tests
 Repo that holds the functional tests
 
+
 - Steps to run tests:
 1. After checkout, at the project root folder issue "mvn clean test" command.
 2. In target/surefire-reports folder, open index.html file to view the TestNG report. This report lists out the total test cases executed, number of passed and failed test cases

@@ -35,7 +35,7 @@ import io.restassured.config.LogConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.path.json.JsonPath;
 
-public class SPSPClientProxyFunctionalTest {
+public class bad_merge_SPSPClientProxyFunctionalTest {
     
     private static String host;
     private static String port;
@@ -61,13 +61,6 @@ public class SPSPClientProxyFunctionalTest {
         port = prop.getProperty("port");
         url = "http://"+host+":"+port;
         
-        /*
-         * 
-         * Override url for local testing
-         * 
-         */
-//        url = "http://localhost:8081";
-        
         if(!(new File("target/failure-reports")).exists())
             new File("target/failure-reports").mkdirs();
         
@@ -84,13 +77,11 @@ public class SPSPClientProxyFunctionalTest {
         captor.println( "<h1><center>Functional Test Failure Report</center></h1>\n" );
     }
     
-    
     @AfterClass
     private void afterClass() throws Exception {
         captor.println( "</body>\n" );
         captor.println( "</html>\n" );
     }
-    
     
     @BeforeTest
     private void setup() throws Exception {
@@ -113,7 +104,6 @@ public class SPSPClientProxyFunctionalTest {
      return lst.iterator();
      }
      */
-    
     
     @DataProvider(name = "query_positive")
     private Iterator<Object []> dpSPSPClientProxyQueryPositive( ) throws Exception
@@ -498,136 +488,147 @@ public class SPSPClientProxyFunctionalTest {
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
         try {
-            String json = Json.createObjectBuilder()
-            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
-            .add("destinationAmount", amount)
-            .add("memo", "Hi Bobb!")
-            .add("sourceIdentifier", "")
-            .build()
-            .toString();
-            
-            given().
-            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            contentType("application/json").
-            body(json).
-            when().
-            post(url+"/spsp/client/v1/setup").
-            then().
-            statusCode(201).
-            body("id",is(not(""))).
-            body("receiver",equalTo("http://"+host+":3046/v1/receivers/"+receiver));
-            
-        }catch(java.lang.AssertionError e){
-            captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>setUp_ForValidReceiver_ShouldReturn200_ShouldReturnValidResponse</i></h2>");
-            captor.printf("<h3>%s</h3> %s, %s \n","parameters: ", "", "");
-            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
-            captor.print("<h3>Request and Response: </h3>");
-            captor.println("<pre>"+twriter.toString()+"</pre>");
-            captor.println("</ul>");
-            
-            throw e;
-        }
-    }
+			String json = Json.createObjectBuilder()
+		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
+		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+		            .add("destinationAmount", amount)
+		            .add("memo", "Hi Bobb!")
+		            .add("sourceIdentifier", "")
+		            .build()
+		            .toString();
+			
+			given().
+				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+				contentType("application/json").
+				body(json).
+			when().
+	         	post(url+"/spsp/client/v1/setup").
+	         then().
+	         	statusCode(201).
+	         	body("id",is(not(""))).
+	         	body("receiver",equalTo("http://"+host+":3046/v1/receivers/"+receiver));
+		
+		}catch(java.lang.AssertionError e){
+			captor.println("<ul>");
+        	captor.println("<h2>Test Case: <i>setUp_ForValidReceiver_ShouldReturn200_ShouldReturnValidResponse</i></h2>");
+        	captor.printf("<h3>%s</h3> %s, %s \n","parameters: ", "", "");
+        	captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+        	captor.print("<h3>Request and Response: </h3>");
+        	captor.println("<pre>"+twriter.toString()+"</pre>");
+        	captor.println("</ul>");
+        	
+        	throw e;
+		}
+	}
+    
     
     /**
-     *
-     * @param sender
-     * @param receiver
-     * @param amount
-     */
-    @Test(dataProvider="setup_negative", enabled=IS_TEST_ENABLED)
-    public void setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(String sender, String receiver, String amount){
-        
-        final StringWriter twriter = new StringWriter();
+	 * For a receiver that does not exist, this test checks that the return code is 404 and the below response json fields are checked:
+	 * <ul>
+	 * 	<li>id - Error</li>
+	 * 	<li>message - Receiver Not Found</li>
+	 * 	<li></li>
+	 * </ul>
+	 * @param sender address of sender
+	 * @param receiver address of receiver
+	 * @param amount amount that is being transferred
+	 */
+	@Test(dataProvider="setup_negative")
+	public void setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(String sender, String receiver, String amount){
+		
+		final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
-        
-        try {
-            String json = Json.createObjectBuilder()
-            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
-            .add("destinationAmount", amount)
-            .add("memo", "Hi Bobb!")
-            .add("sourceIdentifier", "")
-            .build()
-            .toString();
-            
-            given().
-            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            contentType("application/json").
-            body(json).
-            when().
-            post(url+"/spsp/client/v1/setup").
-            then().
-            statusCode(404).
-            body("id",equalTo("Error")).
-            body("message",containsString("500 Internal Server Error")).
-            body("debug.stack",containsString("500 Internal Server Error"));
-            
-        }catch(java.lang.AssertionError e){
-            captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse</i></h2>");
-            captor.printf("<h3>%s</h3> %s, %s \n","parameters: ", "", "");
-            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
-            captor.print("<h3>Request and Response: </h3>");
-            captor.println("<pre>"+twriter.toString()+"</pre>");
-            captor.println("</ul>");
-            
-            throw e;
-        }
-    }
+		
+		try {
+			String json = Json.createObjectBuilder()
+		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
+		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+		            .add("destinationAmount", amount)
+		            .add("memo", "Hi Bobb!")
+		            .add("sourceIdentifier", "")
+		            .build()
+		            .toString();
+			
+			given().
+				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+				contentType("application/json").
+				body(json).
+			when().
+	         	post(url+"/spsp/client/v1/setup").
+	         then().
+	         	statusCode(404).
+		     	body("id",equalTo("Error")).
+		     	body("message",containsString("500 Internal Server Error")).
+		     	body("debug.stack",containsString("500 Internal Server Error"));
+		
+		}catch(java.lang.AssertionError e){
+			captor.println("<ul>");
+        	captor.println("<h2>Test Case: <i>setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse</i></h2>");
+        	captor.printf("<h3>%s</h3> %s, %s \n","parameters: ", "", "");
+        	captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+        	captor.print("<h3>Request and Response: </h3>");
+        	captor.println("<pre>"+twriter.toString()+"</pre>");
+        	captor.println("</ul>");
+        	
+        	throw e;
+		}
+	}
     
     
-    @Test(dataProvider="payment_positive", enabled=IS_TEST_ENABLED)
-    public void payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiver, String amount){
-        
-        String setupRequest = Json.createObjectBuilder()
-        .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-        .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
-        .add("destinationAmount", amount)
-        .add("memo", "Hi Bobb!")
-        .add("sourceIdentifier", "")
-        .build()
-        .toString();
-        
-        System.out.println("setupRequest for payment post: " + setupRequest);
-        System.out.println("1 ========== setup for valid receiver, payment request json: " + setupRequest + ", post url: "  + url+"/spsp/client/v1/setup" + ", should get 200 but failing");
-        
-        JsonPath setUpResponse =
-        given().
-        contentType("application/json").
-        body(setupRequest).
-        when().
-        post(url+"/spsp/client/v1/setup").jsonPath();
-        
-        String paymentRequest = Json.createObjectBuilder()
-        .add("id", setUpResponse.getString("id"))
-        .add("sourceAccount", setUpResponse.getString("sourceAccount"))
-        .add("receiver", setUpResponse.getString("receiver"))
-        .add("address",setUpResponse.getString("address"))
-        .add("sourceAmount", setUpResponse.getString("sourceAmount"))
-        .add("destinationAmount", setUpResponse.getString("destinationAmount"))
-        .add("condition", setUpResponse.getString("condition"))
-        .add("memo", setUpResponse.getString("memo"))
-        .add("expiresAt", setUpResponse.getString("expiresAt"))
-        .build()
-        .toString();
-        
-        System.out.println("2 ========== payment for valid receiver, payment request json: " + setupRequest + ", post url: "  + url+"/spsp/client/v1/setup" + ", should get 200 but failing");
-        
-        given().
-        contentType("application/json").
-        body(paymentRequest).
-        when().
-        put(url+"/spsp/client/v1/payments/"+setUpResponse.getString("id")).
-        then().
-        statusCode(200).
-        body("id",equalTo(setUpResponse.getString("id")));
-        
-        
-        
-    }
+	/**
+	 * For a setup that was successful, this test validates that for that ID, response is 200 and the below are fields in response json are validated:
+	 * <ul>
+	 * 	<li>status - executed</li>
+	 * <li></li>
+	 * </ul>
+	 * @param sender
+	 * @param receiver
+	 * @param amount
+	 */
+	@Test(dataProvider="payment_positive")
+	public void payment_ForSuccessfulSetup_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiver, String amount){
+		
+		String setupRequest = Json.createObjectBuilder()
+	            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
+	            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+	            .add("destinationAmount", amount)
+	            .add("memo", "Hi Bobb!")
+	            .add("sourceIdentifier", "")
+	            .build()
+	            .toString();
+		
+		JsonPath setUpResponse = 
+		given().
+			contentType("application/json").
+			body(setupRequest).
+		when().
+         	post(url+"/spsp/client/v1/setup").jsonPath();
+		
+		String paymentRequest = Json.createObjectBuilder()
+									.add("id", setUpResponse.getString("id"))
+									.add("sourceAccount", setUpResponse.getString("sourceAccount"))
+									.add("receiver", setUpResponse.getString("receiver"))
+									.add("address",setUpResponse.getString("address"))
+									.add("sourceAmount", setUpResponse.getString("sourceAmount"))
+									.add("destinationAmount", setUpResponse.getString("destinationAmount"))
+									.add("condition", setUpResponse.getString("condition"))
+									.add("memo", setUpResponse.getString("memo"))
+									.add("expiresAt", setUpResponse.getString("expiresAt"))
+									.build()
+									.toString();
+		
+		given().
+			contentType("application/json").
+			body(paymentRequest).
+		when().
+     		put(url+"/spsp/client/v1/payments/"+setUpResponse.getString("id")).
+     	then().
+     		statusCode(200).
+     		body("id",equalTo(setUpResponse.getString("id")));
+     		
+     		
+		
+	}
     
     
     
@@ -663,31 +664,34 @@ public class SPSPClientProxyFunctionalTest {
          
          */
         
+        // Override the URL for local testing until Brian gets this working locally.
+        String url = "http://localhost:8081";
+        
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
         try {
             
-            JsonPath response =
+            JsonPath quoteResponse =
             given().
-            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            	contentType("application/json").
-            	param("invoiceUrl", invoiceUrl).
+            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            contentType("application/json").
+            param("invoiceUrl", invoiceUrl).
             when().
-            	get(url+"/spsp/client/v1/invoice").
+            get(url+"/spsp/client/v1/invoice").
             then().
-            	statusCode(200).extract().jsonPath();
+            statusCode(200).extract().jsonPath();
             
-            assertThat(response.getString("name"), is(equalTo(name)));
-            assertThat(response.getString("currencyCode"), is(equalTo(currencyCode)));
-            assertThat(response.getString("currencySymbol"), is(equalTo(currencySymbol)));
+            assertThat(quoteResponse.getString("name"), is(equalTo(name)));
+            assertThat(quoteResponse.getString("currencyCode"), is(equalTo(currencyCode)));
+            assertThat(quoteResponse.getString("currencySymbol"), is(equalTo(currencySymbol)));
             
-            Double responseAmount = Double.parseDouble(response.getString("amount"));
+            Double responseAmount = Double.parseDouble(quoteResponse.getString("amount"));
             Double paramAmount = Double.parseDouble(amount);
             assertThat(responseAmount, is(equalTo(paramAmount)));
             
-            assertThat(response.getString("status"), is(equalTo(status)));
-            assertThat(response.getString("invoiceInfo"), is(equalTo(invoiceInfo)));
+            assertThat(quoteResponse.getString("status"), is(equalTo(status)));
+            assertThat(quoteResponse.getString("invoiceInfo"), is(equalTo(invoiceInfo)));
             
         } catch(java.lang.AssertionError e){
             captor.println("<ul>");
@@ -732,25 +736,26 @@ public class SPSPClientProxyFunctionalTest {
          * There is no body, just a simple URI
          *
          {
-	         "account": "dfsp2.bob.dylan.account",
-	         "name": "Bob Dylan",
-	         "currencyCode": "USD",
-	         "currencySymbol": "$",
-	         "amount": "10.40",
-	         "status": "unpaid",
-	         "invoiceInfo": "https://www.example.com/gp/your-account/order-details?ie=UTF8&orderID=111-7777777-1111111"
+         "account": "dfsp2.bob.dylan.account",
+         "name": "Bob Dylan",
+         "currencyCode": "USD",
+         "currencySymbol": "$",
+         "amount": "10.40",
+         "status": "unpaid",
+         "invoiceInfo": "https://www.example.com/gp/your-account/order-details?ie=UTF8&orderID=111-7777777-1111111"
          }
          
          */
+        
+        // Override the URL for local testing until Brian gets this working locally.
+        String url = "http://localhost:8081";
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
         try {
             
-        	System.out.println("url for get invoice for invalid invoice shousd get 404 :: " + url+"/spsp/client/v1/invoice" + " for invoice :: " + invoiceUrl);
-        	
-            JsonPath response =
+            JsonPath quoteResponse =
             given().
             	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
             	contentType("application/json").
@@ -759,8 +764,6 @@ public class SPSPClientProxyFunctionalTest {
             	get(url+"/spsp/client/v1/invoice").
             then().
             	statusCode(404).extract().jsonPath();
-            
-            System.out.println("..1: json response: " + response.toString());
             
             //			assertThat(quoteResponse.getString("name"), is(equalTo(name)));
             //			assertThat(quoteResponse.getString("currencyCode"), is(equalTo(currencyCode)));
@@ -807,6 +810,8 @@ public class SPSPClientProxyFunctionalTest {
     @Test(dataProvider="invoice_GET_negative")
     public void invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
         
+        // Override the URL for local testing until Brian gets this working locally.
+        String url = "http://localhost:8081";
         String urlPath = "/spsp/client/v1/invoice";
         
         final StringWriter twriter = new StringWriter();
@@ -814,15 +819,15 @@ public class SPSPClientProxyFunctionalTest {
         
         try {
             
-            JsonPath response =
+            JsonPath quoteResponse =
             given().
-            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            	contentType("application/json").
-            	param("invoiceUrl", invoiceUrl).
+            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            contentType("application/json").
+            param("invoiceUrl", invoiceUrl).
             when().
-            	get(url+urlPath).
+            get(url+urlPath).
             then().
-            	statusCode(404).extract().jsonPath();  // 404 is a bad url we are calling, but we need to be testing for what the receiver is returning when we give them an InviceUrl that is incorrect/invalid/non existant.
+            statusCode(404).extract().jsonPath();  // 404 is a bad url we are calling, but we need to be testing for what the receiver is returning when we give them an InviceUrl that is incorrect/invalid/non existant.
             
         } catch(java.lang.AssertionError e){
             captor.println("<ul>");
@@ -849,7 +854,7 @@ public class SPSPClientProxyFunctionalTest {
         
         
         // Override the URL for local testing until Brian gets this working locally.
-//        String url = "http://localhost:8081";
+        String url = "http://localhost:8081";
         String urlPath = "/spsp/client/v1/invoiceBAD";
         
         final StringWriter twriter = new StringWriter();
@@ -857,15 +862,15 @@ public class SPSPClientProxyFunctionalTest {
         
         try {
             
-            JsonPath response =
+            JsonPath quoteResponse =
             given().
-            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            	contentType("application/json").
-            	param("invoiceUrl", "should be invoiceUrl").
+            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            contentType("application/json").
+            param("invoiceUrl", "should be invoiceUrl").
             when().
-            	get(url+urlPath).
+            get(url+urlPath).
             then().
-            	statusCode(404).extract().jsonPath();  // 404 is a bad url we are calling, but we need to be testing for what the receiver is returning when we give them an InviceUrl that is incorrect/invalid/non existant.
+            statusCode(404).extract().jsonPath();  // 404 is a bad url we are calling, but we need to be testing for what the receiver is returning when we give them an InviceUrl that is incorrect/invalid/non existant.
             
         } catch(java.lang.AssertionError e){
             captor.println("<ul>");
@@ -888,7 +893,7 @@ public class SPSPClientProxyFunctionalTest {
     public void invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(String invoiceUrl, String dfsp, String memo) {
         
     	// Override the URL for local testing until Brian gets this working locally.
-//    	String url = "http://localhost:8081";
+    	String url = "http://localhost:8081";
 
     	/*
          * Sample Post:
@@ -923,7 +928,7 @@ public class SPSPClientProxyFunctionalTest {
         	 * Create the invoice 
         	 * 
         	 */
-            JsonPath response =
+            JsonPath createInvoiceResponse =
             given().
             	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
             	contentType("application/json").
@@ -936,17 +941,19 @@ public class SPSPClientProxyFunctionalTest {
             
             /*
              * Now that we just posted/created an invoice, now try to get it from the API.  
-             * This will exercise the full API process flow from end to end.
+             * This will exercise the full API process flow flow from end to end.
              * 
              */
-            given().
-            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            	contentType("application/json").
-            	param("invoiceUrl", invoiceUrl).
-            when().
-            	get(url+"/spsp/client/v1/invoice").
-            then().
-            	statusCode(200).extract().jsonPath();
+            
+            JsonPath getInvoiceResponse =
+                given().
+                	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+                	contentType("application/json").
+                	param("invoiceUrl", invoiceUrl).
+                when().
+                	get(url+"/spsp/client/v1/invoice").
+                then().
+                	statusCode(200).extract().jsonPath();
             
         } catch(java.lang.AssertionError e){
             captor.println("<ul>");
@@ -973,6 +980,9 @@ public class SPSPClientProxyFunctionalTest {
         .build()
         .toString();
         
+        // Override the URL for local testing until Brian gets this working locally.
+        String url = "http://localhost:8081";
+        
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -981,13 +991,13 @@ public class SPSPClientProxyFunctionalTest {
             String uriPath = "/spsp/client/v1/invoiceBad";
             
             given().
-            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            	contentType("application/json").
-            	body(invoiceCreateRequest).
+            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            contentType("application/json").
+            body(invoiceCreateRequest).
             when().
-            	post(url+uriPath).
+            post(url+uriPath).
             then().
-            	statusCode(404);
+            statusCode(404);
             
             
         } catch(java.lang.AssertionError e){
@@ -1023,6 +1033,9 @@ public class SPSPClientProxyFunctionalTest {
         .build()
         .toString();
         
+        // Override the URL for local testing until Brian gets this working locally.
+        String url = "http://localhost:8081";
+        
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -1031,13 +1044,13 @@ public class SPSPClientProxyFunctionalTest {
             String uriPath = "/spsp/client/v1/invoice";
             
             given().
-            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            	contentType("application/xml").
-            	body(invoiceCreateRequest).
+            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            contentType("application/xml").
+            body(invoiceCreateRequest).
             when().
-            	post(url+uriPath).
+            post(url+uriPath).
             then().
-            	statusCode(500);
+            statusCode(500);
             
             
         } catch(java.lang.AssertionError e){
@@ -1073,6 +1086,9 @@ public class SPSPClientProxyFunctionalTest {
         .build()
         .toString();
         
+        // Override the URL for local testing until Brian gets this working locally.
+        String url = "http://localhost:8081";
+        
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -1081,13 +1097,13 @@ public class SPSPClientProxyFunctionalTest {
             String uriPath = "/spsp/client/v1/invoice";
             
             given().
-            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            	contentType("application/json").
-            	body(invoiceCreateRequest).
+            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            contentType("application/json").
+            body(invoiceCreateRequest).
             when().
-            	post(url+uriPath).
+            post(url+uriPath).
             then().
-            	statusCode(400);
+            statusCode(400);
             
             
         } catch(java.lang.AssertionError e){
@@ -1102,6 +1118,5 @@ public class SPSPClientProxyFunctionalTest {
             throw e;
         }
     }
-    
     
 }
