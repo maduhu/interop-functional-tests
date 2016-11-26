@@ -1,17 +1,14 @@
 package com.l1.interop;
 
-import static com.l1.interop.util.Utils.readCSVFile;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.StringWriter;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -21,7 +18,6 @@ import org.apache.commons.io.output.WriterOutputStream;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.l1p.interop.JsonTransformer;
@@ -38,8 +34,6 @@ public class UserRegistrationFunctionalTests {
 	private static String host;
 	private static String port;
 	private static String url;
-	private static String dfsp_username;
-	private static String dfsp_password;
 	
 	private Properties prop = new Properties();
 
@@ -47,7 +41,7 @@ public class UserRegistrationFunctionalTests {
     PrintStream captor;
     
 	
-	@BeforeClass
+    @BeforeClass
     private void beforeClass() throws Exception {
         InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
         prop.load(is);
@@ -71,9 +65,6 @@ public class UserRegistrationFunctionalTests {
         
         System.out.println(">>>>>>>>  host being used in the User-Registration functional test: " + host + " and the port # : " + port);
         
-//        dfsp_username = prop.getProperty("dfsp.username");
-//        dfsp_password = prop.getProperty("dfsp.password");
-        
         if(!(new File("target/failure-reports")).exists())
             new File("target/failure-reports").mkdirs();
         
@@ -90,6 +81,7 @@ public class UserRegistrationFunctionalTests {
         captor.println( "<h1><center>Functional Test Failure Report</center></h1>\n" );
     }
     
+    
     @AfterClass
     private void afterClass() throws Exception {
         captor.println( "</body>\n" );
@@ -105,12 +97,7 @@ public class UserRegistrationFunctionalTests {
     
     /**
 	 * 
-	 * The goal of this test is to ensure that we can create a DFSP and/or and query it back.
-	 * Since the API does not allow for us to delete a DFSP, we will check to see of the 
-	 * HTTP response status is a 40x (we will see what is implemented for the response) indicating
-	 * that the DFSP already exists.  
-	 * 
-	 * In either case, we will query back the DFSP to ensure we get a full end-to-end test.
+	 * The goal of this test is to ensure that we can create a User Registration and query it back.
 	 * 
 	 */
 	@Test
@@ -148,8 +135,7 @@ public class UserRegistrationFunctionalTests {
             	post(url+urlPath);
         	
         	http_status = response.getStatusCode();
-        	
-        	assertThat(response.getStatusCode(), equalTo(201));
+        	assertThat(http_status, equalTo(201));
             
         	/*
         	 * Here is a sample response:
@@ -161,7 +147,6 @@ public class UserRegistrationFunctionalTests {
 			 *
         	 */
             jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
-            
             System.out.println("response number: " + jsonReponseMap.get("number"));
             
             
