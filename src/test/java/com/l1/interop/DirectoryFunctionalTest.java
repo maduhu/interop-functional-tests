@@ -133,7 +133,7 @@ public class DirectoryFunctionalTest {
 		 * 
 		 */
 		
-        String urlPath = "/directory/v1/api/";
+        String urlPath = "/directory/v1/";
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
@@ -171,10 +171,10 @@ public class DirectoryFunctionalTest {
 	
 	
 	@Test(dataProvider="get_directory_resources_positive", description="Description: get directory resources.  This test requires BASIC AUTH")
-	public void test_get_directory_resources_positive_requires_BASIC_AUTH(String identifier, String identifierType) {
+	public void test_get_directory_resources_positive_requires_BASIC_AUTH(Float identifier, String identifierType) {
 		
         // Sample URL:  http://127.0.0.1:8081/directory/resources?identifier=test&identifierType=test
-        String urlPath = "/directory/v1/api/resources";
+        String urlPath = "/directory/v1/resources";
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
@@ -226,7 +226,7 @@ public class DirectoryFunctionalTest {
 	public void test_POST_registering_a_Digital_Financial_Service_Provider() {
 		
 		Response response;
-        String urlPath = "/directory/v1/api/commands/register";
+        String urlPath = "/directory/v1/commands/register";
         
         String dfsp_username="admin";
         String dfsp_password="admin";
@@ -244,7 +244,7 @@ public class DirectoryFunctionalTest {
         	 * Note:  as of 11/22/16, the key and secret json fields are not being accepted.
         	 */
         	String dfspCreateRequest = Json.createObjectBuilder()
-		        .add("name", "test")
+		        .add("name", "507")
 		        .build()
 		        .toString();
         	
@@ -258,8 +258,6 @@ public class DirectoryFunctionalTest {
             	body(dfspCreateRequest).
             when().
             	post(url+urlPath);
-//            then().
-//            	statusCode(201).statusCode(422).extract().jsonPath();
         	
         	http_status = response.getStatusCode();
         	
@@ -307,7 +305,7 @@ public class DirectoryFunctionalTest {
 		 * 
 		 */
 		
-        String urlPath = "/directory/v1/api/identifier-types";
+        String urlPath = "/directory/v1/identifier-types";
         
         Map<String, String> jsonReponseMap = null;
         
