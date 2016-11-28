@@ -34,6 +34,8 @@ public class UserRegistrationFunctionalTests {
 	private static String host;
 	private static String port;
 	private static String url;
+	private static String dfsp_username;
+	private static String dfsp_password;
 	
 	private Properties prop = new Properties();
 
@@ -55,6 +57,9 @@ public class UserRegistrationFunctionalTests {
         host = prop.getProperty("host");
         port = prop.getProperty("port");
         url = "http://"+host+":"+port;
+        
+        dfsp_username = prop.getProperty("dfsp.username");
+        dfsp_password = prop.getProperty("dfsp.password");
         
         /*
          * 
@@ -155,24 +160,59 @@ public class UserRegistrationFunctionalTests {
             
             
             
-            /*
-             * Now call resource to query back our newly created user
-             * sample Url: http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:8088/directory/v1/user-registration/users/31493294
-             */
+            	
+        	// Sample URL:  http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:8088/directory/v1/resources?identifierType=eur&identifier=27393942
+            urlPath = "/directory/v1/resources";
             
-            // create path using the number returned on the post to create the URI parameter
-            urlPath = urlPath + "/" + jsonReponseMap.get("number");
+            // We have to hard code the identifierType as we have no way of knowing 
+            String identifierType = "eur";
+            
+            // get the return value from the POST call and use it in the call to complete the end to end test.
+            String identifier = (String) jsonReponseMap.get("number");
+
             
             JsonPath getResponse =
-                    given().
-                    	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-                    	contentType("application/json").
-                    when().
-                    	get(url+urlPath).
-                    then().
-                    	statusCode(200).extract().jsonPath();
+            given().
+            	auth().preemptive().basic(dfsp_username, dfsp_password).  // Must use the preemptive as this is the type of basic auth that the end system needs.  If you use just basic, it fails the challenge.
+            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            	contentType("application/json").
+            	queryParam("identifier", identifier).
+            	queryParam("identifierType", identifierType).
+            when().
+            	get(url+urlPath).
+            then().
+            	statusCode(200).extract().jsonPath();	
             
-            System.out.println("response to get user: " + getResponse.toString());
+            jsonReponseMap = JsonTransformer.stringToMap( getResponse.prettyPrint() );
+            String x = (String) jsonReponseMap.get("spspReceiver");
+            
+            System.out.println("The value for 'spspReceiver' was :: " + x);
+        	
+            assertThat(createUserUrl, equalTo(x));	
+
+            	
+            	
+            	
+            // =============================	
+//            	
+//            /*
+//             * Now call resource to query back our newly created user
+//             * sample Url: http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:8088/directory/v1/user-registration/users/31493294
+//             */
+            
+            // create path using the number returned on the post to create the URI parameter
+//            urlPath = urlPath + "/" + jsonReponseMap.get("number");
+//            
+//            JsonPath getResponse =
+//                    given().
+//                    	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+//                    	contentType("application/json").
+//                    when().
+//                    	get(url+urlPath).
+//                    then().
+//                    	statusCode(200).extract().jsonPath();
+//            
+//            System.out.println("response to get user: " + getResponse.toString());
             
         } catch(java.lang.AssertionError e){
             captor.println("<ul>");

@@ -170,7 +170,7 @@ public class DirectoryFunctionalTest {
 	
 	
 	
-	@Test(dataProvider="get_directory_resources_positive", description="Description: get directory resources.  This test requires BASIC AUTH")
+	@Test(dataProvider="get_directory_resources_positive", description="Description: get directory resources and uses BASIC AUTH")
 	public void test_get_directory_resources_positive_requires_BASIC_AUTH(Float identifier, String identifierType) {
 		
         // Sample URL:  http://127.0.0.1:8081/directory/resources?identifier=test&identifierType=test
@@ -193,6 +193,7 @@ public class DirectoryFunctionalTest {
             then().
             	statusCode(200).extract().jsonPath();
             
+            System.out.println("response: " + response.toString());
             assertThat(response.getString("spspReceiver"), not(isEmptyOrNullString()));
             
         } catch(java.lang.AssertionError e){
