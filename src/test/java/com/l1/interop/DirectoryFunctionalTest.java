@@ -171,7 +171,7 @@ public class DirectoryFunctionalTest {
 	
 	
 	@Test(dataProvider="get_directory_resources_positive", description="Description: get directory resources and uses BASIC AUTH")
-	public void test_get_directory_resources_positive_requires_BASIC_AUTH(Float identifier, String identifierType) {
+	public void get_directory_resources_positive_using_BASIC_AUTH(Float identifier, String identifierType) {
 		
         // Sample URL:  http://127.0.0.1:8081/directory/resources?identifier=test&identifierType=test
         String urlPath = "/directory/v1/resources";
@@ -224,7 +224,7 @@ public class DirectoryFunctionalTest {
 	 */
 	// will need a CSV that has our test data
 	@Test
-	public void test_POST_registering_a_Digital_Financial_Service_Provider() {
+	public void registering_a_Digital_Financial_Service_Provider_POST() {
 		
 		Response response;
         String urlPath = "/directory/v1/commands/register";
@@ -288,7 +288,7 @@ public class DirectoryFunctionalTest {
 	
 	
 	@Test(description="Description: get available identifier-types from service.  Requires BASIC AUTH")
-	public void test_get_identifier_types_resources_positive_requires_BASIC_AUTH() {
+	public void get_identifier_types_resources_positive_requires_BASIC_AUTH() {
 		
 		/*
 		 * Sample Response:

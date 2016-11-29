@@ -3,14 +3,16 @@
 <suite name="Failed suite [Failed suite [Failed suite [Default suite]]]">
   <test name="Default test(failed)(failed)(failed)">
     <classes>
-      <class name="com.l1.interop.DirectoryFunctionalTest">
+      <class name="com.l1.interop.SPSPClientProxyFunctionalTest">
         <methods>
-          <include name="test_POST_registering_a_Digital_Financial_Service_Provider"/>
-          <include name="afterClass"/>
           <include name="setup"/>
+          <include name="afterClass"/>
+          <include name="invoice_POST_testingFor415UnsupportedMediaType"/>
+          <include name="invoice_GetInvoiceDetails_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" invocation-numbers="0 1"/>
+          <include name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" invocation-numbers="0"/>
           <include name="beforeClass"/>
         </methods>
-      </class> <!-- com.l1.interop.DirectoryFunctionalTest -->
+      </class> <!-- com.l1.interop.SPSPClientProxyFunctionalTest -->
     </classes>
   </test> <!-- Default test(failed)(failed)(failed) -->
 </suite> <!-- Failed suite [Failed suite [Failed suite [Default suite]]] -->
