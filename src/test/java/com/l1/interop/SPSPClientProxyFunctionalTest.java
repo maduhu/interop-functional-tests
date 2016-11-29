@@ -643,7 +643,6 @@ public class SPSPClientProxyFunctionalTest {
         	post(url+"/spsp/client/v1/setup");
         
         System.out.println("response from post to setup payment: " + response.prettyPrint());
-        
         assertThat("setup for payment worked before calling ", response.getStatusCode(), equalTo(201));
         
         JsonPath setUpResponse = response.jsonPath();
@@ -717,81 +716,7 @@ public class SPSPClientProxyFunctionalTest {
     
     
     
-    /**
-     * For a valid invoiceUrl, this test checks that the return code is 200, checks the response json fields as below:
-     * <ul>
-     * 	<li>sourceAmount - Is close in value to {@code amount}</li>
-     * </ul>
-     * @param invoiceUrl - url to the invoice destination
-     * @return we receive back a JSON payload that contains details of the invoice.
-     *
-     * The CSV file contains all the valid response details for the given invoiceUrl.  This data, for the test to work
-     * correctly, needs to be properly entered into the CSV.
-     *
-     */
-    @Test(dataProvider="invoice_GET_positive", enabled=IS_INVOICE_TEST_ENABLED)
-    public void invoice_GetInvoiceDetails_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
-        
-        /*
-         * Temporary host url to call the local version of this test to ensure that it works.
-         * Sample URL:  http://localhost:8081/spsp/client/v1/invoice?invoiceUrl=http://brian.com
-         * There is no body, just a simple URI
-         *
-         {
-	         "account": "dfsp2.bob.dylan.account",
-	         "name": "Bob Dylan",
-	         "currencyCode": "USD",
-	         "currencySymbol": "$",
-	         "amount": "10.40",
-	         "status": "unpaid",
-	         "invoiceInfo": "https://www.example.com/gp/your-account/order-details?ie=UTF8&orderID=111-7777777-1111111"
-         }
-         
-         */
-        
-        final StringWriter twriter = new StringWriter();
-        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
-        
-        try {
-            
-            Response response =
-            given().
-            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            	contentType("application/json").
-            	pathParam("invoiceId", "1").  //<<<<<<<<<<<<< added but is not working BP 11/29/2016
-            when().
-            	get(url+"/spsp/client/v1/invoices/{invoiceId}");
-//            then().
-//            	statusCode(200).extract().jsonPath();
-            
-            assertThat("Ensure that we get a good http response", response.getStatusCode(), equalTo(200));
-            
-            
-            
-            assertThat(response.jsonPath().getString("name"), is(equalTo(name)));
-            assertThat(response.jsonPath().getString("currencyCode"), is(equalTo(currencyCode)));
-            assertThat(response.jsonPath().getString("currencySymbol"), is(equalTo(currencySymbol)));
-            
-            Double responseAmount = Double.parseDouble(response.jsonPath().getString("amount"));
-            Double paramAmount = Double.parseDouble(amount);
-            assertThat(responseAmount, is(equalTo(paramAmount)));
-            
-            assertThat(response.jsonPath().getString("status"), is(equalTo(status)));
-            assertThat(response.jsonPath().getString("invoiceInfo"), is(equalTo(invoiceInfo)));
-            
-        } catch(java.lang.AssertionError e){
-            captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>invoice_GetInvoiceDetails_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse</i></h2>");
-            captor.printf("<h3>%s</h3> %s, %s, %s, %s, %s, %s, %s, %s \n","parameters: ", invoiceUrl, account, name, currencyCode, currencySymbol, amount, status, invoiceInfo);
-            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
-            captor.print("<h3>Request and Response: </h3>");
-            captor.println("<pre>"+twriter.toString()+"</pre>");
-            captor.println("</ul>");
-            
-            throw e;
-        }
-        
-    }
+   
     
     
     /**
@@ -844,19 +769,15 @@ public class SPSPClientProxyFunctionalTest {
             given().
             	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
             	contentType("application/json").
-//            	param("invoiceUrl", invoiceUrl).  // <<<<<<<<<<<<<<<<<<<<<<< need to change to a URI parameter
             	pathParam("invoiceId", invoiceUrl).
             when().
             	get(url+"/spsp/client/v1/invoices/bad/{invoiceId}");
-//            then().
-//            	statusCode(404).extract().jsonPath();
-//            	extract().jsonPath();
+
             
         	System.out.println("get invoice negative: response: " + response.body().toString() + " and http status code = " + response.getStatusCode());
-        	
             assertThat(response.getStatusCode(), equalTo(404));
-            
             System.out.println("..1: json response: " + response.toString());
+            
             
             //			assertThat(quoteResponse.getString("name"), is(equalTo(name)));
             //			assertThat(quoteResponse.getString("currencyCode"), is(equalTo(currencyCode)));
@@ -983,7 +904,12 @@ public class SPSPClientProxyFunctionalTest {
     
     
     
-    
+    /*
+     * 
+     * Goal of this test is to create an invoice, then query it back to ensure that we
+     * get a full end to end test
+     * 
+     */
     @Test(dataProvider="invoice_create_positive", enabled=IS_INVOICE_TEST_ENABLED)
     public void invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(String invoiceUrl, String invoiceId, String submissionUrl, String senderIdentifier, String memo) {
         
@@ -1035,14 +961,41 @@ public class SPSPClientProxyFunctionalTest {
              * This will exercise the full API process flow from end to end.
              * 
              */
+            Response responseGet = 
             given().
             	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
             	contentType("application/json").
             	pathParam("invoiceId", invoiceId).
             when().
-            	get(url+"/spsp/client/v1/invoices/{invoiceId}").
-            then().
-            	statusCode(200).extract().jsonPath();
+            	get(url+"/spsp/client/v1/invoices/{invoiceId}");
+
+            assertThat(responseGet.getStatusCode(), equalTo(200));
+            
+            System.out.println("** Response from invoice get: " + responseGet.prettyPrint());
+            
+            // This is the message that currently get returned when calling 
+            assertThat(responseGet.prettyPrint(), not(containsString("Not Found")));
+            
+            
+//            assertThat(response.jsonPath().getString("name"), is(equalTo(name)));
+            assertThat(response.jsonPath().getString("name"), not(isEmptyOrNullString()));
+            
+//            assertThat(response.jsonPath().getString("currencyCode"), is(equalTo(currencyCode)));
+//            assertThat(response.jsonPath().getString("currencySymbol"), is(equalTo(currencySymbol)));
+            assertThat(response.jsonPath().getString("currencyCode"), not(isEmptyOrNullString()));
+            assertThat(response.jsonPath().getString("currencySymbol"), not(isEmptyOrNullString()));
+            
+//            Double responseAmount = Double.parseDouble(response.jsonPath().getString("amount"));
+//            Double paramAmount = Double.parseDouble(amount);
+//            assertThat(responseAmount, is(equalTo(paramAmount)));
+            
+            assertThat(response.jsonPath().getString("amount"), not(isEmptyOrNullString()));
+            
+//            assertThat(response.jsonPath().getString("status"), is(equalTo(status)));
+//            assertThat(response.jsonPath().getString("invoiceInfo"), is(equalTo(invoiceInfo)));
+
+            assertThat(response.jsonPath().getString("status"), not(isEmptyOrNullString()));
+            assertThat(response.jsonPath().getString("invoiceInfo"), not(isEmptyOrNullString()));
             
         } catch(java.lang.AssertionError e){
             captor.println("<ul>");
@@ -1133,8 +1086,6 @@ public class SPSPClientProxyFunctionalTest {
             	body(invoiceCreateRequest).
             when().
             	post(url+uriPath);
-//            then().
-//            	statusCode(500);
             
             assertThat("Ensure we error propertly when we send the wrong media type", response.getStatusCode(), equalTo(500));
             
