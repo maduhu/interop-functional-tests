@@ -48,10 +48,10 @@ public class SPSPClientProxyFunctionalTest {
     PrintStream captor;
     
     private static final boolean IS_QUERY_TEST_ENABLED = false;
-    private static final boolean IS_QUOTE_TEST_ENABLED = false;
+    private static final boolean IS_QUOTE_TEST_ENABLED = true;
     private static final boolean IS_SETUP_TEST_ENABLED = false;
     private static final boolean IS_PAYMENT_TEST_ENABLED = false;
-    private static final boolean IS_INVOICE_TEST_ENABLED = true;
+    private static final boolean IS_INVOICE_TEST_ENABLED = false;
     
     @BeforeClass
     private void beforeClass() throws Exception {
@@ -59,6 +59,7 @@ public class SPSPClientProxyFunctionalTest {
         prop.load(is);
         
         String environment = System.getProperty("env");
+        
         if(environment != null){
             is = ClassLoader.getSystemResourceAsStream("dfsp1-"+environment.toLowerCase()+".properties");
         }
@@ -235,7 +236,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param receiverURI URI of the receiver
      * @throws Exception
      */
-    @Test(dataProvider="query_positive", enabled=IS_QUERY_TEST_ENABLED)
+    @Test(dataProvider="query_positive", enabled=IS_QUERY_TEST_ENABLED, groups = { "query-group" })
     public void query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(String receiverName, String receiverURI) throws Exception {
         
         final StringWriter twriter = new StringWriter();
@@ -250,44 +251,34 @@ public class SPSPClientProxyFunctionalTest {
             	param("receiver", receiverURI).
             when().
             	get(url+"/spsp/client/v1/query");
-//            then().
-//            	statusCode(200).
-//            	body("address", StringContainsIgnoringCase.containsStringIgnoringCase(receiverName)).
-//            	body("imageUrl", StringContainsIgnoringCase.containsStringIgnoringCase(receiverName)).
-//            	body("name",containsString(receiverName)).
-//            	body("currencySymbol",equalTo("$")).
-//            	body("type",equalTo("payee")).
-//            	body("currencyCode",equalTo("USD")).
-//            	body("status",nullValue()).
-//            	body("amount",nullValue()).
-//            	body("invoiceInfo",nullValue());
-        	
         	
         	System.out.println("For query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse: http status::" + response.getStatusCode());
         	System.out.println("**** json response payload: " + response.prettyPrint());
         	
-        	assertThat("response http code", response.getStatusCode(), equalTo(200));
         	
+        	/*
+        	 * Note about the following java casting.  Due to a more strict generic enforcement in Java 8, we have to add the cast to make the compiler happy 
+        	 * when these tests are executed via "mvn clean test"
+        	 * 
+        	 */
+        	assertThat( "response http code", (Integer) response.getStatusCode(), equalTo(200));
         	
-//        	assertThat("status", response.jsonPath().get("status"), isEmptyOrNullString() );
-//        	assertThat("type", response.jsonPath().get("type"), not(isEmptyOrNullString()) );
+        	assertThat("type", (String) response.jsonPath().get("type"), not(isEmptyOrNullString()) );
+        	assertThat("type", (String) response.jsonPath().get("type"), equalTo("payee") );
         	
-        	assertThat("type", response.jsonPath().get("type"), not(isEmptyOrNullString()) );
-        	assertThat("type", response.jsonPath().get("type"), equalTo("payee") );
+        	assertThat("account", (String) response.jsonPath().get("account"), not(isEmptyOrNullString()) );
         	
-        	assertThat("account", response.jsonPath().get("account"), not(isEmptyOrNullString()) );
-        	
-        	assertThat("currencyCode", response.jsonPath().get("currencyCode"), not(isEmptyOrNullString()) );
-        	assertThat("currencyCode", response.jsonPath().get("currencyCode"), equalTo("USD") );
+        	assertThat("currencyCode", (String) response.jsonPath().get("currencyCode"), not(isEmptyOrNullString()) );
+        	assertThat("currencyCode", (String) response.jsonPath().get("currencyCode"), equalTo("USD") );
 
-        	assertThat("currencyCode", response.jsonPath().get("currencyCode"), not(isEmptyOrNullString()) );
-        	assertThat("currencySymbol", response.jsonPath().get("currencySymbol"), equalTo("$") );
+        	assertThat("currencyCode", (String) response.jsonPath().get("currencyCode"), not(isEmptyOrNullString()) );
+        	assertThat("currencySymbol", (String) response.jsonPath().get("currencySymbol"), equalTo("$") );
         	
-        	assertThat("name", response.jsonPath().get("name"), not(isEmptyOrNullString()) );
-        	assertThat("name", response.jsonPath().get("name"), containsString(receiverName) );
+        	assertThat("name", (String) response.jsonPath().get("name"), not(isEmptyOrNullString()) );
+        	assertThat("name", (String) response.jsonPath().get("name"), containsString(receiverName) );
 
-        	assertThat("imageUrl", response.jsonPath().get("imageUrl"), not(isEmptyOrNullString()) );
-        	assertThat("imageUrl", response.jsonPath().get("imageUrl"), StringContainsIgnoringCase.containsStringIgnoringCase(receiverName) );
+        	assertThat("imageUrl", (String) response.jsonPath().get("imageUrl"), not(isEmptyOrNullString()) );
+        	assertThat("imageUrl", (String) response.jsonPath().get("imageUrl"), StringContainsIgnoringCase.containsStringIgnoringCase(receiverName) );
         	
         	System.out.println("**** after tests for . ****");
             
@@ -315,7 +306,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param receiverName - the name of the receiver
      * @param receiverURI - URI for the receiver
      */
-    @Test(dataProvider="query_negative", enabled=IS_QUERY_TEST_ENABLED)
+    @Test(dataProvider="query_negative", enabled=IS_QUERY_TEST_ENABLED, groups = { "query-group" })
     public void query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(String receiverName, String receiverURI){
         
         final StringWriter twriter = new StringWriter();
@@ -354,7 +345,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param userAddress - Address of the user
      * @param amount - source amount that needs to be transferred
      */
-    @Test(dataProvider="quoteSourceAmount_positive", enabled=IS_QUOTE_TEST_ENABLED)
+    @Test(dataProvider="quoteSourceAmount_positive", enabled=IS_QUOTE_TEST_ENABLED, groups = { "quote-group" })
     public void quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse(String userAddress, String amount) {
         
         final StringWriter twriter = new StringWriter();
@@ -398,7 +389,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param userAddress - Address of the user
      * @param amount - source amount that needs to be transferred
      */
-    @Test(dataProvider="quoteSourceAmount_negative", enabled=IS_QUOTE_TEST_ENABLED)
+    @Test(dataProvider="quoteSourceAmount_negative", enabled=IS_QUOTE_TEST_ENABLED, groups = { "quote-group" })
     public void quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(String userAddress, String amount) {
         
         final StringWriter twriter = new StringWriter();
@@ -442,7 +433,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param amount - Destination amount that needs to be transferred
      *
      */
-    @Test(dataProvider="quoteDestinationAmount_positive", enabled=IS_QUOTE_TEST_ENABLED)
+    @Test(dataProvider="quoteDestinationAmount_positive", enabled=IS_QUOTE_TEST_ENABLED, groups = { "quote-group" })
     public void quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(String userAddress, String amount){
         
         final StringWriter twriter = new StringWriter();
@@ -486,7 +477,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param userAddress - Address of the user
      * @param amount - source amount that needs to be transferred
      */
-    @Test(dataProvider="quoteDestinationAmount_negative", enabled=IS_QUOTE_TEST_ENABLED)
+    @Test(dataProvider="quoteDestinationAmount_negative", enabled=IS_QUOTE_TEST_ENABLED, groups = { "quote-group" })
     public void quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(String userAddress, String amount){
         
         final StringWriter twriter = new StringWriter();
@@ -532,7 +523,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param receiver
      * @param amount
      */
-    @Test(dataProvider="setup_positive", enabled=IS_SETUP_TEST_ENABLED)
+    @Test(dataProvider="setup_positive", enabled=IS_SETUP_TEST_ENABLED, groups = { "setup-group" })
     public void setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(String sender, String receiver, String amount){
         
         final StringWriter twriter = new StringWriter();
@@ -578,7 +569,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param receiver
      * @param amount
      */
-    @Test(dataProvider="setup_negative", enabled=IS_SETUP_TEST_ENABLED)
+    @Test(dataProvider="setup_negative", enabled=IS_SETUP_TEST_ENABLED, groups = { "setup-group" })
     public void setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(String sender, String receiver, String amount){
         
         final StringWriter twriter = new StringWriter();
@@ -620,7 +611,7 @@ public class SPSPClientProxyFunctionalTest {
     }
     
     
-    @Test(dataProvider="payment_positive", enabled=IS_PAYMENT_TEST_ENABLED)
+    @Test(dataProvider="payment_positive", enabled=IS_PAYMENT_TEST_ENABLED, groups = { "payment-group" })
     public void payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiver, String amount){
         
         String setupRequest = Json.createObjectBuilder()
@@ -738,7 +729,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param status
      * @param invoiceInfo
      */
-    @Test(dataProvider="invoice_GET_negative", enabled=IS_INVOICE_TEST_ENABLED)
+    @Test(dataProvider="invoice_GET_negative", enabled=IS_INVOICE_TEST_ENABLED, groups = { "invoice-group" })
     public void invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
         
         /*
@@ -821,7 +812,7 @@ public class SPSPClientProxyFunctionalTest {
      * @param status
      * @param invoiceInfo
      */
-    @Test(dataProvider="invoice_GET_negative", enabled=IS_INVOICE_TEST_ENABLED)
+    @Test(dataProvider="invoice_GET_negative", enabled=IS_INVOICE_TEST_ENABLED, groups = { "invoice-group" })
     public void invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
         
         String urlPath = "/spsp/client/v1/invoiceXXX";
@@ -865,7 +856,7 @@ public class SPSPClientProxyFunctionalTest {
      * The goal of this test is to ensure that calling the URI with an incorrect Resource.
      *
      */
-    @Test(testName="invoice_GET_goodBaseUrlButWithBadInvoiceUrl_ShouldGet404_ResourceNotFound", enabled=IS_INVOICE_TEST_ENABLED)
+    @Test(testName="invoice_GET_goodBaseUrlButWithBadInvoiceUrl_ShouldGet404_ResourceNotFound", enabled=IS_INVOICE_TEST_ENABLED, groups = { "invoice-group" })
     public void invoice_Get_withInvalidUri_ShoudlGet404() {
         
         
@@ -910,7 +901,7 @@ public class SPSPClientProxyFunctionalTest {
      * get a full end to end test
      * 
      */
-    @Test(dataProvider="invoice_create_positive", enabled=IS_INVOICE_TEST_ENABLED)
+    @Test(dataProvider="invoice_create_positive", enabled=IS_INVOICE_TEST_ENABLED, groups = { "invoice-group" })
     public void invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(String invoiceUrl, String invoiceId, String submissionUrl, String senderIdentifier, String memo) {
         
 /*
@@ -1012,7 +1003,7 @@ public class SPSPClientProxyFunctionalTest {
     }
     
     
-    @Test(testName="invoice_post_404_resouce_not_found", enabled=IS_INVOICE_TEST_ENABLED)
+    @Test(testName="invoice_post_404_resouce_not_found", enabled=IS_INVOICE_TEST_ENABLED, groups = { "invoice-group" })
     public void invoice_POST_testingFor404ResourceNotFound() {
         
         String invoiceCreateRequest = Json.createObjectBuilder()
@@ -1062,7 +1053,7 @@ public class SPSPClientProxyFunctionalTest {
      * matches the called resource, so it is an internal server error.
      * 
      */
-    @Test(testName="invoice_post_415_and_500_unsupported_media_type", enabled=IS_INVOICE_TEST_ENABLED)
+    @Test(testName="invoice_post_415_and_500_unsupported_media_type", enabled=IS_INVOICE_TEST_ENABLED, groups = { "invoice-group" })
     public void invoice_POST_testingFor415UnsupportedMediaType() {
         
         String invoiceCreateRequest = Json.createObjectBuilder()
