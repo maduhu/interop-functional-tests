@@ -99,6 +99,30 @@ public class UserRegistrationFunctionalTests {
     }
     
     
+    @Test
+    public void test_postive_metadata_resource() {
+    	
+    	Response response;
+        String urlPath = "/directory/v1/user-registration/";
+
+        final StringWriter twriter = new StringWriter();
+        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+        response =
+        given().
+        	auth().preemptive().basic(dfsp_username, dfsp_password).  // Must use the preemptive as this is the type of basic auth that the end system needs.  If you use just basic, it fails the challenge.
+        	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+        	contentType("application/json").
+        when().
+        	get(url+urlPath);
+
+    	
+        assertThat(response.getStatusCode(), equalTo(200));	
+        
+    }
+    
+    
+    
     
     /**
 	 * 
@@ -184,11 +208,11 @@ public class UserRegistrationFunctionalTests {
             	statusCode(200).extract().jsonPath();	
             
             jsonReponseMap = JsonTransformer.stringToMap( getResponse.prettyPrint() );
-            String x = (String) jsonReponseMap.get("spspReceiver");
+            String receiverName = (String) jsonReponseMap.get("spspReceiver");
             
-            System.out.println("The value for 'spspReceiver' was :: " + x);
+            System.out.println("The value for 'spspReceiver' was :: " + receiverName);
         	
-            assertThat(createUserUrl, equalTo(x));	
+            assertThat(createUserUrl, equalTo(receiverName));	
 
             	
             	

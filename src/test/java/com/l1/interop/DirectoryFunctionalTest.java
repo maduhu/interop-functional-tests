@@ -171,9 +171,9 @@ public class DirectoryFunctionalTest {
 	
 	
 	@Test(dataProvider="get_directory_resources_positive", description="Description: get directory resources and uses BASIC AUTH")
-	public void get_directory_resources_positive_using_BASIC_AUTH(Float identifier, String identifierType) {
+	public void get_directory_resources_positive_using_BASIC_AUTH(String identifier, String identifierType) {
 		
-        // Sample URL:  http://127.0.0.1:8081/directory/resources?identifier=test&identifierType=test
+        // Sample URL:  http://127.0.0.1:8081/directory/v1/resources?identifier=74979424&identifierType=eur
         String urlPath = "/directory/v1/resources";
         
         final StringWriter twriter = new StringWriter();
