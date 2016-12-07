@@ -73,7 +73,7 @@ public class SPSPBackendServiceFunctionalTests {
         if(!(new File("target/failure-reports")).exists())
             new File("target/failure-reports").mkdirs();
         
-        writer = new FileWriter("target/failure-reports/central_directory.html");
+        writer = new FileWriter("target/failure-reports/SPSP Backend Services.html");
         captor = new PrintStream(new WriterOutputStream(writer), true);
         captor.println( "<html lang='en'>\n" );
         
@@ -100,12 +100,20 @@ public class SPSPBackendServiceFunctionalTests {
     }
     
     
-//    @DataProvider(name = "get_directory_resources_positive")
-//    private Iterator<Object []> dpSPSPClientProxyQueryPositive( ) throws Exception
-//    {
-//        List<Object []> testCases = readCSVFile("test-data/directory/resource_positive.csv");
-//        return testCases.iterator();
-//    }
+    @DataProvider(name = "invoice_create_positive")
+    private Iterator<Object []> dpSPSPClientProxy_invoice_Post_positive( ) throws Exception
+    {
+        List<Object []> testCases = readCSVFile("test-data/backend_services/invoice_post_positive.csv");
+        return testCases.iterator();
+    }
+    
+    
+    @DataProvider(name = "invoice_positive")
+    private Iterator<Object []> dpSPSPClientProxy_invoice_Get_negative( ) throws Exception
+    {
+        List<Object []> testCases = readCSVFile("test-data/backend_services/backend_invoice_positive.csv");
+        return testCases.iterator();
+    }
     
     
     /**
@@ -130,7 +138,7 @@ public class SPSPBackendServiceFunctionalTests {
 		 * 
 		 */
 		
-        String urlPath = "/spsp/backend/v1/receivers/Bob";
+        String urlPath = "/spsp/backend/v1/receivers/26547070";
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
@@ -175,14 +183,60 @@ public class SPSPBackendServiceFunctionalTests {
 	
 	/**
 	 * 
-	 * The goal of this test is to complete a full end to end test of 
+	 * The goal of this test is to complete a full end to end test of receiver invoices.
+	 * Generate an invoice ID.  Try to query it.  If it does not exist, then POST it to 
+	 * create a new invoice. 
+	 * 
+	 * Then query back the newly created invoice.
+	 * Then Update the invoice with the PUT.
+	 * 
+	 * Then query it back to ensure that the update worked.
+	 * 
+	 * 
 	 */
 	@Test
 	public void test_full_end_to_end_invoice_positive() {
 		
-		String urlPath = "/spsp/backend/v1/receivers/Bob";
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+        try {
+        	
+        	// create 
+        	String baseReceiverInvoicePath = "/receivers/invoices/";
+            Response response =
+            		
+            given().
+            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            	contentType("application/json").
+            when().
+            	get(url+baseReceiverInvoicePath+"XXX");  // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+            
+            
+            JsonPath jsonPath = response.jsonPath();
+            
+            assertThat(response.getStatusCode(), equalTo(200));
+            
+            assertThat(jsonPath.getString("type"), not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("name"), not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("account"), not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("currencyCode"), not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("currencySymbol"), not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("imageUrl"), not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("paymentsUrl"), not(isEmptyOrNullString()));
+            
+        } catch(java.lang.AssertionError e){
+            captor.println("<ul>");
+            captor.println("<h2>Test Case: <i>get_backend_services_receiver_positive</i></h2>");
+            captor.printf("<h3>%s</h3> %s \n","parameters: ", "No parameters");
+            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+            captor.print("<h3>Request and Response: </h3>");
+            captor.println("<pre>"+twriter.toString()+"</pre>");
+            captor.println("</ul>");
+            
+            throw e;
+        }
+
 	}
 	
 	
@@ -192,14 +246,72 @@ public class SPSPBackendServiceFunctionalTests {
 	}
 	
 	
-	@Test
-	public void test_get_an_existing_invoice_positive() {
+	@Test(dataProvider="invoice_positive")
+	public void test_get_an_existing_invoice_positive(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
 		
+		/*
+		 * Sample JSON
+		 * 
+		 * {
+			  "account": "ilpdemo.red.bob",
+			  "name": "Bob Dylan",
+			  "currencyCode": "USD",
+			  "currencySymbol": "$",
+			  "amount": "10.40",
+			  "status": "unpaid",
+			  "invoiceInfo": "https://merchant-website.example/gp/your-account/order-details?ie=UTF8&orderID=111-7777777-1111111"
+			}
+		 * 
+		 */
+		
+		final StringWriter twriter = new StringWriter();
+        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+        try {
+        	
+        	// create 
+//        	String baseReceiverInvoicePath = "/receivers/invoices/";   // {invoice}";
+            Response response =
+            		
+            given().
+            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            	contentType("application/json").
+            	pathParam("invoiceId", invoiceUrl).
+            when().
+            	get(url+"/receivers/invoices/{invoiceId}");
+            
+            
+            JsonPath jsonPath = response.jsonPath();
+            
+            assertThat(response.getStatusCode(), equalTo(200));
+            
+            assertThat(jsonPath.getString("account"), 		not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("name"), 			not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("currencyCode"), 	not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("currencySymbol"),not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("amount"),		not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("status"), 		not(isEmptyOrNullString()));
+            assertThat(jsonPath.getString("invoiceInfo"), 	not(isEmptyOrNullString()));
+            
+            
+            // TODO:  Add data valiation to the data level after the fetch.  Compare the returned data from the 
+            
+        } catch(java.lang.AssertionError e){
+            captor.println("<ul>");
+            captor.println("<h2>Test Case: <i>get_backend_services_receiver_positive</i></h2>");
+            captor.printf("<h3>%s</h3> %s \n","parameters: ", "No parameters");
+            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+            captor.print("<h3>Request and Response: </h3>");
+            captor.println("<pre>"+twriter.toString()+"</pre>");
+            captor.println("</ul>");
+            
+            throw e;
+        }
 	}
 	
 	
-	@Test
-	public void test_paying_an_invoice_positive() {
+	@Test(dataProvider="invoice_create_positive")
+	public void test_paying_an_invoice_positive(String invoiceUrl, String invoiceId, String submissionUrl, String senderIdentifier, String memo) {
 		
 	}
     

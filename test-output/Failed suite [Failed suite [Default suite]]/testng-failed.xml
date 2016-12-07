@@ -3,14 +3,14 @@
 <suite name="Failed suite [Failed suite [Failed suite [Default suite]]]">
   <test name="Default test(failed)(failed)(failed)">
     <classes>
-      <class name="com.l1.interop.SPSPClientProxyFunctionalTest">
+      <class name="com.l1.interop.DirectoryFunctionalTest">
         <methods>
-          <include name="setup"/>
           <include name="afterClass"/>
-          <include name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" invocation-numbers="0 1 2"/>
+          <include name="setup"/>
+          <include name="get_directory_resources_positive_using_BASIC_AUTH" invocation-numbers="1 2 3"/>
           <include name="beforeClass"/>
         </methods>
-      </class> <!-- com.l1.interop.SPSPClientProxyFunctionalTest -->
+      </class> <!-- com.l1.interop.DirectoryFunctionalTest -->
     </classes>
   </test> <!-- Default test(failed)(failed)(failed) -->
 </suite> <!-- Failed suite [Failed suite [Failed suite [Default suite]]] -->

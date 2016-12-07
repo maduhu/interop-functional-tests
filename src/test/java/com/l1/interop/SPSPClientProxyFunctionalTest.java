@@ -19,6 +19,7 @@ import java.io.PrintStream;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.json.Json;
@@ -540,15 +541,15 @@ public class SPSPClientProxyFunctionalTest {
             .toString();
             
             given().
-            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            contentType("application/json").
-            body(json).
+            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            	contentType("application/json").
+            	body(json).
             when().
-            post(url+"/spsp/client/v1/setup").
+            	post(url+"/spsp/client/v1/setup").
             then().
-            statusCode(201).
-            body("id",is(not(""))).
-            body("receiver",equalTo("http://"+host+":3046/v1/receivers/"+receiver));
+            	statusCode(201).
+            	body("id",is(not(""))).
+            	body("receiver",equalTo("http://"+host+":3046/v1/receivers/"+receiver));
             
         }catch(java.lang.AssertionError e){
             captor.println("<ul>");
@@ -652,6 +653,15 @@ public class SPSPClientProxyFunctionalTest {
         assertThat("got expiresAt", setUpResponse.getString("expiresAt"), not(isEmptyOrNullString()));
         assertThat("got additionalHeaders", setUpResponse.getString("additionalHeaders"), not(isEmptyOrNullString()));
         
+        assertThat("get data", setUpResponse.getString("data"), not(isEmptyOrNullString()));
+        assertThat("get data", setUpResponse.getString("data"), not(isEmptyOrNullString()));
+        
+        Map<String,String> dataElementChildrenMap = response.path("data");
+        String senderIdentifier = dataElementChildrenMap.get("senderIdentifier");
+        System.out.println("senderIdentifier :: " + senderIdentifier);
+
+        assertThat("get senderIdentifier", senderIdentifier, not(isEmptyOrNullString()));
+        
         
         
         /*
@@ -662,8 +672,8 @@ public class SPSPClientProxyFunctionalTest {
 			  "address": "ilpdemo.red.bob.b9c4ceba-51e4-4a80-b1a7-2972383e98af",
 			  "destinationAmount": "10.40",
 			  "sourceAmount": "9.00",
-			  "sourceAccount": "http://dfsp1:8014/ledger/accounts/alice",
-			  "expiresAt": "2016-08-16T12:00:00Z",
+			  "sourceAccount": "http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:3043/v1/receivers/85555384",
+			  "expiresAt": "2016-12-16T12:00:00Z",
 			  "data": {
 			    "senderIdentifier": "9809890190934023"
 			  },
@@ -681,6 +691,7 @@ public class SPSPClientProxyFunctionalTest {
         .add("sourceAmount", setUpResponse.getString("sourceAmount"))
         .add("sourceAccount", setUpResponse.getString("sourceAccount"))
         .add("expiresAt", setUpResponse.getString("expiresAt"))
+        .add("data", Json.createObjectBuilder().add("senderIdentifier", senderIdentifier))
         .add("additionalHeaders", setUpResponse.getString("additionalHeaders"))
         .add("condition", setUpResponse.getString("condition"))
         .build()
