@@ -3,14 +3,18 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.l1.interop.DirectoryFunctionalTest">
+      <class name="com.l1.interop.SPSPClientProxyFunctionalTest">
         <methods>
-          <include name="afterClass"/>
+          <include name="setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse" invocation-numbers="0"/>
           <include name="setup"/>
-          <include name="get_directory_resources_positive_using_BASIC_AUTH" invocation-numbers="0 1 2 3"/>
+          <include name="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" invocation-numbers="0 1"/>
+          <include name="afterClass"/>
+          <include name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" invocation-numbers="1"/>
+          <include name="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse" invocation-numbers="0 1"/>
+          <include name="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" invocation-numbers="0"/>
           <include name="beforeClass"/>
         </methods>
-      </class> <!-- com.l1.interop.DirectoryFunctionalTest -->
+      </class> <!-- com.l1.interop.SPSPClientProxyFunctionalTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

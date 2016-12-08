@@ -9,15 +9,21 @@ import static org.hamcrest.core.IsNot.not;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.StringWriter;
+import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import javax.json.Json;
+import javax.websocket.ContainerProvider;
+import javax.websocket.DeploymentException;
+import javax.websocket.WebSocketContainer;
 
 import org.apache.commons.io.output.WriterOutputStream;
 import org.testng.annotations.AfterClass;
@@ -31,6 +37,9 @@ import io.restassured.config.LogConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+
+import java.net.URISyntaxException;
+import java.util.concurrent.CountDownLatch;
 
 public class FullPaymentSetupExecuteForNotificationTests {
 
@@ -55,7 +64,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
 //    private static final boolean IS_PAYMENT_TEST_ENABLED = false;
 //    private static final boolean IS_INVOICE_TEST_ENABLED = false;
     
-	
+
 	@BeforeClass
     private void beforeClass() throws Exception {
 		
@@ -150,7 +159,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
 			 * 
 			 * 
 			 * =========================================================================================
-	         *                           Call service to Setup Payment request 
+	         *                    Step 1 -- Call service to Setup Payment request 
 	         * =========================================================================================
 			 * 
 			 * 
@@ -244,6 +253,16 @@ public class FullPaymentSetupExecuteForNotificationTests {
 	        System.out.println("2 ********** About to send this json to PUT payments: " + paymentRequest);
 	        System.out.println("2 ========== payment for valid receiver, payment request json: " + setupRequest + ", post url: "  + url+"/spsp/client/v1/setup" + ", should get 200 but failing");
 	        
+	        
+	        /*
+			 * 
+			 * 
+			 * =========================================================================================
+	         *                  Step 2 -- Call service to Prepare the Payment request 
+	         * =========================================================================================
+			 * 
+			 * 
+			 */
 	        Response paymentResponse = 
 	        given().
 	        	contentType("application/json").
@@ -251,7 +270,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
 	        when().
 	        	put(url+"/spsp/client/v1/payments/" + setUpResponse.getString("id"));
 	        
-	        System.out.println("*** 2: Response from payment from setup: " + paymentResponse.prettyPrint());
+	        System.out.println("*** 2: Response from payment PUT: " + paymentResponse.prettyPrint());
 	        
 	        System.out.println("*** 2: http response: " + paymentResponse.getStatusCode());
 	        assertThat("response from payment request = 200", paymentResponse.getStatusCode(), equalTo(200));
@@ -288,7 +307,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
 	        
 	        /*
 	         * =========================================================================================
-	         *                          Validate the Payment Execute Response 
+	         *                      Validate the Payment "Prepared" Response 
 	         * =========================================================================================
 	         * 
 	         * Since we need to build a request from the data from the call above, we should 
@@ -308,6 +327,22 @@ public class FullPaymentSetupExecuteForNotificationTests {
             
             throw e;
         }
+    	
+    	
+    	
+    	/*
+		 * 
+		 * 
+		 * =========================================================================================
+         *               Step 3 -- Call service to get the Transfer object request 
+         * =========================================================================================
+		 * 
+		 * 
+		 */
+    	
+    	
+    	
+    	
     }
     
     
@@ -340,6 +375,43 @@ public class FullPaymentSetupExecuteForNotificationTests {
       }
       
       assertThat("See if the sender thread set the message", testCountFromThread, equalTo(15));
+    }
+    
+    
+    @Test(timeOut = 10000, dependsOnGroups = { "send" }, description="test an asynchronous process receive")
+    public void test_receiving_message_from_websocket() {
+    	
+    	String socketeMessage = new String();
+    	
+    	final CountDownLatch messageLatch = new CountDownLatch(1);
+    	
+    	/*
+    	 * Or maybe I can pass an anonomyous function into teh websociket clent endpoint as a call back.  Like to pass a function reference into the class 
+    	 */
+    	WebsocketClientEndpoint x = new WebsocketClientEndpoint(socketeMessage, "https://ledger.example/accounts/alice");  // TODO this needs to be pulled from a property 
+    	
+    	try {
+    	      WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+    	      String uri = "ws://localhost:8089/websocket";  // TODO this needs to be pulled from a property 
+    	      System.out.println("Connecting to " + uri);
+    	      container.connectToServer(x, URI.create(uri));
+//    	      messageLatch.await(300, TimeUnit.SECONDS);
+    	      
+    	      System.out.println("after messageLatch...");
+    	      
+    	  	while (socketeMessage.length() == 0) {
+                Thread.sleep(1000);
+                System.out.println("...thread sleep time expired...");
+    	  	}
+    	  	
+    	  	System.out.println("after message has a length of > 0!!!  That means we got a message back.");
+    	      
+	    } catch (DeploymentException | IOException | InterruptedException ex) {
+    	      ex.printStackTrace();
+	    }
+    	
+    
+    	
     }
 
     
