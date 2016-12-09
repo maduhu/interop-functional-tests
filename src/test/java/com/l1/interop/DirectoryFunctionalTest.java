@@ -75,7 +75,7 @@ public class DirectoryFunctionalTest {
         System.out.println("*                                                                                                            *");
         System.out.println("*                         Tests running using the URL of :: " + url + "   *******************");
         System.out.println("*                                                                                                            *");
-        System.out.println("**************************************************************************************************************");;
+        System.out.println("**************************************************************************************************************");
         
         dfsp_username = prop.getProperty("dfsp.username");
         dfsp_password = prop.getProperty("dfsp.password");
@@ -123,7 +123,7 @@ public class DirectoryFunctionalTest {
 	 * The goal of this test is to ensure that we get back the key attributes back and a http status of 200
 	 * 
 	 */
-	@Test(description="get_metadata_positive_no_auth_required", enabled=true, groups={"directory_all", "directory_metadata"})
+	@Test(description="get_metadata_positive_no_auth_required", groups={"directory_all", "directory_metadata"})
 	public void get_metadata_positive() {
 
 		/*

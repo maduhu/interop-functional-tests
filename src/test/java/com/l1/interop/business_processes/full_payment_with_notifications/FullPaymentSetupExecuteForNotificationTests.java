@@ -86,7 +86,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
         
         System.out.println("**************************************************************************************************************");
         System.out.println("*                                                                                                            *");
-        System.out.println("*                         Tests running using the URL of :: " + url + "   *******************");
+        System.out.println("*                         Tests running using the URL of :: " + url);
         System.out.println("*                                                                                                            *");
         System.out.println("**************************************************************************************************************");
         
@@ -315,6 +315,10 @@ public class FullPaymentSetupExecuteForNotificationTests {
 	         * 
 	         */
 	        assertThat("status is equal to executed", paymentJsonPath.getString("status"), equalTo("executed"));
+	        
+	        
+	        
+	      
     	        
     	} catch(java.lang.AssertionError e){
             captor.println("<ul>");
@@ -341,65 +345,34 @@ public class FullPaymentSetupExecuteForNotificationTests {
 		 */
     	
     	
-    	
+    	  // add new call to /transer/{id}
     	
     }
     
+       
     
-//    @Test(description="test an asynchronous process send", groups={"send", "payment_setup_and_execute_with_notification"})
-//    public void test_sample_asynchrous_call() {
-//    	Thread x = new Thread() {
-//    		public synchronized void run() {
-//                    
-//    			try {
-//                    Thread.sleep(1000);
-//                    m_success = true;
-//                    testCountFromThread = 15;
-//                    
-//                    System.out.println("child thread just completed.  m_success = true and testCountFromThread = " + testCountFromThread);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//    	};
-//    	
-//    	x.run();
-//    }
-    
-    
-//    @Test(timeOut = 10000, dependsOnGroups = { "send" }, groups={"send", "payment_setup_and_execute_with_notification"})
-//    public void waitForAnswer() throws InterruptedException {
-//      while (! m_success) {
-//        Thread.sleep(1000);
-//      }
-//      
-//      assertThat("See if the sender thread set the message", testCountFromThread, equalTo(15));
-//    }
-    
-    
-    @Test(timeOut = 10000, dependsOnGroups = { "paymentSetup" }, groups={"send", "payment_setup_and_execute_with_notification"}, description="test an asynchronous process receive")
+    @Test(timeOut = 10000, dependsOnGroups = { "paymentSetup" }, groups={"payment_setup_and_execute_with_notification"}, description="test an asynchronous process receive")
     public void test_receiving_message_from_websocket() {
     	
-    	String socketeMessage = new String();
+    	String webSocketResponseMessage = new String();
     	
     	final CountDownLatch messageLatch = new CountDownLatch(1);
     	
     	/*
     	 * Or maybe I can pass an anonomyous function into teh websociket clent endpoint as a call back.  Like to pass a function reference into the class 
     	 */
-    	WebsocketClientEndpoint x = new WebsocketClientEndpoint(socketeMessage, "https://ledger.example/accounts/alice");  // TODO this needs to be pulled from a property 
+    	WebsocketClientEndpoint socketClient = new WebsocketClientEndpoint(webSocketResponseMessage, "https://ledger.example/accounts/alice");  // TODO this needs to be pulled from a property (maybe)
     	
     	try {
     	      WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-    	      String uri = "ws://localhost:8089/websocket";  // TODO this needs to be pulled from a property 
+    	      String uri = "ws://localhost:8089/websocket";  							// TODO this needs to be pulled from a property  <<<<<<<<<<<<<<<<<<<<<< 
     	      System.out.println("Connecting to " + uri);
-    	      container.connectToServer(x, URI.create(uri));
+    	      container.connectToServer(socketClient, URI.create(uri));
 //    	      messageLatch.await(300, TimeUnit.SECONDS);
     	      
     	      System.out.println("after messageLatch...");
     	      
-    	  	while (socketeMessage.length() == 0) {
+    	  	while (webSocketResponseMessage.length() == 0) {
                 Thread.sleep(1000);
                 System.out.println("...thread sleep time expired...");
     	  	}

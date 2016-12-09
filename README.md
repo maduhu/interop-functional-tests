@@ -42,7 +42,7 @@ Example:
 * ilp_ledger_adapater_prepare_fulfilled_transfer
 * ilp_ledger_adapater_prepare_transfer
 
-### SPSP Backend Services test groups
+### SPSP Backend Services test groups (Don't use, still in development)
 * spsp_backend_service_all
 
 ### SPSP Client Proxy test groups
@@ -56,7 +56,7 @@ Example:
 * user_registration_all
 * user_registration_full_end_to_end
 
-### FullPaymentWithNotifications test groups
+### FullPaymentWithNotifications test groups  (Don't use, still in development)
 * payment_setup_and_execute_with_notification
 
 
