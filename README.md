@@ -29,43 +29,43 @@ Example:
   
 * Below are the lists of the various test groups *
   
-## DirectoryFunctional test groups
+### DirectoryFunctional test groups
 * directory_all
 * directory_identifier_types
 * register_dfsp"
 * directory_resources
 * directory_metadata"}
 
-## ILP Ledger Adapter test groups
+### ILP Ledger Adapter test groups
 * ilp_ledger_adapater_all
 * ilp_ledger_adapater_prepare_fulfill_transfer
 * ilp_ledger_adapater_prepare_fulfilled_transfer
 * ilp_ledger_adapater_prepare_transfer
 
-## SPSP Backend Services
+### SPSP Backend Services test groups
 * spsp_backend_service_all
 
-## SPSP Client Proxy test groups
+### SPSP Client Proxy test groups
 * spsp_client_proxy_all
 * spsp_client_proxy_quote
 * spsp_client_proxy_payment_setup
 * spsp_client_proxy_payment
 * spsp_client_proxy_invoice
 
-## User Registration test groups
+### User Registration test groups
 * user_registration_all
 * user_registration_full_end_to_end
 
-## FullPaymentWithNotifications test groups
+### FullPaymentWithNotifications test groups
 * payment_setup_and_execute_with_notification
 
--
-Current Interop projects covered:
+
+### Current Interop projects covered by functional tests:
   - Interop spsp clientproxy   (12/2/2016)
   - Interop User Registrations (11/28/2016)
   - Interop DFSP Directory     (11/28/2016)
   - Interop ILP Ledger Adapter (?)
   
-Coming Soon:
+### Coming Soon:
   - Interop spsp backend services
   - ilp ledger full payment with notifications
