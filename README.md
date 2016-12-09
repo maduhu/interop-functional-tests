@@ -61,16 +61,12 @@ Example:
 
 
 
-
-
-
-
-### Current Interop projects covered by functional tests:
+## Current Interop projects covered by functional tests:
   - Interop spsp clientproxy   (12/2/2016)
   - Interop User Registrations (11/28/2016)
   - Interop DFSP Directory     (11/28/2016)
   - Interop ILP Ledger Adapter (?)
   
-### Coming Soon:
+## Coming Soon:
   - Interop spsp backend services
   - ilp ledger full payment with notifications
