@@ -17,7 +17,7 @@ if you have suggestions for better groupings.
 
 
 Example:
-  The test suite that we are using for running functional tests, TestNG, allows various ways of running 1 or more tests.
+  The test suite that we are using for running functional tests, TestNG, allows various ways of running 1 or more tests at a time.
   After checking out the project, cd to the project root of this project.
   
   Examples of how to run tests:
