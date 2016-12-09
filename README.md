@@ -32,9 +32,9 @@ Example:
 ### DirectoryFunctional test groups
 * directory_all
 * directory_identifier_types
-* register_dfsp"
+* register_dfsp
 * directory_resources
-* directory_metadata"}
+* directory_metadata
 
 ### ILP Ledger Adapter test groups
 * ilp_ledger_adapater_all
