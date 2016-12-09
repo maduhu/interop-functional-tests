@@ -29,34 +29,34 @@ Example:
   
 * Below are the lists of the various test groups *
   
-DirectoryFunctional test groups
+## DirectoryFunctional test groups
 * directory_all
 * directory_identifier_types
 * register_dfsp"
 * directory_resources
 * directory_metadata"}
 
-ILP Ledger Adapter
+## ILP Ledger Adapter test groups
 * ilp_ledger_adapater_all
 * ilp_ledger_adapater_prepare_fulfill_transfer
 * ilp_ledger_adapater_prepare_fulfilled_transfer
 * ilp_ledger_adapater_prepare_transfer
 
-SPSP Backend Services
+## SPSP Backend Services
 * spsp_backend_service_all
 
-SPSP Client Proxy
+## SPSP Client Proxy test groups
 * spsp_client_proxy_all
 * spsp_client_proxy_quote
 * spsp_client_proxy_payment_setup
 * spsp_client_proxy_payment
 * spsp_client_proxy_invoice
 
-User Registration
+## User Registration test groups
 * user_registration_all
 * user_registration_full_end_to_end
 
-FullPaymentWithNotifications
+## FullPaymentWithNotifications test groups
 * payment_setup_and_execute_with_notification
 
 -
