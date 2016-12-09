@@ -1,4 +1,4 @@
-package com.l1.interop.business_processes;
+package com.l1.interop.business_processes.full_payment_with_notifications;
 
 import static com.l1.interop.util.Utils.readCSVFile;
 import static io.restassured.RestAssured.given;
@@ -58,14 +58,9 @@ public class FullPaymentSetupExecuteForNotificationTests {
     boolean m_success = false;
     int testCountFromThread = 0;
     
-//    private static final boolean IS_QUERY_TEST_ENABLED = false;
-    private static final boolean IS_QUOTE_TEST_ENABLED = true;
-    private static final boolean IS_SETUP_TEST_ENABLED = true;
-//    private static final boolean IS_PAYMENT_TEST_ENABLED = false;
-//    private static final boolean IS_INVOICE_TEST_ENABLED = false;
     
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
 		
         InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
@@ -88,7 +83,12 @@ public class FullPaymentSetupExecuteForNotificationTests {
          */
         url = "http://localhost:8081";
         
-        System.out.println(">>>>>>>>  host being used in the functional test: " + host + " and the port # : " + port);
+        
+        System.out.println("**************************************************************************************************************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("*                         Tests running using the URL of :: " + url + "   *******************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("**************************************************************************************************************");
         
         dfsp_username = prop.getProperty("dfsp.username");
         dfsp_password = prop.getProperty("dfsp.password");
@@ -110,14 +110,14 @@ public class FullPaymentSetupExecuteForNotificationTests {
     }
     
 	
-    @AfterClass
+    @AfterClass(alwaysRun=true)
     private void afterClass() throws Exception {
         captor.println( "</body>\n" );
         captor.println( "</html>\n" );
     }
     
     
-    @BeforeTest
+    @BeforeTest(alwaysRun=true)
     private void setup() throws Exception {
         RestAssured.config = RestAssuredConfig.config().logConfig(LogConfig.logConfig().enablePrettyPrinting(true));
     }
@@ -131,7 +131,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
     }
     
     
-    @Test(dataProvider="setup_positive", enabled=IS_SETUP_TEST_ENABLED, groups = { "setup-group-notification" })
+    @Test(dataProvider="setup_positive", groups = { "paymentSetup", "payment_setup_and_execute_with_notification" })
     public void test_fullPaymentSetupAndPaymentExecution(String sender, String receiver, String amount) {
           
     	String ppjson = null;
@@ -346,39 +346,39 @@ public class FullPaymentSetupExecuteForNotificationTests {
     }
     
     
-    @Test(groups = { "send" }, description="test an asynchronous process send")
-    public void test_sample_asynchrous_call() {
-    	Thread x = new Thread() {
-    		public synchronized void run() {
-                    
-    			try {
-                    Thread.sleep(1000);
-                    m_success = true;
-                    testCountFromThread = 15;
-                    
-                    System.out.println("child thread just completed.  m_success = true and testCountFromThread = " + testCountFromThread);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-    	};
-    	
-    	x.run();
-    }
+//    @Test(description="test an asynchronous process send", groups={"send", "payment_setup_and_execute_with_notification"})
+//    public void test_sample_asynchrous_call() {
+//    	Thread x = new Thread() {
+//    		public synchronized void run() {
+//                    
+//    			try {
+//                    Thread.sleep(1000);
+//                    m_success = true;
+//                    testCountFromThread = 15;
+//                    
+//                    System.out.println("child thread just completed.  m_success = true and testCountFromThread = " + testCountFromThread);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//    	};
+//    	
+//    	x.run();
+//    }
     
     
-    @Test(timeOut = 10000, dependsOnGroups = { "send" }, description="test an asynchronous process receive")
-    public void waitForAnswer() throws InterruptedException {
-      while (! m_success) {
-        Thread.sleep(1000);
-      }
-      
-      assertThat("See if the sender thread set the message", testCountFromThread, equalTo(15));
-    }
+//    @Test(timeOut = 10000, dependsOnGroups = { "send" }, groups={"send", "payment_setup_and_execute_with_notification"})
+//    public void waitForAnswer() throws InterruptedException {
+//      while (! m_success) {
+//        Thread.sleep(1000);
+//      }
+//      
+//      assertThat("See if the sender thread set the message", testCountFromThread, equalTo(15));
+//    }
     
     
-    @Test(timeOut = 10000, dependsOnGroups = { "send" }, description="test an asynchronous process receive")
+    @Test(timeOut = 10000, dependsOnGroups = { "paymentSetup" }, groups={"send", "payment_setup_and_execute_with_notification"}, description="test an asynchronous process receive")
     public void test_receiving_message_from_websocket() {
     	
     	String socketeMessage = new String();
@@ -406,8 +406,12 @@ public class FullPaymentSetupExecuteForNotificationTests {
     	  	
     	  	System.out.println("after message has a length of > 0!!!  That means we got a message back.");
     	      
-	    } catch (DeploymentException | IOException | InterruptedException ex) {
-    	      ex.printStackTrace();
+	    } catch (DeploymentException ex) {
+	    	ex.printStackTrace();
+	    } catch ( InterruptedException ex) {
+	    	ex.printStackTrace();
+	    } catch ( IOException ex) {
+	    	ex.printStackTrace();
 	    }
     	
     

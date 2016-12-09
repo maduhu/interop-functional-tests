@@ -1,4 +1,4 @@
-package com.l1.interop.business_processes;
+package com.l1.interop.business_processes.full_payment_with_notifications;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

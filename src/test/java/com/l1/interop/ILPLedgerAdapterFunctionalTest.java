@@ -39,7 +39,7 @@ public class ILPLedgerAdapterFunctionalTest {
 	private FileWriter writer;
     private PrintStream captor;
 	
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	private void beforeClass() throws Exception {
 		InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
 		prop.load(is);
@@ -54,6 +54,20 @@ public class ILPLedgerAdapterFunctionalTest {
 		port = prop.getProperty("port");
 		url = "http://"+host+":"+port;
 		
+		/*
+         * 
+         * Override url for local testing
+         * 
+         */
+//        url = "http://localhost:8081";
+		
+		System.out.println("**************************************************************************************************************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("*                         Tests running using the URL of :: " + url + "   *******************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("**************************************************************************************************************");
+        
+        
 		if(!(new File("target/failure-reports")).exists())
 			new File("target/failure-reports").mkdirs();
 		
@@ -70,12 +84,12 @@ public class ILPLedgerAdapterFunctionalTest {
 		captor.println( "<h1><center>Functional Test Failure Report</center></h1>\n" );
 	}
 	
-	@BeforeTest
+	@BeforeTest(alwaysRun=true)
     private void setup() throws Exception {
         RestAssured.config = RestAssuredConfig.config().logConfig(LogConfig.logConfig().enablePrettyPrinting(true));
     }
 	
-	@AfterClass
+	@AfterClass(alwaysRun=true)
 	private void afterClass() throws Exception {
 		captor.println( "</body>\n" );
 		captor.println( "</html>\n" );

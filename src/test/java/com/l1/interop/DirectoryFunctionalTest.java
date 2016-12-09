@@ -49,7 +49,7 @@ public class DirectoryFunctionalTest {
     PrintStream captor;
     
 	
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
         InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
         prop.load(is);
@@ -71,7 +71,11 @@ public class DirectoryFunctionalTest {
          */
 //        url = "http://localhost:8081";
         
-        System.out.println(">>>>>>>>  host being used in the functional test: " + host + " and the port # : " + port);
+        System.out.println("**************************************************************************************************************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("*                         Tests running using the URL of :: " + url + "   *******************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("**************************************************************************************************************");;
         
         dfsp_username = prop.getProperty("dfsp.username");
         dfsp_password = prop.getProperty("dfsp.password");
@@ -92,13 +96,15 @@ public class DirectoryFunctionalTest {
         captor.println( "<h1><center>Functional Test Failure Report</center></h1>\n" );
     }
     
-    @AfterClass
+	
+    @AfterClass(alwaysRun=true)
     private void afterClass() throws Exception {
         captor.println( "</body>\n" );
         captor.println( "</html>\n" );
     }
     
-    @BeforeTest
+    
+    @BeforeTest(alwaysRun=true)
     private void setup() throws Exception {
         RestAssured.config = RestAssuredConfig.config().logConfig(LogConfig.logConfig().enablePrettyPrinting(true));
     }
@@ -117,7 +123,7 @@ public class DirectoryFunctionalTest {
 	 * The goal of this test is to ensure that we get back the key attributes back and a http status of 200
 	 * 
 	 */
-	@Test(description="get_metadata_positive_no_auth_required", enabled=true)
+	@Test(description="get_metadata_positive_no_auth_required", enabled=true, groups={"directory_all", "directory_metadata"})
 	public void get_metadata_positive() {
 
 		/*
@@ -170,10 +176,11 @@ public class DirectoryFunctionalTest {
 	
 	
 	
-	@Test(dataProvider="get_directory_resources_positive", description="Description: get directory resources and uses BASIC AUTH")
+	@Test(dataProvider="get_directory_resources_positive", description="Description: get directory resources and uses BASIC AUTH", groups={"directory_all", "directory_resources"})
 	public void get_directory_resources_positive_using_BASIC_AUTH(String identifier, String identifierType) {
 		
         // Sample URL:  http://127.0.0.1:8081/directory/v1/resources?identifier=74979424&identifierType=eur
+		
         String urlPath = "/directory/v1/resources";
         
         final StringWriter twriter = new StringWriter();
@@ -223,7 +230,7 @@ public class DirectoryFunctionalTest {
 	 * 
 	 */
 	// will need a CSV that has our test data
-	@Test
+	@Test(groups={"directory_all", "register_dfsp"})
 	public void registering_a_Digital_Financial_Service_Provider_POST() {
 		
 		Response response;
@@ -249,8 +256,6 @@ public class DirectoryFunctionalTest {
 		        .build()
 		        .toString();
         	
-        	
-//            JsonPath response =
         	response =
             given().
             	auth().preemptive().basic(dfsp_username, dfsp_password).  // Must use the preemptive as this is the type of basic auth that the end system needs.  If you use just basic, it fails the challenge.
@@ -287,7 +292,7 @@ public class DirectoryFunctionalTest {
 	
 	
 	
-	@Test(description="Description: get available identifier-types from service.  Requires BASIC AUTH")
+	@Test(description="Description: get available identifier-types from service.  Requires BASIC AUTH", groups={"directory_all", "identifier_types"})
 	public void get_identifier_types_resources_positive_requires_BASIC_AUTH() {
 		
 		/*

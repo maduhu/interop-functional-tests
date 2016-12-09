@@ -43,7 +43,7 @@ public class SPSPBackendServiceFunctionalTests {
     PrintStream captor;
     
 	
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
         InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
         prop.load(is);
@@ -65,7 +65,11 @@ public class SPSPBackendServiceFunctionalTests {
          */
 //        url = "http://localhost:8081";
         
-        System.out.println(">>>>>>>>  host being used in the functional test: " + host + " and the port # : " + port);
+        System.out.println("**************************************************************************************************************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("*                         Tests running using the URL of :: " + url + "   *******************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("**************************************************************************************************************");
         
         dfsp_username = prop.getProperty("dfsp.username");
         dfsp_password = prop.getProperty("dfsp.password");
@@ -87,14 +91,14 @@ public class SPSPBackendServiceFunctionalTests {
     }
     
 	
-    @AfterClass
+    @AfterClass(alwaysRun=true)
     private void afterClass() throws Exception {
         captor.println( "</body>\n" );
         captor.println( "</html>\n" );
     }
     
     
-    @BeforeTest
+    @BeforeTest(alwaysRun=true)
     private void setup() throws Exception {
         RestAssured.config = RestAssuredConfig.config().logConfig(LogConfig.logConfig().enablePrettyPrinting(true));
     }
@@ -121,7 +125,7 @@ public class SPSPBackendServiceFunctionalTests {
 	 * The goal of this test is to ensure that we get back the key attributes back and a http status of 200
 	 * 
 	 */
-	@Test(description="get_backend_services_receiver_positive", enabled=true)
+	@Test(description="get_backend_services_receiver_positive", enabled=true, groups={"spsp_backend_service_all"})
 	public void get_backend_services_receiver_positive() {
 
 		/*
@@ -194,7 +198,7 @@ public class SPSPBackendServiceFunctionalTests {
 	 * 
 	 * 
 	 */
-	@Test
+	@Test(groups={"spsp_backend_service_all"})
 	public void test_full_end_to_end_invoice_positive() {
 		
         final StringWriter twriter = new StringWriter();
@@ -240,13 +244,13 @@ public class SPSPBackendServiceFunctionalTests {
 	}
 	
 	
-	@Test
+	@Test(groups={"spsp_backend_service_all"})
 	public void test_update_an_existing_invoice_positive() {
 		
 	}
 	
 	
-	@Test(dataProvider="invoice_positive")
+	@Test(dataProvider="invoice_positive", groups={"spsp_backend_service_all"})
 	public void test_get_an_existing_invoice_positive(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
 		
 		/*
@@ -310,7 +314,7 @@ public class SPSPBackendServiceFunctionalTests {
 	}
 	
 	
-	@Test(dataProvider="invoice_create_positive")
+	@Test(dataProvider="invoice_create_positive", groups={"spsp_backend_service_all"})
 	public void test_paying_an_invoice_positive(String invoiceUrl, String invoiceId, String submissionUrl, String senderIdentifier, String memo) {
 		
 	}

@@ -43,7 +43,7 @@ public class UserRegistrationFunctionalTests {
     PrintStream captor;
     
 	
-    @BeforeClass
+    @BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
         InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
         prop.load(is);
@@ -68,7 +68,11 @@ public class UserRegistrationFunctionalTests {
          */
 //        url = "http://localhost:8081";
         
-        System.out.println(">>>>>>>>  host being used in the User-Registration functional test: " + host + " and the port # : " + port);
+        System.out.println("**************************************************************************************************************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("*                         Tests running using the URL of :: " + url + "   *******************");
+        System.out.println("*                                                                                                            *");
+        System.out.println("**************************************************************************************************************");
         
         if(!(new File("target/failure-reports")).exists())
             new File("target/failure-reports").mkdirs();
@@ -87,19 +91,19 @@ public class UserRegistrationFunctionalTests {
     }
     
     
-    @AfterClass
+    @AfterClass(alwaysRun=true)
     private void afterClass() throws Exception {
         captor.println( "</body>\n" );
         captor.println( "</html>\n" );
     }
     
-    @BeforeTest
+    @BeforeTest(alwaysRun=true)
     private void setup() throws Exception {
         RestAssured.config = RestAssuredConfig.config().logConfig(LogConfig.logConfig().enablePrettyPrinting(true));
     }
     
     
-    @Test
+    @Test(groups={"user_registration_all", "user_registration_query"})
     public void test_postive_metadata_resource() {
     	
     	Response response;
@@ -129,7 +133,7 @@ public class UserRegistrationFunctionalTests {
 	 * The goal of this test is to ensure that we can create a User Registration and query it back.
 	 * 
 	 */
-	@Test
+	@Test(groups={"user_registration_all", "user_registration_full_end_to_end"})
 	public void test_positive_Create_New_User_full_end_to_end() {
 		
 		Response response;

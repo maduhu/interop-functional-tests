@@ -1,4 +1,4 @@
-package com.l1.interop.business_processes;
+package com.l1.interop.business_processes.full_payment_with_notifications;
 
 
 import javax.websocket.ContainerProvider;
@@ -20,8 +20,12 @@ public class NotificationClient {
       System.out.println("Connecting to " + uri);
       container.connectToServer(WebsocketClientEndpoint.class, URI.create(uri));
       messageLatch.await(300, TimeUnit.SECONDS);
-    } catch (DeploymentException | InterruptedException | IOException ex) {
-      ex.printStackTrace();
+    } catch (DeploymentException ex) {
+    	ex.printStackTrace();
+    } catch ( InterruptedException ex) {
+    	ex.printStackTrace();
+    } catch ( IOException ex) {
+    	ex.printStackTrace();
     }
   }
 

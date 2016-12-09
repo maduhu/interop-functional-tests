@@ -2,45 +2,49 @@
 <testng-results skipped="0" failed="7" total="22" passed="15">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="141327" started-at="2016-12-08T21:54:42Z" finished-at="2016-12-08T21:57:03Z">
+  <suite name="Default suite" duration-ms="4832" started-at="2016-12-09T17:00:29Z" finished-at="2016-12-09T17:00:34Z">
     <groups>
       <group name="invoice-group">
-        <method signature="SPSPClientProxyFunctionalTest.invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.invoice_Get_withInvalidUri_ShoudlGet404()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_Get_withInvalidUri_ShoudlGet404" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.invoice_POST_testingFor404ResourceNotFound()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_POST_testingFor404ResourceNotFound" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.invoice_POST_testingFor415UnsupportedMediaType()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_POST_testingFor415UnsupportedMediaType" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.invoice_Get_withInvalidUri_ShoudlGet404()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_Get_withInvalidUri_ShoudlGet404" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.invoice_POST_testingFor404ResourceNotFound()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_POST_testingFor404ResourceNotFound" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.invoice_POST_testingFor415UnsupportedMediaType()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_POST_testingFor415UnsupportedMediaType" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
       </group> <!-- invoice-group -->
       <group name="quote-group">
-        <method signature="SPSPClientProxyFunctionalTest.quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
       </group> <!-- quote-group -->
       <group name="payment-group">
-        <method signature="SPSPClientProxyFunctionalTest.payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
       </group> <!-- payment-group -->
       <group name="setup-group">
-        <method signature="SPSPClientProxyFunctionalTest.setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
       </group> <!-- setup-group -->
       <group name="query-group">
-        <method signature="SPSPClientProxyFunctionalTest.query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
-        <method signature="SPSPClientProxyFunctionalTest.query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
       </group> <!-- query-group -->
+      <group name="test1">
+        <method signature="SPSPClientProxyFunctionalTest.query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+        <method signature="SPSPClientProxyFunctionalTest.query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" class="com.l1.interop.SPSPClientProxyFunctionalTest"/>
+      </group> <!-- test1 -->
     </groups>
-    <test name="Default test" duration-ms="141327" started-at="2016-12-08T21:54:42Z" finished-at="2016-12-08T21:57:03Z">
+    <test name="Default test" duration-ms="4832" started-at="2016-12-09T17:00:29Z" finished-at="2016-12-09T17:00:34Z">
       <class name="com.l1.interop.SPSPClientProxyFunctionalTest">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="setup" is-config="true" duration-ms="1173" started-at="2016-12-08T14:54:42Z" finished-at="2016-12-08T14:54:43Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="setup" is-config="true" duration-ms="998" started-at="2016-12-09T10:00:29Z" finished-at="2016-12-09T10:00:30Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="beforeClass" is-config="true" duration-ms="2" started-at="2016-12-08T14:54:43Z" finished-at="2016-12-08T14:54:43Z">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="beforeClass" is-config="true" duration-ms="3" started-at="2016-12-09T10:00:30Z" finished-at="2016-12-09T10:00:30Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeClass -->
-        <test-method status="PASS" signature="invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response" duration-ms="1777" started-at="2016-12-08T14:54:43Z" data-provider="invoice_GET_negative" finished-at="2016-12-08T14:54:45Z">
+        <test-method status="PASS" signature="invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response" duration-ms="1607" started-at="2016-12-09T10:00:30Z" data-provider="invoice_GET_negative" finished-at="2016-12-09T10:00:32Z">
           <params>
             <param index="0">
               <value>
@@ -91,7 +95,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response -->
-        <test-method status="PASS" signature="invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response" duration-ms="60" started-at="2016-12-08T14:54:45Z" data-provider="invoice_GET_negative" finished-at="2016-12-08T14:54:45Z">
+        <test-method status="PASS" signature="invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response" duration-ms="49" started-at="2016-12-09T10:00:32Z" data-provider="invoice_GET_negative" finished-at="2016-12-09T10:00:32Z">
           <params>
             <param index="0">
               <value>
@@ -142,11 +146,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response -->
-        <test-method status="PASS" signature="invoice_Get_withInvalidUri_ShoudlGet404()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_Get_withInvalidUri_ShoudlGet404" duration-ms="169" started-at="2016-12-08T14:54:45Z" finished-at="2016-12-08T14:54:45Z">
+        <test-method status="PASS" signature="invoice_Get_withInvalidUri_ShoudlGet404()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_Get_withInvalidUri_ShoudlGet404" duration-ms="99" started-at="2016-12-09T10:00:32Z" finished-at="2016-12-09T10:00:32Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- invoice_Get_withInvalidUri_ShoudlGet404 -->
-        <test-method status="PASS" signature="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" duration-ms="1106" started-at="2016-12-08T14:54:45Z" data-provider="invoice_create_positive" finished-at="2016-12-08T14:54:46Z">
+        <test-method status="PASS" signature="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" duration-ms="679" started-at="2016-12-09T10:00:32Z" data-provider="invoice_create_positive" finished-at="2016-12-09T10:00:33Z">
           <params>
             <param index="0">
               <value>
@@ -177,7 +181,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse -->
-        <test-method status="PASS" signature="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" duration-ms="139" started-at="2016-12-08T14:54:46Z" data-provider="invoice_create_positive" finished-at="2016-12-08T14:54:47Z">
+        <test-method status="PASS" signature="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" duration-ms="122" started-at="2016-12-09T10:00:33Z" data-provider="invoice_create_positive" finished-at="2016-12-09T10:00:33Z">
           <params>
             <param index="0">
               <value>
@@ -208,7 +212,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse -->
-        <test-method status="PASS" signature="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" duration-ms="153" started-at="2016-12-08T14:54:47Z" data-provider="invoice_create_positive" finished-at="2016-12-08T14:54:47Z">
+        <test-method status="PASS" signature="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse" duration-ms="122" started-at="2016-12-09T10:00:33Z" data-provider="invoice_create_positive" finished-at="2016-12-09T10:00:33Z">
           <params>
             <param index="0">
               <value>
@@ -239,15 +243,15 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse -->
-        <test-method status="PASS" signature="invoice_POST_testingFor404ResourceNotFound()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_POST_testingFor404ResourceNotFound" duration-ms="38" started-at="2016-12-08T14:54:47Z" finished-at="2016-12-08T14:54:47Z">
+        <test-method status="PASS" signature="invoice_POST_testingFor404ResourceNotFound()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_POST_testingFor404ResourceNotFound" duration-ms="23" started-at="2016-12-09T10:00:33Z" finished-at="2016-12-09T10:00:33Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- invoice_POST_testingFor404ResourceNotFound -->
-        <test-method status="PASS" signature="invoice_POST_testingFor415UnsupportedMediaType()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="invoice_POST_testingFor415UnsupportedMediaType" duration-ms="82" started-at="2016-12-08T14:54:47Z" finished-at="2016-12-08T14:54:47Z">
+        <test-method status="PASS" signature="invoice_POST_testingFor415UnsupportedMediaType()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="invoice_POST_testingFor415UnsupportedMediaType" duration-ms="65" started-at="2016-12-09T10:00:33Z" finished-at="2016-12-09T10:00:33Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- invoice_POST_testingFor415UnsupportedMediaType -->
-        <test-method status="PASS" signature="payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse" duration-ms="329" started-at="2016-12-08T14:54:47Z" data-provider="payment_positive" finished-at="2016-12-08T14:54:47Z">
+        <test-method status="PASS" signature="payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse" duration-ms="265" started-at="2016-12-09T10:00:33Z" data-provider="payment_positive" finished-at="2016-12-09T10:00:33Z">
           <params>
             <param index="0">
               <value>
@@ -268,7 +272,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse -->
-        <test-method status="PASS" signature="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" duration-ms="69187" started-at="2016-12-08T14:54:47Z" data-provider="query_positive" finished-at="2016-12-08T14:55:56Z">
+        <test-method status="PASS" signature="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" duration-ms="128" started-at="2016-12-09T10:00:33Z" data-provider="query_positive" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -284,7 +288,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse -->
-        <test-method status="FAIL" signature="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" duration-ms="66162" started-at="2016-12-08T14:55:56Z" data-provider="query_positive" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="FAIL" signature="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" duration-ms="96" started-at="2016-12-09T10:00:34Z" data-provider="query_positive" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -339,7 +343,7 @@ Expected: a string containing "Alice"
           <reporter-output>
           </reporter-output>
         </test-method> <!-- query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse -->
-        <test-method status="FAIL" signature="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" duration-ms="532" started-at="2016-12-08T14:57:03Z" data-provider="query_negative" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="FAIL" signature="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" duration-ms="67" started-at="2016-12-09T10:00:34Z" data-provider="query_negative" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -417,7 +421,7 @@ Expected status code <404> doesn't match actual status code <200>.
           <reporter-output>
           </reporter-output>
         </test-method> <!-- query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse -->
-        <test-method status="FAIL" signature="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" duration-ms="23" started-at="2016-12-08T14:57:03Z" data-provider="quoteDestinationAmount_negative" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="FAIL" signature="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" duration-ms="29" started-at="2016-12-09T10:00:34Z" data-provider="quoteDestinationAmount_negative" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -473,7 +477,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse -->
-        <test-method status="FAIL" signature="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" duration-ms="23" started-at="2016-12-08T14:57:03Z" data-provider="quoteDestinationAmount_negative" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="FAIL" signature="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" duration-ms="52" started-at="2016-12-09T10:00:34Z" data-provider="quoteDestinationAmount_negative" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -529,7 +533,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse -->
-        <test-method status="PASS" signature="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" duration-ms="33" started-at="2016-12-08T14:57:03Z" data-provider="quoteDestinationAmount_positive" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="PASS" signature="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" duration-ms="49" started-at="2016-12-09T10:00:34Z" data-provider="quoteDestinationAmount_positive" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -545,7 +549,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse -->
-        <test-method status="PASS" signature="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" duration-ms="28" started-at="2016-12-08T14:57:03Z" data-provider="quoteDestinationAmount_positive" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="PASS" signature="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" duration-ms="33" started-at="2016-12-09T10:00:34Z" data-provider="quoteDestinationAmount_positive" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -561,7 +565,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse -->
-        <test-method status="FAIL" signature="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse" duration-ms="25" started-at="2016-12-08T14:57:03Z" data-provider="quoteSourceAmount_negative" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="FAIL" signature="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse" duration-ms="21" started-at="2016-12-09T10:00:34Z" data-provider="quoteSourceAmount_negative" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -617,7 +621,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse -->
-        <test-method status="FAIL" signature="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse" duration-ms="21" started-at="2016-12-08T14:57:03Z" data-provider="quoteSourceAmount_negative" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="FAIL" signature="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse" duration-ms="62" started-at="2016-12-09T10:00:34Z" data-provider="quoteSourceAmount_negative" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -673,7 +677,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse -->
-        <test-method status="PASS" signature="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse" duration-ms="30" started-at="2016-12-08T14:57:03Z" data-provider="quoteSourceAmount_positive" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="PASS" signature="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse" duration-ms="36" started-at="2016-12-09T10:00:34Z" data-provider="quoteSourceAmount_positive" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -689,7 +693,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse -->
-        <test-method status="PASS" signature="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse" duration-ms="27" started-at="2016-12-08T14:57:03Z" data-provider="quoteSourceAmount_positive" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="PASS" signature="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse(java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse" duration-ms="32" started-at="2016-12-09T10:00:34Z" data-provider="quoteSourceAmount_positive" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -705,7 +709,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse -->
-        <test-method status="FAIL" signature="setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse" duration-ms="28" started-at="2016-12-08T14:57:03Z" data-provider="setup_negative" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="FAIL" signature="setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse" duration-ms="48" started-at="2016-12-09T10:00:34Z" data-provider="setup_negative" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -765,7 +769,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse -->
-        <test-method status="PASS" signature="setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse" duration-ms="119" started-at="2016-12-08T14:57:03Z" data-provider="setup_positive" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="PASS" signature="setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse" duration-ms="87" started-at="2016-12-09T10:00:34Z" data-provider="setup_positive" finished-at="2016-12-09T10:00:34Z">
           <params>
             <param index="0">
               <value>
@@ -786,7 +790,7 @@ Expected: <404>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse -->
-        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@3972a855]" name="afterClass" is-config="true" duration-ms="1" started-at="2016-12-08T14:57:03Z" finished-at="2016-12-08T14:57:03Z">
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.l1.interop.SPSPClientProxyFunctionalTest@51b7e5df]" name="afterClass" is-config="true" duration-ms="0" started-at="2016-12-09T10:00:34Z" finished-at="2016-12-09T10:00:34Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterClass -->
