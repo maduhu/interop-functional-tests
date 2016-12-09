@@ -292,7 +292,7 @@ public class DirectoryFunctionalTest {
 	
 	
 	
-	@Test(description="Description: get available identifier-types from service.  Requires BASIC AUTH", groups={"directory_all", "identifier_types"})
+	@Test(description="Description: get available identifier-types from service.  Requires BASIC AUTH", groups={"directory_all", "directory_identifier_types"})
 	public void get_identifier_types_resources_positive_requires_BASIC_AUTH() {
 		
 		/*

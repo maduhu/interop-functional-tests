@@ -162,7 +162,7 @@ public class ILPLedgerAdapterFunctionalTest {
 	 * @param receiver
 	 * @param amount
 	 */
-	@Test(dataProvider="prepare_transfer_positive")
+	@Test(dataProvider="prepare_transfer_positive", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void prepareTransfer_ForValidSenderAndReceiver_ShouldReturn200_ShouldReturnValidResponse(String sender, String receiver, String amount){
 		
 		//String uuid = UUID.randomUUID().toString();
@@ -246,12 +246,14 @@ public class ILPLedgerAdapterFunctionalTest {
 		
 	}
 	
-	@Test(dataProvider="prepare_transfer_negative")
+	
+	@Test(dataProvider="prepare_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void prepareTransfer_ForUnproceesableEntity_ShouldReturn422_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 	}
 	
-	@Test(dataProvider="prepare_transfer_positive")
+	
+	@Test(dataProvider="prepare_transfer_positive", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
@@ -334,7 +336,8 @@ public class ILPLedgerAdapterFunctionalTest {
         }
 	}
 	
-	@Test(dataProvider="prepare_transfer_negative")
+	
+	@Test(dataProvider="prepare_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void prepareTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 		final StringWriter twriter = new StringWriter();
@@ -384,7 +387,8 @@ public class ILPLedgerAdapterFunctionalTest {
         }
 	}
 	
-	@Test(dataProvider="prepare_transfer_negative")
+	
+	@Test(dataProvider="prepare_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void prepareTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 		final StringWriter twriter = new StringWriter();
@@ -422,7 +426,8 @@ public class ILPLedgerAdapterFunctionalTest {
 		
 	}
 	
-	@Test(dataProvider="get_prepared_transfer_positive")
+	
+	@Test(dataProvider="get_prepared_transfer_positive", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void getPreparedTransfer_ForValidTransfer_ShouldReturn200_ShouldReturnValidResponse(String sender, String receiver, String amount){
 		
 		final StringWriter twriter = new StringWriter();
@@ -505,7 +510,7 @@ public class ILPLedgerAdapterFunctionalTest {
         }
 	}
 	
-	@Test(dataProvider="get_prepared_transfer_negative")
+	@Test(dataProvider="get_prepared_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void getPreparedTransfer_ForTransferThatDoesNotExist_ShouldReturn404_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
@@ -537,47 +542,47 @@ public class ILPLedgerAdapterFunctionalTest {
         }
 	}
 	
-	@Test(dataProvider="get_prepared_transfer_negative")
+	@Test(dataProvider="get_prepared_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void getPreparedTransfer_ForInvalidURIParameterInRequest_ShouldReturn400_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 	}
 	
-	@Test(dataProvider="fulfill_transfer_positive")
+	@Test(dataProvider="fulfill_transfer_positive", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_fulfill_transfer"})
 	public void fulfillTransfer_ForValidRequest_ShouldReturn200_ShouldReturnValidResponse(String sender, String receiver, String amount){
 		
 	}
 	
-	@Test(dataProvider="fulfill_transfer_negative")
+	@Test(dataProvider="fulfill_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_fulfill_transfer"})
 	public void fulfillTransfer_ForUnmetCondition_ShouldReturn422_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 	}
 	
-	@Test(dataProvider="fulfill_transfer_negative")
+	@Test(dataProvider="fulfill_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_fulfill_transfer"})
 	public void fulfillTransfer_ForUnproceesableEntity_ShouldReturn422_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 	}
 	
-	@Test(dataProvider="fulfill_transfer_negative")
+	@Test(dataProvider="fulfill_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_fulfill_transfer"})
 	public void fulfillTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 	}
 	
-	@Test(dataProvider="fulfill_transfer_negative")
+	@Test(dataProvider="fulfill_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_fulfill_transfer"})
 	public void fulfillTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 	}
 	
-	@Test(dataProvider="get_fulfilled_transfer_positive")
+	@Test(dataProvider="get_fulfilled_transfer_positive", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_fulfilled_transfer"})
 	public void getFulfilledTransfer_ForValidFulfilledTransfer_ShouldReturn200_ShouldReturnTransferDetails(String sender, String receiver, String amount){
 		
 	}
 	
-	@Test(dataProvider="get_fulfilled_transfer_negative")
+	@Test(dataProvider="get_fulfilled_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_fulfilled_transfer"})
 	public void getFulfilledTransfer_ForFulfillmentThatDoesNotExist_ShouldReturn404_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 	}
 	
-	@Test(dataProvider="get_prepared_transfer_negative")
+	@Test(dataProvider="get_prepared_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void getFulfilledTransfer_ForInvalidURIParameterInRequest_ShouldReturn400_ShouldReturnErrorResponse(String sender, String receiver, String amount){
 		
 	}
