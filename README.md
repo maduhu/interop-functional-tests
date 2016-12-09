@@ -26,8 +26,8 @@ Example:
   - "mvn test -Dgroups=directory_all" -- Runs only the tests for dfsp_directory
   - "mvn test -Dgroups=spsp_backend_service_all,spsp_client_proxy_quote" -- Runs all the tests targeted for spsp_backend_services as well as just the quoting test in the spsp_client_proxy
   
-  
-* Below are the lists of the various test groups *
+
+## Below are the lists of the various test groups
   
 ### DirectoryFunctional test groups
 * directory_all
