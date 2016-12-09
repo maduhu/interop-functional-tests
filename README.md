@@ -9,7 +9,7 @@ Repo that holds the functional tests
 4. To generate javadoc, run "mvn javadoc:test-javadoc" at the project root folder
 
 ### New Testing feature added 12/9/2016 to run test on a finer granular scale.  
-This allows test to be run a set of targeted tests, not the whole test suite.
+This allows functional tests to run a set of more targeted tests, and not the whole test suite.
 Since this is the initial release with the ability to run specific groups of tests,
 our groupings may not be perfect or ideal.  Please let the ModusBox developers know
 if you have suggestions for better groupings.
