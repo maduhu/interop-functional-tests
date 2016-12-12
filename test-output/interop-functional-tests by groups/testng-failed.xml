@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [interop-functional-tests by groups]">
+  <test name="GRP-query-group(failed)">
+    <groups>
+      <run>
+        <include name="query-group"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.l1.interop.SPSPClientProxyFunctionalTest">
+        <methods>
+          <include name="query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse" invocation-numbers="0 1"/>
+          <include name="query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse" invocation-numbers="0"/>
+        </methods>
+      </class> <!-- com.l1.interop.SPSPClientProxyFunctionalTest -->
+    </classes>
+  </test> <!-- GRP-query-group(failed) -->
+</suite> <!-- Failed suite [interop-functional-tests by groups] -->

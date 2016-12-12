@@ -9,9 +9,11 @@
 
 	<name>LevelOne</name>
 	<url>http://maven.apache.org</url>
+	
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<interop-common-version>1.0.7</interop-common-version>
 	</properties>
 
 	<dependencies>
@@ -22,6 +24,11 @@
 			<artifactId>testng</artifactId>
 			<version>6.8.8</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.l1p.interop</groupId>
+			<artifactId>interop-common</artifactId>
+			<version>${interop-common-version}</version>
 		</dependency>
 		<!-- 
 		<dependency>
@@ -35,12 +42,20 @@
     		<artifactId>rest-assured</artifactId>
     		<version>3.0.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
 			<version>1.3</version>
-
 		</dependency>
+		
+    	<dependency>
+      		<groupId>org.hamcrest</groupId>
+      		<artifactId>hamcrest-core</artifactId>
+      		<version>1.3</version>
+      		<scope>compile</scope>
+    	</dependency>
+		
 		<dependency>
 			<groupId>pl.pragmatists</groupId>
 			<artifactId>JUnitParams</artifactId>
@@ -60,6 +75,32 @@
 			<version>1.0.4</version>
 		</dependency>
 
+		<dependency>
+      		<groupId>org.glassfish.grizzly</groupId>
+      		<artifactId>grizzly-http-servlet</artifactId>
+      		<version>2.3.24</version>
+    	</dependency>
+    
+    	<dependency>
+      		<groupId>javax.websocket</groupId>
+      		<artifactId>javax.websocket-client-api</artifactId>
+      		<version>1.1</version>
+      		<scope>test</scope>
+    	</dependency>
+    
+    	<dependency>
+      		<groupId>org.glassfish.tyrus</groupId>
+      		<artifactId>tyrus-client</artifactId>
+      		<version>1.13</version>
+      		<scope>test</scope>
+    	</dependency>
+    	
+    	<dependency>
+      		<groupId>org.glassfish.tyrus</groupId>
+      		<artifactId>tyrus-container-grizzly-client</artifactId>
+      		<version>1.13</version>
+      		<scope>test</scope>
+    	</dependency>
 
 	</dependencies>
 </project>
