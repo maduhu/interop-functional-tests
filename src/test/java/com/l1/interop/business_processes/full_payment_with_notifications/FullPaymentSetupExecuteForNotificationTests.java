@@ -5,7 +5,8 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.greaterThan;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,7 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.CountDownLatch;
 
 import javax.json.Json;
 import javax.websocket.ContainerProvider;
@@ -37,9 +38,6 @@ import io.restassured.config.LogConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-
-import java.net.URISyntaxException;
-import java.util.concurrent.CountDownLatch;
 
 public class FullPaymentSetupExecuteForNotificationTests {
 
@@ -81,7 +79,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
          * Override url for local testing
          * 
          */
-        url = "http://localhost:8081";
+        url = "http://localhost:8081"; host="localhost";
         
         
         System.out.println("**************************************************************************************************************");
@@ -127,6 +125,13 @@ public class FullPaymentSetupExecuteForNotificationTests {
     private Iterator<Object []> dpSPSPClientProxy_setupPositive( ) throws Exception
     {
         List<Object []> testCases = readCSVFile("test-data/spspclientproxy/setup_positive.csv");
+        return testCases.iterator();
+    }
+    
+    @DataProvider(name = "notification_configuration_and_data")
+    private Iterator<Object []> dpNotificationConfigurationAndData( ) throws Exception
+    {
+        List<Object []> testCases = readCSVFile("test-data/notifications/notification_test_data.csv");
         return testCases.iterator();
     }
     
@@ -345,37 +350,48 @@ public class FullPaymentSetupExecuteForNotificationTests {
 		 */
     	
     	
-    	  // add new call to /transer/{id}
+    	  // add new call to /transfer/{id}
     	
     }
     
        
     
-    @Test(timeOut = 10000, dependsOnGroups = { "paymentSetup" }, groups={"payment_setup_and_execute_with_notification"}, description="test an asynchronous process receive")
-    public void test_receiving_message_from_websocket() {
+    @Test(timeOut = 10000, dataProvider="notification_configuration_and_data", dependsOnGroups = { "paymentSetup" }, groups={"payment_setup_and_execute_with_notification"}, description="test an asynchronous process receive")
+    public void test_receiving_message_from_websocket(String name, String socketServerConfig, String account) {
     	
     	String webSocketResponseMessage = new String();
-    	
     	final CountDownLatch messageLatch = new CountDownLatch(1);
+    	boolean gotResponse = false;
+    	String websocketResponseMessage = null;
     	
-    	/*
-    	 * Or maybe I can pass an anonomyous function into teh websociket clent endpoint as a call back.  Like to pass a function reference into the class 
-    	 */
-    	WebsocketClientEndpoint socketClient = new WebsocketClientEndpoint(webSocketResponseMessage, "https://ledger.example/accounts/alice");  // TODO this needs to be pulled from a property (maybe)
+    	String webSocketListenerConfig = "ws://" + host + ":" + socketServerConfig;
+    	
+    	WebsocketClientEndpoint socketClient = new WebsocketClientEndpoint(webSocketResponseMessage, account);
     	
     	try {
     	      WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-    	      String uri = "ws://localhost:8089/websocket";  							// TODO this needs to be pulled from a property  <<<<<<<<<<<<<<<<<<<<<< 
-    	      System.out.println("Connecting to " + uri);
+    	      String uri = webSocketListenerConfig;
+    	      System.out.println("Connecting to " + uri + " and using WebSocket config: " + socketServerConfig + " :: for account name :" + name);
     	      container.connectToServer(socketClient, URI.create(uri));
 //    	      messageLatch.await(300, TimeUnit.SECONDS);
     	      
-    	      System.out.println("after messageLatch...");
-    	      
-    	  	while (webSocketResponseMessage.length() == 0) {
-                Thread.sleep(1000);
-                System.out.println("...thread sleep time expired...");
+    	  	while (!gotResponse) {
+    	  		
+    	  		System.out.println("About to check for response from websocket");
+                if (socketClient.getSocketResponseMessage() != null && socketClient.getSocketResponseMessage().length() > 0) {
+                	websocketResponseMessage = socketClient.getSocketResponseMessage();
+                	System.out.println("*** Yeah!  Got a response");
+                	gotResponse = true;
+                	break;
+                } else {
+                	Thread.sleep(1000);
+                	System.out.println("...thread sleep timer of 1 second expired waiting to hear back from websocket...");
+                }
     	  	}
+    	  	
+    	  	assertThat(gotResponse, equalTo(true));
+    	  	assertThat(websocketResponseMessage.length(), greaterThan(0));
+    	  	assertThat(websocketResponseMessage, not(isEmptyOrNullString()));
     	  	
     	  	System.out.println("after message has a length of > 0!!!  That means we got a message back.");
     	      
