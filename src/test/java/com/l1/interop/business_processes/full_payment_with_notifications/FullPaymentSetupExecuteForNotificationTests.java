@@ -410,7 +410,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
     
        
     
-    @Test(timeOut = 100000, dependsOnGroups = { "notificationSetup", "paymentSetup" }, groups={"payment_setup_and_execute_with_notification"}, description="test an asynchronous process receive")
+    @Test(timeOut = 10000, dependsOnGroups = { "notificationSetup", "paymentSetup" }, groups={"payment_setup_and_execute_with_notification"}, description="test an asynchronous process receive")
     public void test_receiving_message_from_websocket() {
     	
     	boolean gotResponse = false;
@@ -449,6 +449,10 @@ public class FullPaymentSetupExecuteForNotificationTests {
 			    	
 			    	
 			    	if (creditEntryMap.get("account").contains("http://usd-ledger.example/accounts/bob") && debitEntryMap.get("account").contains("http://usd-ledger.example/accounts/alice")) {
+			    		
+			    		System.out.println("Credit Account: " + creditEntryMap.get("account"));
+			    		System.out.println("Debit Account: " + debitEntryMap.get("account"));
+			    		
 			    		foundProperDebitAccount = true;
 			    		foundProperCreditAccount = true;
 			    		gotResponse = true;
