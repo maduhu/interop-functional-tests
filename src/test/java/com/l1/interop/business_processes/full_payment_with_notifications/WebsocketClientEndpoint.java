@@ -34,7 +34,7 @@ private String account;
 
   @OnMessage
   public void processMessage(String message) {
-    System.out.println("Received message in client socket listener: " + message);
+    System.out.println("****************************************  Received message in client socket listener: " + message);
     this.outMessage = message;
   }
 

@@ -5,6 +5,7 @@
     <classes>
       <class name="com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests">
         <methods>
+          <include name="setupWebSocketListener"/>
           <include name="afterClass"/>
           <include name="test_fullPaymentSetupAndPaymentExecution"/>
           <include name="test_receiving_message_from_websocket"/>
