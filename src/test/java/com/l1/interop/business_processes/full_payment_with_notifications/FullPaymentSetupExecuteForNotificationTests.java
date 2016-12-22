@@ -44,8 +44,6 @@ public class FullPaymentSetupExecuteForNotificationTests {
 	private static String host;
 	private static String port;
 	private static String url;
-	private static String dfsp_username;
-	private static String dfsp_password;
 	
 	private String account = "http://usd-ledger.example/accounts/bob";
 	
@@ -59,7 +57,6 @@ public class FullPaymentSetupExecuteForNotificationTests {
     // used for sample test of asynchronous
     boolean m_success = false;
     int testCountFromThread = 0;
-    
     
 
 	@BeforeClass(alwaysRun=true)
@@ -92,9 +89,6 @@ public class FullPaymentSetupExecuteForNotificationTests {
         System.out.println("*                                                                                                            *");
         System.out.println("**************************************************************************************************************");
         
-        dfsp_username = prop.getProperty("dfsp.username");
-        dfsp_password = prop.getProperty("dfsp.password");
-        
         if(!(new File("target/failure-reports")).exists())
             new File("target/failure-reports").mkdirs();
         
@@ -125,6 +119,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
     private void afterClass() throws Exception {
         captor.println( "</body>\n" );
         captor.println( "</html>\n" );
+        
     }
     
     
@@ -150,18 +145,17 @@ public class FullPaymentSetupExecuteForNotificationTests {
     
     
     
-//    @Test(dataProvider="notification_configuration_and_data", groups = { "notificationSetup" })
     @Test(groups = { "notificationSetup" })
     public void setupWebSocketListener() {
     	
-//    	String account = "http://usd-ledger.example/accounts/bob";
     	String webSocketResponseMessage = new String();
     	String webSocketListenerUri = "ws://" + host + ":8089/websocket";
     	
     	try {
+    		
+    		// Create the websocket "listener" for the account we want to listen on for notifications.
 			socketClient = new WebsocketClientEndpoint(webSocketResponseMessage, account);
 			
-//			WebSocketContainer container = ContainerProvider.getWebSocketContainer();
 			System.out.println("Connecting to " + webSocketListenerUri + " and using WebSocket config: " + webSocketListenerUri);
 			container.connectToServer(socketClient, URI.create(webSocketListenerUri));
 			
@@ -181,9 +175,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
     @Test(dataProvider="setup_positive", dependsOnGroups = {"notificationSetup"}, groups = { "paymentSetup", "payment_setup_and_execute_with_notification" })
     public void test_fullPaymentSetupAndPaymentExecution(String sender, String receiver, String amount) {
           
-    	String ppjson = null;
     	final StringWriter twriter = new StringWriter();
-//        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
     	try {
     		
@@ -252,27 +244,6 @@ public class FullPaymentSetupExecuteForNotificationTests {
 	        System.out.println("senderIdentifier :: " + senderIdentifier);
 
 	        assertThat("get senderIdentifier", senderIdentifier, not(isEmptyOrNullString()));
-	        
-	        
-	        /*
-	         * Sample json as of 11/28/2016
-	         * 
-	         * {
-				  "id": "b51ec534-ee48-4575-b6a9-ead2955b8069",
-				  "address": "ilpdemo.red.bob.b9c4ceba-51e4-4a80-b1a7-2972383e98af",
-				  "destinationAmount": "10.40",
-				  "sourceAmount": "9.00",
-				  "sourceAccount": "http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:3043/v1/receivers/85555384",
-				  "expiresAt": "2016-12-16T12:00:00Z",
-				  "data": {
-				    "senderIdentifier": "9809890190934023"
-				  },
-				  "additionalHeaders": "asdf98zxcvlknannasdpfi09qwoijasdfk09xcv009as7zxcv",
-				  "condition": "cc:0:3:wey2IMPk-3MsBpbOcObIbtgIMs0f7uBMGwebg1qUeyw:32"
-				}
-	         * 
-	         * 
-	         */
 	        
 	        
 	        
@@ -427,41 +398,48 @@ public class FullPaymentSetupExecuteForNotificationTests {
 			while (!gotResponse) {
 				
 				System.out.println("About to check for response from websocket");
+				
 			    if (socketClient.getSocketResponseMessage() != null && socketClient.getSocketResponseMessage().length() > 0) {
 			    	websocketResponseMessage = socketClient.getSocketResponseMessage();
 			    	System.out.println("*** Yeah!  Got a response :: " + websocketResponseMessage + " in the TestNG test.  ");
-			    	
 			    	
 			    	Map<String, Object> creditsDebitsMap = parseResponse(websocketResponseMessage);
 			    	
 			    	List<String> creditsJson = (List<String>) creditsDebitsMap.get("credits");
 			    	List<String> debitsJson = (List<String>) creditsDebitsMap.get("debits");
 			    	
-			    	if (creditsJson.size() > 0) {
-			    		resourceObj = creditsJson.get(0);
-			    		creditEntryMap = ((Map<String,String>) resourceObj);
-			    	}
-			    	
-			    	if (debitsJson.size() > 0) {
-			    		resourceObj = debitsJson.get(0);
-			    		debitEntryMap =  ((Map<String,String>) resourceObj);
-			    	}
-			    	
-			    	
-			    	if (creditEntryMap.get("account").contains("http://usd-ledger.example/accounts/bob") && debitEntryMap.get("account").contains("http://usd-ledger.example/accounts/alice")) {
+			    	if ( creditsJson != null && debitsJson != null) {
 			    		
-			    		System.out.println("Credit Account: " + creditEntryMap.get("account"));
-			    		System.out.println("Debit Account: " + debitEntryMap.get("account"));
+			    		if (creditsJson.size() > 0) {
+			    			resourceObj = creditsJson.get(0);
+			    			creditEntryMap = ((Map<String,String>) resourceObj);
+			    		}
 			    		
-			    		foundProperDebitAccount = true;
-			    		foundProperCreditAccount = true;
-			    		gotResponse = true;
-			    		break;
+			    		if (debitsJson.size() > 0) {
+			    			resourceObj = debitsJson.get(0);
+			    			debitEntryMap =  ((Map<String,String>) resourceObj);
+			    		}
+			    		
+			    		
+			    		if (creditEntryMap.get("account").contains("http://usd-ledger.example/accounts/bob") && debitEntryMap.get("account").contains("http://usd-ledger.example/accounts/alice")) {
+			    			
+			    			System.out.println("Credit Account: " + creditEntryMap.get("account"));
+			    			System.out.println("Debit Account: " + debitEntryMap.get("account"));
+			    			
+			    			foundProperDebitAccount = true;
+			    			foundProperCreditAccount = true;
+			    			gotResponse = true;
+			    			break;
+			    			
+			    		} else {
+			    			System.out.println("Did not find an appropriate response from the WebSocket response yet");
+			    			Thread.sleep(1000);
+			    		}
 			    		
 			    	} else {
-			    		System.out.println("Did not find an appropriate response from the WebSocket response yet");
-			    		Thread.sleep(1000);
-			    	}
+		    			System.out.println("Did not find an appropriate response from the WebSocket response yet");
+		    			Thread.sleep(1000);
+		    		}
 			    	
 			    } else {
 			    	Thread.sleep(1000);

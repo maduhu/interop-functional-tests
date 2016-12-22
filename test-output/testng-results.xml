@@ -2,7 +2,7 @@
 <testng-results skipped="0" failed="0" total="3" passed="3">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="3293" started-at="2016-12-21T19:28:51Z" finished-at="2016-12-21T19:28:55Z">
+  <suite name="Default suite" duration-ms="3459" started-at="2016-12-22T15:49:23Z" finished-at="2016-12-22T15:49:26Z">
     <groups>
       <group name="paymentSetup">
         <method signature="FullPaymentSetupExecuteForNotificationTests.test_fullPaymentSetupAndPaymentExecution(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="test_fullPaymentSetupAndPaymentExecution" class="com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests"/>
@@ -15,21 +15,21 @@
         <method signature="FullPaymentSetupExecuteForNotificationTests.setupWebSocketListener()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="setupWebSocketListener" class="com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests"/>
       </group> <!-- notificationSetup -->
     </groups>
-    <test name="Default test" duration-ms="3293" started-at="2016-12-21T19:28:51Z" finished-at="2016-12-21T19:28:55Z">
+    <test name="Default test" duration-ms="3459" started-at="2016-12-22T15:49:23Z" finished-at="2016-12-22T15:49:26Z">
       <class name="com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="setup" is-config="true" duration-ms="944" started-at="2016-12-21T12:28:51Z" finished-at="2016-12-21T12:28:52Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="setup" is-config="true" duration-ms="1009" started-at="2016-12-22T08:49:23Z" finished-at="2016-12-22T08:49:24Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="beforeClass" is-config="true" duration-ms="39" started-at="2016-12-21T12:28:52Z" finished-at="2016-12-21T12:28:52Z">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="beforeClass" is-config="true" duration-ms="35" started-at="2016-12-22T08:49:24Z" finished-at="2016-12-22T08:49:24Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeClass -->
-        <test-method status="PASS" signature="setupWebSocketListener()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="setupWebSocketListener" duration-ms="499" started-at="2016-12-21T12:28:52Z" finished-at="2016-12-21T12:28:53Z">
+        <test-method status="PASS" signature="setupWebSocketListener()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="setupWebSocketListener" duration-ms="469" started-at="2016-12-22T08:49:24Z" finished-at="2016-12-22T08:49:24Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setupWebSocketListener -->
-        <test-method status="PASS" signature="test_fullPaymentSetupAndPaymentExecution(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="test_fullPaymentSetupAndPaymentExecution" duration-ms="1750" depends-on-groups="notificationSetup" started-at="2016-12-21T12:28:53Z" data-provider="setup_positive" finished-at="2016-12-21T12:28:55Z">
+        <test-method status="PASS" signature="test_fullPaymentSetupAndPaymentExecution(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="test_fullPaymentSetupAndPaymentExecution" duration-ms="1884" depends-on-groups="notificationSetup" started-at="2016-12-22T08:49:24Z" data-provider="setup_positive" finished-at="2016-12-22T08:49:26Z">
           <params>
             <param index="0">
               <value>
@@ -50,11 +50,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- test_fullPaymentSetupAndPaymentExecution -->
-        <test-method status="PASS" signature="test_receiving_message_from_websocket()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="test_receiving_message_from_websocket" duration-ms="36" depends-on-groups="paymentSetup, notificationSetup" started-at="2016-12-21T12:28:55Z" description="test an asynchronous process receive" finished-at="2016-12-21T12:28:55Z">
+        <test-method status="PASS" signature="test_receiving_message_from_websocket()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="test_receiving_message_from_websocket" duration-ms="37" depends-on-groups="paymentSetup, notificationSetup" started-at="2016-12-22T08:49:26Z" description="test an asynchronous process receive" finished-at="2016-12-22T08:49:26Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- test_receiving_message_from_websocket -->
-        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="afterClass" is-config="true" duration-ms="1" started-at="2016-12-21T12:28:55Z" finished-at="2016-12-21T12:28:55Z">
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests@7bb58ca3]" name="afterClass" is-config="true" duration-ms="0" started-at="2016-12-22T08:49:26Z" finished-at="2016-12-22T08:49:26Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterClass -->
