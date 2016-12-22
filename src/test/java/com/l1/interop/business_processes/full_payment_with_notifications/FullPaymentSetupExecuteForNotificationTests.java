@@ -307,24 +307,26 @@ public class FullPaymentSetupExecuteForNotificationTests {
 	         * =========================================================================================
 	         * 
 	         * 
+	         * Sample JSON for call
+	         * 
+	         * {
+	        	  "id": "http://d5cad9621db2:3000/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613204",
+	        	  "ledger": "http://d5cad9621db2:3000",
+	        	  "debits": [{
+	        	    "account": "http://d5cad9621db2:3000/accounts/alice",
+	        	    "amount": "50",
+	        	    "authorized": true
+	        	  }],
+	        	  "credits": [{
+	        	    "account": "http://d5cad9621db2:3000/accounts/bob",
+	        	    "amount": "50"
+	        	  }],
+	        	  "execution_condition": "cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2",
+	        	  "expires_at": "2016-09-12T00:00:01.000Z"
+	        	}
 	         * 
 	         */
-	        
-//	        {
-//	        	  "id": "http://d5cad9621db2:3000/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613204",
-//	        	  "ledger": "http://d5cad9621db2:3000",
-//	        	  "debits": [{
-//	        	    "account": "http://d5cad9621db2:3000/accounts/alice",
-//	        	    "amount": "50",
-//	        	    "authorized": true
-//	        	  }],
-//	        	  "credits": [{
-//	        	    "account": "http://d5cad9621db2:3000/accounts/bob",
-//	        	    "amount": "50"
-//	        	  }],
-//	        	  "execution_condition": "cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2",
-//	        	  "expires_at": "2016-09-12T00:00:01.000Z"
-//	        	}
+
 	        
         	String transferRequest = Json.createObjectBuilder()
     	        .add("id", "http://d5cad9621db2:3000/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613204")
@@ -392,6 +394,9 @@ public class FullPaymentSetupExecuteForNotificationTests {
     	boolean foundProperCreditAccount = false;
     	Map<String, String> debitEntryMap = null;
     	Map<String, String> creditEntryMap = null;
+    	
+    	String debitAccount = null;
+		String creditAccount = null;
 
 	  	try {
 	  		
@@ -423,11 +428,15 @@ public class FullPaymentSetupExecuteForNotificationTests {
 			    		
 			    		if (creditEntryMap.get("account").contains("http://usd-ledger.example/accounts/bob") && debitEntryMap.get("account").contains("http://usd-ledger.example/accounts/alice")) {
 			    			
-			    			System.out.println("Credit Account: " + creditEntryMap.get("account"));
-			    			System.out.println("Debit Account: " + debitEntryMap.get("account"));
+			    			creditAccount = creditEntryMap.get("account");
+			    			debitAccount = debitEntryMap.get("account");
 			    			
 			    			foundProperDebitAccount = true;
 			    			foundProperCreditAccount = true;
+
+			    			System.out.println("Credit Account: " + creditEntryMap.get("account"));
+			    			System.out.println("Debit Account: " + debitEntryMap.get("account"));
+			    			
 			    			gotResponse = true;
 			    			break;
 			    			
@@ -452,6 +461,7 @@ public class FullPaymentSetupExecuteForNotificationTests {
 			assertThat(websocketResponseMessage, not(isEmptyOrNullString()));
 			assertThat("Credit Account Matched", foundProperCreditAccount, equalTo(true));
 			assertThat("Debit Account Matched", foundProperDebitAccount, equalTo(true));
+			assertThat("Sending account match debit account", account, equalTo(creditAccount));
 			
 			System.out.println("after message has a length of > 0!!!  That means we got a message back.");
 			
