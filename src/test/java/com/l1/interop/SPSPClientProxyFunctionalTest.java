@@ -429,10 +429,9 @@ public class SPSPClientProxyFunctionalTest {
              * have a bunch of assertThat() to ensure all is good.  This is a bit more detailed testing
              * 
              */
-            assertThat(jsonPath.get("id"), equalTo("Error")); 
-            assertThat(jsonPath.get(), containsString("500 Internal Server Error")); 
-            assertThat(jsonPath.get(), containsString("500 Internal Server Error")); 
-      
+            assertThat((String)jsonPath.get("id"), equalTo("Error"));
+            assertThat((String)jsonPath.get("message"), containsString("500 Internal Server Error"));
+
    
         } catch(java.lang.AssertionError e){
             captor.println("<ul>");
@@ -533,10 +532,9 @@ public class SPSPClientProxyFunctionalTest {
              * have a bunch of assertThat() to ensure all is good.  This is a bit more detailed testing
              * 
              */
-            assertThat(jsonPath.get("id"), equalTo("Error")); 
-            assertThat(jsonPath.get(), containsString("500 Internal Server Error")); 
-            assertThat(jsonPath.get(), containsString("500 Internal Server Error")); 
-            
+            assertThat((String)jsonPath.get("id"), equalTo("Error"));
+            assertThat((String)jsonPath.get(), containsString("500 Internal Server Error"));
+
         } catch(java.lang.AssertionError e){
             captor.println("<ul>");
             captor.println("<h2>Test Case: <i>quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse</i></h2>");
@@ -671,9 +669,9 @@ public class SPSPClientProxyFunctionalTest {
              * have a bunch of assertThat() to ensure all is good.  This is a bit more detailed testing
              * 
              */
-            assertThat("id", jsonPath.get("id"), equalTo("Error")); 
-            assertThat("message", jsonPath.get(), containsString("500 Internal Server Error")); 
-            assertThat("debug.Stack", jsonPath.get(), containsString("500 Internal Server Error")); 
+            assertThat((String) jsonPath.get("id"), equalTo("Error"));
+            assertThat((String)jsonPath.get(), containsString("500 Internal Server Error"));
+            assertThat((String) jsonPath.get(), containsString("500 Internal Server Error"));
             
             
         }catch(java.lang.AssertionError e){

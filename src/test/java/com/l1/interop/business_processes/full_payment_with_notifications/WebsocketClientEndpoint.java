@@ -11,7 +11,9 @@ public class WebsocketClientEndpoint {
 	
   private static final Logger log =  LoggerFactory.getLogger(WebsocketClientEndpoint.class);
   private String outMessage;
-  private String account;
+  
+
+private String account;
   
   public WebsocketClientEndpoint(String outMessage, String account) {
 	  this.outMessage = outMessage;
@@ -32,13 +34,17 @@ public class WebsocketClientEndpoint {
 
   @OnMessage
   public void processMessage(String message) {
-    System.out.println("Received message in client: " + message);
+    System.out.println("****************************************  Received message in client socket listener: " + message);
     this.outMessage = message;
   }
 
   @OnError
   public void processError(Throwable t) {
     t.printStackTrace();
+  }
+  
+  public String getSocketResponseMessage() {
+		return outMessage;
   }
   
   
