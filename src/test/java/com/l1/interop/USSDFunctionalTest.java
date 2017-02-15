@@ -76,9 +76,12 @@ public class USSDFunctionalTest {
         System.out.println("*                         Tests USSD running using the URL of :: " + url + "   *******************");
         System.out.println("*                                                                                                            *");
         System.out.println("**************************************************************************************************************");
-        
-        //dfsp_username = prop.getProperty("dfsp.username");
-        //dfsp_password = prop.getProperty("dfsp.password");
+
+        /**
+         *
+         * The goal of this test is to ensure that we can create an account.
+         */
+        // will need a CSV that has our test data
         
         if(!(new File("target/failure-reports")).exists())
             new File("target/failure-reports").mkdirs();
@@ -166,12 +169,26 @@ public class USSDFunctionalTest {
             System.out.println("USSD Response code for positive scenario: " + response.getStatusCode());
 
         	/*
-        	 * We need to check for both 201 or a 422.
-        	 * For a newly create DFSP, we will get a 201
-        	 * If the "name" already exists, then we will get a 422.  This still confirms a successful call.
+        	 * Response for the service will always on test/html format
+        	 * We need to check the response from USSD. If an User already exists you will receive the following response
+        	 * <UssdResponse version="1.0">
+                    <Status code="0"></Status>
+                    <Message>Welcome Senthil Govindaraj!
+
+                        1. Send money
+                        2. Sell Goods
+                        3. Pending Transactions
+                        4. Manage account
+                        5. Switch account
+                        6. Check balance
+                        7. Ministatement</Message>
+                        <DefaultCode>*123#</DefaultCode>
+                        <PhoneNumber></PhoneNumber>
+                </UssdResponse>
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
 
+            System.out.println("response number: " + response.prettyPrint());
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -214,12 +231,11 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for positive scenario: " + ussdposRequest);
+            System.out.println("USSD Request for negative scenario: " + ussdposRequest);
 
             response =
                     given().
-                            //auth().preemptive().basic(dfsp_username, dfsp_password).  // Must use the preemptive as this is the type of basic auth that the end system needs.  If you use just basic, it fails the challenge.
-                                    config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+                            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
                             contentType("application/json").
                             body(ussdposRequest).
                             when().
@@ -230,13 +246,21 @@ public class USSDFunctionalTest {
             System.out.println("USSD Response code for positive scenario: " + response.getStatusCode());
 
         	/*
-        	 * We need to check for both 201 or a 422.
-        	 * For a newly create DFSP, we will get a 201
-        	 * If the "name" already exists, then we will get a 422.  This still confirms a successful call.
+        	 * Response for the service will always on test/html format
+        	 * When an Input is passed with the user/phone that doesn't exists or options that is not available you will receive the below response
+        	 * <UssdResponse version="1.0">
+                    <Status code="0"></Status>
+                    <Message>Wrong Input
+
+                        0. Home
+                        1. Back</Message>
+                    <DefaultCode>*123#</DefaultCode>
+                    <PhoneNumber></PhoneNumber>
+                </UssdResponse>
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
 
-            //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
+            System.out.println("response number: " + response.prettyPrint());
 
         } catch(AssertionError e){
             captor.println("<ul>");
@@ -251,74 +275,4 @@ public class USSDFunctionalTest {
         }
 
     }
-	
-	
-	/**
-	 * 
-	 * The goal of this test is to ensure that we can create a DFSP and/or and query it back.
-	 * Since the API does not allow for us to delete a DFSP, we will check to see of the 
-	 * HTTP response status is a 40x (we will see what is implemented for the response) indicating
-	 * that the DFSP already exists.  
-	 * 
-	 * In either case, we will query back the DFSP to ensure we get a full end-to-end test.
-	 * 
-	 */
-	// will need a CSV that has our test data
-	@Test(groups={"directory_all", "register_dfsp"})
-	public void ussd_Functional_Positive_POST() {
-		
-		Response response;
-        String urlPath = "/ussd";
-
-        int http_status;
-        
-        Map<String, Object> jsonReponseMap = null;
-        
-        final StringWriter twriter = new StringWriter();
-        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
-        
-        try {
-            
-        	/*
-        	 * Create the JSON needed for the Create.
-        	 * Note:  as of 11/22/16, the key and secret json fields are not being accepted.
-        	 */
-        	String dfspCreateRequest = Json.createObjectBuilder()
-		        .add("name", "507")
-		        .build()
-		        .toString();
-        	
-        	response =
-            given().
-            	//auth().preemptive().basic(dfsp_username, dfsp_password).  // Must use the preemptive as this is the type of basic auth that the end system needs.  If you use just basic, it fails the challenge.
-            	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
-            	contentType("application/json").
-            	body(dfspCreateRequest).
-            when().
-            	post(url+urlPath);
-        	
-        	http_status = response.getStatusCode();
-        	
-        	/*
-        	 * We need to check for both 201 or a 422.
-        	 * For a newly create DFSP, we will get a 201
-        	 * If the "name" already exists, then we will get a 422.  This still confirms a successful call.
-        	 */
-        	assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
-            
-            //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
-            
-        } catch(AssertionError e){
-            captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
-            captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
-            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
-            captor.print("<h3>Request and Response: </h3>");
-            captor.println("<pre>"+twriter.toString()+"</pre>");
-            captor.println("</ul>");
-            
-            throw e;
-        }
-		
-	}
 }
