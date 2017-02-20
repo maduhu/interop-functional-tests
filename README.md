@@ -56,6 +56,16 @@ Example:
 * user_registration_all
 * user_registration_full_end_to_end
 
+### USSD test groups
+* ussd_createuser
+* ussd_sendmoney
+* ussd_sellgoods
+* ussd_checkbalance
+* ussd_manageaccount
+* ussd_ministatement
+* ussd_pendingtrans
+* ussd_negative
+
 ### FullPaymentWithNotifications test groups  (Don't use, still in development)
 * payment_setup_and_execute_with_notification
 
@@ -66,6 +76,8 @@ Example:
   - Interop User Registrations (11/28/2016)
   - Interop DFSP Directory     (11/28/2016)
   - Interop ILP Ledger Adapter (?)
+
+##
   
 ## Coming Soon:
   - Interop spsp backend services
