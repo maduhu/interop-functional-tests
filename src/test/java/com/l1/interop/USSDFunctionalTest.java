@@ -148,6 +148,13 @@ public class USSDFunctionalTest {
         return testCases.iterator();
     }
 
+    @DataProvider(name = "ussd_checkbalance")
+    private Iterator<Object []> ussdcheckbalance( ) throws Exception
+    {
+        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_checkbalance.csv");
+        return testCases.iterator();
+    }
+
     @DataProvider(name = "ussd_ministatement")
     private Iterator<Object []> ussdministatement( ) throws Exception
     {
@@ -523,6 +530,78 @@ public class USSDFunctionalTest {
 
                 0. Home
                 1. Back</Message>
+                    <DefaultCode>*123#</DefaultCode>
+                    <PhoneNumber></PhoneNumber>
+                </UssdResponse>
+        	 */
+            assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
+
+            System.out.println("response number: " + response.prettyPrint());
+            //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
+
+        } catch(AssertionError e){
+            captor.println("<ul>");
+            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
+            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+            captor.print("<h3>Request and Response: </h3>");
+            captor.println("<pre>"+twriter.toString()+"</pre>");
+            captor.println("</ul>");
+
+            throw e;
+        }
+
+    }
+
+    @Test(dataProvider="ussd_checkbalance", groups={ "ussd_checkbalance" })
+    public void get_ussd_checkbalance(String phone, String message) {
+
+        Response response;
+        String urlPath = "/ussd";
+
+        int http_status;
+
+        Map<String, Object> jsonReponseMap = null;
+
+        final StringWriter twriter = new StringWriter();
+        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+
+        try {
+
+        	/*
+        	 * Create the JSON needed for the Create.
+        	 * Note:  as of 11/22/16, the key and secret json fields are not being accepted.
+        	 */
+
+            String ussdposRequest = Json.createObjectBuilder()
+                    .add("phone", phone)
+                    .add("message", message)
+                    .build()
+                    .toString();
+
+            System.out.println("USSD Request for Check Balance: " + ussdposRequest);
+
+            response =
+                    given().
+                            //auth().preemptive().basic(dfsp_username, dfsp_password).  // Must use the preemptive as this is the type of basic auth that the end system needs.  If you use just basic, it fails the challenge.
+                                    config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+                            contentType("application/json").
+                            body(ussdposRequest).
+                            when().
+                            post(url+urlPath);
+
+            http_status = response.getStatusCode();
+
+            System.out.println("USSD Response code for Check Balance: " + response.getStatusCode());
+
+        	/*
+        	 * Response for the service will always on test/html format
+        	 * Check the response from USSD. Response displays the available balance on account
+        	 * <UssdResponse version="1.0">
+                    <Status code="0"></Status>
+                    <Message>Balance: 999.00 USD
+
+                0. Home</Message>
                     <DefaultCode>*123#</DefaultCode>
                     <PhoneNumber></PhoneNumber>
                 </UssdResponse>
