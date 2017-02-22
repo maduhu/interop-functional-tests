@@ -3,10 +3,12 @@ package com.l1.interop;
 
 import static com.l1.interop.util.Utils.readCSVFile;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsNot.not;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -71,11 +73,11 @@ public class USSDFunctionalTest {
          */
 //        url = "http://localhost:8081";
         
-        System.out.println("**************************************************************************************************************");
-        System.out.println("*                                                                                                            *");
-        System.out.println("*                         Tests USSD running using the URL of :: " + url + "   *******************");
-        System.out.println("*                                                                                                            *");
-        System.out.println("**************************************************************************************************************");
+        System.out.println("****************************************************************************************************************************************");
+        System.out.println("*                                                                                                                                      *");
+        System.out.println("*             Tests USSD running using the URL of :: " + url + "       **************");
+        System.out.println("*                                                                                                                                      *");
+        System.out.println("****************************************************************************************************************************************");
 
         /**
          *
@@ -210,7 +212,7 @@ public class USSDFunctionalTest {
 
             System.out.println("USSD Response code for create user: " + response.getStatusCode());
 
-        	/*
+            /*
         	 * Response for the service will always on test/html format
         	 * We need to check the response from USSD. If an User already exists you will receive the following response
         	 * <UssdResponse version="1.0">
@@ -228,9 +230,12 @@ public class USSDFunctionalTest {
                         <PhoneNumber></PhoneNumber>
                 </UssdResponse>
         	 */
-            assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
+            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("response number: " + response.prettyPrint());
+            System.out.println("USSD Response for create user: " + response.prettyPrint());
+
+            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -286,7 +291,7 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for positive scenario: " + response.getStatusCode());
+            System.out.println("USSD Response code for Send Money: " + response.getStatusCode());
 
         	/*
         	 * Response for the service will always on test/html format
@@ -305,9 +310,11 @@ public class USSDFunctionalTest {
                     <PhoneNumber></PhoneNumber>
                 </UssdResponse>
         	 */
-            assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
+            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("response number: " + response.prettyPrint());
+            System.out.println("USSD Response for Send Money: " + response.prettyPrint());
+
+            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -378,9 +385,12 @@ public class USSDFunctionalTest {
                     <PhoneNumber></PhoneNumber>
                 </UssdResponse>
         	 */
-            assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
+            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("response number: " + response.prettyPrint());
+            System.out.println("USSD Response for Sell Goods: " + response.prettyPrint());
+
+            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -452,9 +462,12 @@ public class USSDFunctionalTest {
                     <PhoneNumber></PhoneNumber>
                 </UssdResponse>
         	 */
-            assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
+            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("response number: " + response.prettyPrint());
+            System.out.println("USSD Response for Pending Transactions: " + response.prettyPrint());
+
+            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -534,9 +547,12 @@ public class USSDFunctionalTest {
                     <PhoneNumber></PhoneNumber>
                 </UssdResponse>
         	 */
-            assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
+            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("response number: " + response.prettyPrint());
+            System.out.println("USSD Response for Manage Accounts: " + response.prettyPrint());
+
+            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -606,9 +622,11 @@ public class USSDFunctionalTest {
                     <PhoneNumber></PhoneNumber>
                 </UssdResponse>
         	 */
-            assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
+            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("response number: " + response.prettyPrint());
+            System.out.println("USSD Response for Check Balance: " + response.prettyPrint());
+
+            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -683,9 +701,10 @@ public class USSDFunctionalTest {
                    <PhoneNumber></PhoneNumber>
                 </UssdResponse>
         	 */
-            assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
+            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("response number: " + response.prettyPrint());
+            System.out.println("USSD Response for Mini statement: " + response.prettyPrint());
+            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -755,9 +774,11 @@ public class USSDFunctionalTest {
                     <PhoneNumber></PhoneNumber>
                 </UssdResponse>
         	 */
-            assertThat(response.getStatusCode(), anyOf(equalTo(200), equalTo(201), equalTo(422)));
+            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
             System.out.println("response number: " + response.prettyPrint());
+
+            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
 
         } catch(AssertionError e){
             captor.println("<ul>");
