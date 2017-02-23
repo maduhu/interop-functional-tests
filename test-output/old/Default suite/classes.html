@@ -4,25 +4,90 @@
 <th>Method name</th>
 <th>Groups</th>
 </tr><tr>
-<td>com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests</td>
+<td>com.l1.interop.ILPLedgerAdapterFunctionalTest</td>
 <td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr>
 <td align='center' colspan='3'>@Test</td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>setupWebSocketListener</td>
-<td>notificationSetup </td>
+<td>getPreparedTransfer_ForTransferThatDoesNotExist_ShouldReturn404_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>test_receiving_message_from_websocket</td>
-<td>payment_setup_and_execute_with_notification </td>
+<td>fulfillTransfer_ForValidRequest_ShouldReturn200_ShouldReturnValidResponse</td>
+<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>test_fullPaymentSetupAndPaymentExecution</td>
-<td>paymentSetup payment_setup_and_execute_with_notification </td>
+<td>prepareTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>getFulfilledTransfer_ForFulfillmentThatDoesNotExist_ShouldReturn404_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_fulfilled_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>fulfillTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>prepareTransfer_ForUnproceesableEntity_ShouldReturn422_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>getFulfilledTransfer_ForInvalidURIParameterInRequest_ShouldReturn400_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>getPreparedTransfer_ForValidTransfer_ShouldReturn200_ShouldReturnValidResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>fulfillTransfer_ForUnmetCondition_ShouldReturn422_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>getFulfilledTransfer_ForValidFulfilledTransfer_ShouldReturn200_ShouldReturnTransferDetails</td>
+<td>ilp_ledger_adapater_prepare_fulfilled_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>prepareTransfer_ForValidSenderAndReceiver_ShouldReturn200_ShouldReturnValidResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>getPreparedTransfer_ForInvalidURIParameterInRequest_ShouldReturn400_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>fulfillTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>fulfillTransfer_ForUnproceesableEntity_ShouldReturn422_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>prepareTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
 </tr>
 <tr>
 <td align='center' colspan='3'>@BeforeClass</td>

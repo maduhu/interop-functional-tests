@@ -3,16 +3,18 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests">
+      <class name="com.l1.interop.ILPLedgerAdapterFunctionalTest">
         <methods>
-          <include name="setupWebSocketListener"/>
-          <include name="afterClass"/>
-          <include name="test_fullPaymentSetupAndPaymentExecution"/>
-          <include name="test_receiving_message_from_websocket"/>
+          <include name="prepareTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse" invocation-numbers="0"/>
           <include name="beforeClass"/>
+          <include name="prepareTransfer_ForValidSenderAndReceiver_ShouldReturn200_ShouldReturnValidResponse" invocation-numbers="0"/>
+          <include name="afterClass"/>
+          <include name="prepareTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse" invocation-numbers="0"/>
+          <include name="prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse" invocation-numbers="0"/>
+          <include name="getPreparedTransfer_ForValidTransfer_ShouldReturn200_ShouldReturnValidResponse" invocation-numbers="0"/>
           <include name="setup"/>
         </methods>
-      </class> <!-- com.l1.interop.business_processes.full_payment_with_notifications.FullPaymentSetupExecuteForNotificationTests -->
+      </class> <!-- com.l1.interop.ILPLedgerAdapterFunctionalTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

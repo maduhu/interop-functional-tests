@@ -2,7 +2,10 @@ package com.l1.interop;
 
 import static com.l1.interop.util.Utils.readCSVFile;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.core.IsNot.not;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -27,6 +30,7 @@ import io.restassured.RestAssured;
 import io.restassured.config.LogConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.*;
 
@@ -477,6 +481,8 @@ public class ILPLedgerAdapterFunctionalTest {
 											.add("expires_at", setupResponse.getString("expiresAt"))
 											.build()
 											.toString();
+			
+			System.out.println("2:  prepareTransfer Request :: " + prepareTransferRequest);
 				
 				
 			given().
@@ -517,17 +523,21 @@ public class ILPLedgerAdapterFunctionalTest {
         
 		try {
 			String uuid = UUID.randomUUID().toString();
+			String fullPath = url+"/ledger/transfers/"+uuid;
 			
 			//Check the status of the transfer
+			Response response =
+					
 			given().
 				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
 				contentType("application/json").
 			when().
-				get(url+"/ledger/transfers/"+uuid).
-			then().
-				statusCode(404).
-				body("error_id",equalTo("NotFoundError")).
-				body("message",equalTo("Unknown transfer."));
+				get(fullPath);
+
+			
+			assertThat( "response http code", (Integer) response.getStatusCode(), equalTo(404));
+			assertThat("id", (String) response.jsonPath().get("id"), equalTo("NotFoundError") );
+			assertThat("message", (String) response.jsonPath().get("message"), equalTo("Unknown transfer") );
 				
 		} catch(java.lang.AssertionError e){
         	captor.println("<ul>");
