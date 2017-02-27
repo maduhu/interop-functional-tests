@@ -1,10 +1,10 @@
 package com.l1.interop;
 
 import static com.l1.interop.util.Utils.readCSVFile;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.core.IsNot.not;
 
 import java.io.File;
@@ -14,6 +14,7 @@ import java.io.PrintStream;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -31,8 +32,6 @@ import io.restassured.config.LogConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-
-import static io.restassured.RestAssured.*;
 
 public class ILPLedgerAdapterFunctionalTest {
 	
@@ -174,67 +173,165 @@ public class ILPLedgerAdapterFunctionalTest {
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
 
 		try {
-			JsonPath fromUserResponse = given().
+			
+			// =========================================================================================
+			//
+			// Step 1 :: Get sender account ID from Name
+			//
+			// =========================================================================================
+			System.out.println("3.1");
+			String fullPath = url+"/ledger/accounts/"+sender;
+			System.out.println("3.1 path: " + fullPath);
+			Response response1 = 
+			
+			given().
 				contentType("application/json").
 			when().
-				get(url+"/ledger/accounts/"+sender).jsonPath();
-			String fromId = fromUserResponse.getString("id");
+				get(fullPath);
 			
-			JsonPath toUserResponse = given().
+			System.out.println(" 3.1 response json: " + response1.asString());
+			assertThat( "response http code", (Integer) response1.getStatusCode(), equalTo(200));
+			assertThat("id", (String) response1.jsonPath().get("id"), not(equalTo("NotFoundError")) );
+			
+			
+			// =========================================================================================
+			//
+			// Step 2 :: Get receiver account ID from Name
+			//
+			// =========================================================================================
+			
+			String senderAccountNumber = response1.jsonPath().getString("id");
+			
+			System.out.println("3.2");
+			Response response32 = given().
 					contentType("application/json").
 				when().
-					get(url+"/ledger/accounts/"+receiver).jsonPath();
-			String toId = toUserResponse.getString("id");
+					get(url+"/ledger/accounts/"+receiver);
+			
+			System.out.println("3.2 response json: " + response32.asString());
+			
+			assertThat("id", (String) response1.jsonPath().get("id"), not(equalTo("NotFoundError")) );
+			
+			String receiverAccountNumber = response32.jsonPath().getString("id");
+			
+			System.out.println("3.3 the 'toUserId = " + receiverAccountNumber);
+			
+			// =========================================================================================
+			//
+			// Step 3 :: 
+			//
+			//
+			//
+			//
+			//
+			// =========================================================================================
 			
 			String setupRequest = Json.createObjectBuilder()
-		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+		            .add("receiver", "http://"+host+":3043/v1/receivers/"+26547070)  // should be the account #  // <<<< This works as long as it is a valid account number
+//		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiverAccountNumber)  // should be the account #
+//		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiver)  // should be the account #
+//		            .add("sourceAccount", "http://"+host+":8014/ledger/accounts/" + sender)  // name NOT account # BOB
+		            .add("sourceAccount", "http://"+host+":3043/ledger/accounts/" + 85555384)  // name NOT account # BOB  // <<<< This works as long as it is a valid account number
 		            .add("destinationAmount", amount)
 		            .add("memo", "Hi Bobb!")
-		            .add("sourceIdentifier", "")
+		            .add("sourceIdentifier", "9809890190934023")
 		            .build()
 		            .toString();
 			
-			JsonPath setupResponse = 
+			
+			System.out.println("3.4");
+			
+			Response responseStep3 =
 			given().
 				contentType("application/json").
 				body(setupRequest).
 			when().
-	         	post(url+"/spsp/client/v1/setup").jsonPath();
+	         	post(url+"/spsp/client/v1/setup");
+			
+			System.out.println("3.4 json body for call : " + setupRequest);
+			assertThat( "response http code", (Integer) responseStep3.getStatusCode(), equalTo(201));
+			
+			JsonPath setupResponse1 = responseStep3.jsonPath(); 
+			
+			// =========================================================================================
+			//
+			// Step 4 
+			//
+			//
+			//
+			//
+			//
+			// =========================================================================================
 				
+			System.out.println("3.5");
 			String prepareTransferRequest = Json.createObjectBuilder()
-											.add("id","http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id"))
+											.add("id","http://"+host+":8014"+"/ledger/transfers/"+setupResponse1.getString("id"))
 											.add("ledger", "http://"+host+":8014"+"/ledger")
 											.add("debits", Json.createArrayBuilder().
 																add(Json.createObjectBuilder()
-																		.add("account", fromId)
+																		.add("account", senderAccountNumber)
 																		.add("amount", amount)))
 											.add("credits", Json.createArrayBuilder().
 																add(Json.createObjectBuilder()
-																		.add("account", toId)
+																		.add("account", receiverAccountNumber)
 																		.add("amount", amount)))
-											.add("execution_condition", setupResponse.getString("condition"))
-											.add("expires_at", setupResponse.getString("expiresAt"))
+											.add("execution_condition", setupResponse1.getString("condition"))
+											.add("expires_at", setupResponse1.getString("expiresAt"))
 											.build()
 											.toString();
 				
-				
+
+			
+			String jsonRequestUrl2 = "http://"+host+":8014"+"/ledger/transfers/"+setupResponse1.getString("id");
+
+			System.out.println("3.6");
+			System.out.println("3.6 :: body json :: " + prepareTransferRequest);
+			System.out.println("3.6 :: url :: " + jsonRequestUrl2);
+			
+			Response response2 =
 			given().
 				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
 				contentType("application/json").
 				body(prepareTransferRequest).
 			when().
-				put("http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id")).
-			then().
-				statusCode(201).
-				body("id",containsString(setupResponse.getString("id"))).
-				body("debits[0].account",containsString(sender)).
-				body("debits[0].amount",equalTo(amount)).
-				body("credits[0].account",containsString(receiver)).
-				body("credits[0].amount",equalTo(amount)).
-				body("execution_condition",equalTo(setupResponse.getString("condition"))).
-				body("expires_at",equalTo(setupResponse.getString("expiresAt"))).
-				body("state",equalTo("proposed"));
+				put(jsonRequestUrl2);
+//			then().
+//				statusCode(201).
+//				body("id",containsString(setupResponse1.getString("id"))).
+//				body("debits[0].account",containsString(sender)).
+//				body("debits[0].amount",equalTo(amount)).
+//				body("credits[0].account",containsString(receiver)).
+//				body("credits[0].amount",equalTo(amount)).
+//				body("execution_condition",equalTo(setupResponse1.getString("condition"))).
+//				body("expires_at",equalTo(setupResponse1.getString("expiresAt"))).
+//				body("state",equalTo("proposed"));
+			
+			
+			System.out.println("3.7: Final response: " + response2.asString());
+			
+			// Get the debit details
+			List debits = response2.jsonPath().get("debits");
+			String debitAmount = (String) ((Map) debits.get(0)).get("amount");
+			Float debitAmountFloat = Float.valueOf(debitAmount);
+			String debitAccount = (String) ((Map) debits.get(0)).get("account");
+			
+			// Get the credit details
+			List credits = response2.jsonPath().get("credits");
+			String creditAmount = (String) ((Map) credits.get(0)).get("amount");
+			Float creditAmountFloat = Float.valueOf(creditAmount);
+			String creditAccount = (String) ((Map) credits.get(0)).get("account");
+
+			
+			assertThat( "response http code", (Integer) response2.getStatusCode(), equalTo(201));  // done
+			assertThat("debits[0].account", debitAccount, containsString(sender) );
+			assertThat("debits[0].amount", debitAmountFloat, equalTo(Float.valueOf(amount)) );
+			assertThat("credits[0].account", creditAccount, containsString(receiver) );
+			assertThat("credits[0].amount", creditAmountFloat, equalTo(Float.valueOf(amount)) ); 
+
+			assertThat("execution_condition",response2.jsonPath().get("execution_condition"), equalTo(setupResponse1.getString("condition")) );
+			assertThat("expires_at", response2.jsonPath().get("expires_at"), equalTo(setupResponse1.getString("expiresAt")) );
+			assertThat("id", response2.jsonPath().get("id"), containsString(setupResponse1.getString("id")) );
+			assertThat("state", (String) response2.jsonPath().get("state"), equalTo("proposed") );
 			
 		} catch(java.lang.AssertionError e){
         	captor.println("<ul>");
@@ -249,13 +346,8 @@ public class ILPLedgerAdapterFunctionalTest {
         }
 		
 	}
-	
-	
-	@Test(dataProvider="prepare_transfer_negative", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
-	public void prepareTransfer_ForUnproceesableEntity_ShouldReturn422_ShouldReturnErrorResponse(String sender, String receiver, String amount){
-		
-	}
-	
+
+
 	
 	@Test(dataProvider="prepare_transfer_positive", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
 	public void prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse(String sender, String receiver, String amount){
@@ -275,14 +367,28 @@ public class ILPLedgerAdapterFunctionalTest {
 					get(url+"/ledger/accounts/"+receiver).jsonPath();
 			String toId = toUserResponse.getString("id");
 			
+//	original code		
+//			String setupRequest = Json.createObjectBuilder()
+//		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
+//		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+//		            .add("destinationAmount", amount)
+//		            .add("memo", "Hi Bobb!")
+//		            .add("sourceIdentifier", "")
+//		            .build()
+//		            .toString();
+			
 			String setupRequest = Json.createObjectBuilder()
-		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+//		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver) original 
+		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiver)
+//		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender) original
+		            .add("sourceAccount", "http://"+host+":3043/ledger/accounts/" + sender)
 		            .add("destinationAmount", amount)
 		            .add("memo", "Hi Bobb!")
-		            .add("sourceIdentifier", "")
+		            .add("sourceIdentifier", "9809890190934023")
 		            .build()
 		            .toString();
+			
+			// TODO : Add AcceptThat to the following statement!
 			
 			JsonPath setupResponse = 
 			given().
@@ -444,27 +550,48 @@ public class ILPLedgerAdapterFunctionalTest {
 				get(url+"/ledger/accounts/"+sender).jsonPath();
 			String fromId = fromUserResponse.getString("id");
 			
+			System.out.println("2.1:  prepareTransfer Request");
+			
 			JsonPath toUserResponse = given().
 					contentType("application/json").
 				when().
 					get(url+"/ledger/accounts/"+receiver).jsonPath();
 			String toId = toUserResponse.getString("id");
+			System.out.println("2.2:  prepareTransfer Request");
 			
 			String setupRequest = Json.createObjectBuilder()
-		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+//		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver) original 
+		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiver)
+//		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender) original
+		            .add("sourceAccount", "http://"+host+":3043/ledger/accounts/" + sender)
 		            .add("destinationAmount", amount)
 		            .add("memo", "Hi Bobb!")
-		            .add("sourceIdentifier", "")
+		            .add("sourceIdentifier", "9809890190934023")
 		            .build()
 		            .toString();
 			
-			JsonPath setupResponse = 
+			System.out.println("2.3:  setupRequest " + setupRequest);
+
+			
+			String setupPath = url+"/spsp/client/v1/setup";
+			System.out.println("2.3.1 setup body payload: " + setupPath);
+
+			//			JsonPath setupResponse = 
+			Response response =
 			given().
 				contentType("application/json").
 				body(setupRequest).
 			when().
-	         	post(url+"/spsp/client/v1/setup").jsonPath();
+	         	post(setupPath);
+			
+			assertThat( "response http code", (Integer) response.getStatusCode(), equalTo(201));
+			
+			JsonPath setupResponse = response.jsonPath();
+			
+			
+
+			System.out.println("2.3.9 just called to prepare setupResponse");
+			System.out.println("2.4:  prepareTransfer Request :: " + setupResponse.prettyPrint());
 				
 			String prepareTransferRequest = Json.createObjectBuilder()
 											.add("id","http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id"))
@@ -482,26 +609,41 @@ public class ILPLedgerAdapterFunctionalTest {
 											.build()
 											.toString();
 			
-			System.out.println("2:  prepareTransfer Request :: " + prepareTransferRequest);
+			System.out.println("2.5:  prepareTransfer Request :: " + prepareTransferRequest);
+			String fullPath = url+"/ledger/transfers/"+setupResponse.getString("id");
+			
+			System.out.println("2.6 :: fullPath :: " + fullPath);
+			
 				
-				
+			response =	
 			given().
 				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
 				contentType("application/json").
 				body(prepareTransferRequest).
 			when().
-				put("http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id"));
+//				put("http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id"));
+				put(fullPath);
+			
+			
+			System.out.println("2.7 :: check the status of transfer");
+			
+			
+			fullPath = url+"/ledger/transfers/"+setupResponse.getString("id");
+			
+			System.out.println("2.7 Path url: " + fullPath);
 			
 			//Check the status of the transfer
-			given().
+			response = given().
 			config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
 				contentType("application/json").
 			when().
-				get(url+"/ledger/transfers/"+setupResponse.getString("id")).
-			then().
-				statusCode(200).
-				//TODO Need to check why it is proposed instead of prepared
-				body("state",equalTo("proposed"));
+				get(fullPath);
+
+			
+			System.out.println("2.7 http reponse :: " + response.asString());
+			
+			assertThat( "response http code", (Integer) response.getStatusCode(), equalTo(200));
+			assertThat("state", (String) response.jsonPath().get("state"), equalTo("proposed") );
 			
         } catch(java.lang.AssertionError e){
         	captor.println("<ul>");
