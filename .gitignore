@@ -59,3 +59,5 @@ MetricsTest/
 # --------------- #
 .idea/*
 **/*.iml
+
+test-data/ussd/ussd_positive.csv
