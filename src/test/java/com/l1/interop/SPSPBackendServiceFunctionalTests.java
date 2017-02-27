@@ -248,12 +248,7 @@ public class SPSPBackendServiceFunctionalTests {
 
 	}
 	
-	
-//	@Test(groups={"spsp_backend_service_all"})
-//	public void test_update_an_existing_invoice_positive() {
-//		
-//	}
-	
+
 	
 	@Test(dataProvider="invoice_positive", groups={"spsp_backend_service_all"})
 	public void test_get_an_existing_invoice_positive(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
@@ -278,19 +273,20 @@ public class SPSPBackendServiceFunctionalTests {
         
         try {
         	
-        	// create 
-//        	String baseReceiverInvoicePath = "/receivers/invoices/";   // {invoice}";
-            Response response =
+//        	String fullPath = url+"/receivers/invoices/{invoiceId}";
+        	String fullPath = url+"/spsp/client/v1/invoices/{invoiceId}";
+        	System.out.println("Get invoice existing URL: " + fullPath);
+            Response response = 
             		
             given().
             	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
             	contentType("application/json").
             	pathParam("invoiceId", invoiceUrl).
             when().
-            	get(url+"/receivers/invoices/{invoiceId}");  // the { } are bindings for invoiceUrl defined up in the Given section.
+            	get(fullPath);  // the { } are bindings for invoiceUrl defined up in the Given section.
 
             
-            
+            System.out.println("Response JSON from call: " + response.asString());
             JsonPath jsonPath = response.jsonPath();
             
             assertThat(response.getStatusCode(), equalTo(200));
