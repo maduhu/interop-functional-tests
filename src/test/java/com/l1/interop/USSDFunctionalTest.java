@@ -75,7 +75,7 @@ public class USSDFunctionalTest {
         
         System.out.println("****************************************************************************************************************************************");
         System.out.println("*                                                                                                                                      *");
-        System.out.println("*             Tests USSD running using the URL of :: " + url + "       **************");
+        System.out.println("*             Tests USSD running using the URL of :: " + url + "                    *");
         System.out.println("*                                                                                                                                      *");
         System.out.println("****************************************************************************************************************************************");
 
@@ -88,7 +88,7 @@ public class USSDFunctionalTest {
         if(!(new File("target/failure-reports")).exists())
             new File("target/failure-reports").mkdirs();
         
-        writer = new FileWriter("target/failure-reports/central_directory.html");
+        writer = new FileWriter("target/failure-reports/USSD-Functional-Tests.html");
         captor = new PrintStream(new WriterOutputStream(writer), true);
         captor.println( "<html lang='en'>\n" );
         
@@ -115,10 +115,17 @@ public class USSDFunctionalTest {
     }
     
     
-    @DataProvider(name = "ussd_createuser")
-    private Iterator<Object []> ussdcreateuser( ) throws Exception
+    @DataProvider(name = "ussd_createuser1")
+    private Iterator<Object []> ussdcreateuser1( ) throws Exception
     {
         List<Object []> testCases = readCSVFile("test-data/ussd/ussd_createuser.csv");
+        return testCases.iterator();
+    }
+
+    @DataProvider(name = "ussd_createuser2")
+    private Iterator<Object []> ussdcreateuser2( ) throws Exception
+    {
+        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_createuser_1.csv");
         return testCases.iterator();
     }
 
@@ -146,7 +153,7 @@ public class USSDFunctionalTest {
     @DataProvider(name = "ussd_manageaccount")
     private Iterator<Object []> ussdmanageaccount( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_manageacount.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_manageaccount.csv");
         return testCases.iterator();
     }
 
@@ -171,8 +178,8 @@ public class USSDFunctionalTest {
         return testCases.iterator();
     }
 
-    @Test(dataProvider="ussd_createuser", groups={ "ussd_createuser" })
-	public void get_ussd_createuser(String phone, String message) {
+    @Test(dataProvider="ussd_createuser1",groups={ "ussd_createuser" })
+	public void get_ussd_createuser1(String phone, String message) {
 
         Response response;
         String urlPath = "/ussd";
@@ -197,7 +204,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for create user: " + ussdposRequest);
+            System.out.println("USSD Request for create user 1: " + ussdposRequest);
 
             response =
                     given().
@@ -210,7 +217,88 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for create user: " + response.getStatusCode());
+            System.out.println("USSD Response code for create user 1: " + response.getStatusCode());
+
+            /*
+        	 * Response for the service will always on test/html format
+        	 * We need to check the response from USSD. If an User already exists you will receive the following response
+        	 * <UssdResponse version="1.0">
+                    <Status code="0"></Status>
+                    <Message>Welcome Senthil Govindaraj!
+
+                        1. Send money
+                        2. Sell Goods
+                        3. Pending Transactions
+                        4. Manage account
+                        5. Switch account
+                        6. Check balance
+                        7. Ministatement</Message>
+                        <DefaultCode>*123#</DefaultCode>
+                        <PhoneNumber></PhoneNumber>
+                </UssdResponse>
+        	 */
+            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
+
+            System.out.println("USSD Response for create user 1: " + response.prettyPrint());
+
+            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
+
+        } catch(AssertionError e){
+            captor.println("<ul>");
+            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
+            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+            captor.print("<h3>Request and Response: </h3>");
+            captor.println("<pre>"+twriter.toString()+"</pre>");
+            captor.println("</ul>");
+
+            throw e;
+        }
+
+    }
+
+    @Test(dataProvider="ussd_createuser2",groups={ "ussd_createuser" })
+    public void get_ussd_createuser2(String phone, String message) {
+
+        Response response;
+        String urlPath = "/ussd";
+
+        int http_status;
+
+        Map<String, Object> jsonReponseMap = null;
+
+        final StringWriter twriter = new StringWriter();
+        final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+
+        try {
+
+        	/*
+        	 * Create the JSON needed for the Create.
+        	 * Note:  as of 11/22/16, the key and secret json fields are not being accepted.
+        	 */
+
+            String ussdposRequest = Json.createObjectBuilder()
+                    .add("phone", phone)
+                    .add("message", message)
+                    .build()
+                    .toString();
+
+            System.out.println("USSD Request for create user2: " + ussdposRequest);
+
+            response =
+                    given().
+                            //auth().preemptive().basic(dfsp_username, dfsp_password).  // Must use the preemptive as this is the type of basic auth that the end system needs.  If you use just basic, it fails the challenge.
+                                    config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+                            contentType("application/json").
+                            body(ussdposRequest).
+                            when().
+                            post(url+urlPath);
+
+            http_status = response.getStatusCode();
+
+            System.out.println("USSD Response code for create user2: " + response.getStatusCode());
 
             /*
         	 * Response for the service will always on test/html format
@@ -252,7 +340,7 @@ public class USSDFunctionalTest {
 
     }
 
-    @Test(dataProvider="ussd_sendmoney", groups={ "ussd_sendmoney" })
+    @Test(dataProvider="ussd_sendmoney", groups={ "ussd_sendmoney", "ussd_users" })
     public void get_ussd_sendmoney(String phone, String message) {
 
         Response response;
@@ -315,6 +403,7 @@ public class USSDFunctionalTest {
             System.out.println("USSD Response for Send Money: " + response.prettyPrint());
 
             assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -331,7 +420,7 @@ public class USSDFunctionalTest {
 
     }
 
-    @Test(dataProvider="ussd_sellgoods", groups={ "ussd_sellgoods" })
+    @Test(dataProvider="ussd_sellgoods", groups={ "ussd_sellgoods","ussd_users"})
     public void get_ussd_sellgoods(String phone, String message) {
 
         Response response;
@@ -390,6 +479,7 @@ public class USSDFunctionalTest {
             System.out.println("USSD Response for Sell Goods: " + response.prettyPrint());
 
             assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
 
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
@@ -407,7 +497,7 @@ public class USSDFunctionalTest {
 
     }
 
-    @Test(dataProvider="ussd_pendingtrans", groups={ "ussd_pendingtrans" })
+    @Test(dataProvider="ussd_pendingtrans", groups={ "ussd_pendingtrans","ussd_users" })
     public void get_ussd_pendingtrans(String phone, String message) {
 
         Response response;
@@ -467,6 +557,7 @@ public class USSDFunctionalTest {
             System.out.println("USSD Response for Pending Transactions: " + response.prettyPrint());
 
             assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
 
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
@@ -484,7 +575,7 @@ public class USSDFunctionalTest {
 
     }
 
-    @Test(dataProvider="ussd_manageaccount", groups={ "ussd_manageaccount" })
+    @Test(dataProvider="ussd_manageaccount", groups={ "ussd_manageaccount","ussd_users" })
     public void get_ussd_manageaccount(String phone, String message) {
 
         Response response;
@@ -552,6 +643,7 @@ public class USSDFunctionalTest {
             System.out.println("USSD Response for Manage Accounts: " + response.prettyPrint());
 
             assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
 
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
@@ -569,7 +661,7 @@ public class USSDFunctionalTest {
 
     }
 
-    @Test(dataProvider="ussd_checkbalance", groups={ "ussd_checkbalance" })
+    @Test(dataProvider="ussd_checkbalance", groups={ "ussd_checkbalance","ussd_users" })
     public void get_ussd_checkbalance(String phone, String message) {
 
         Response response;
@@ -627,6 +719,7 @@ public class USSDFunctionalTest {
             System.out.println("USSD Response for Check Balance: " + response.prettyPrint());
 
             assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -643,7 +736,7 @@ public class USSDFunctionalTest {
 
     }
 
-    @Test(dataProvider="ussd_ministatement", groups={ "ussd_ministatement" })
+    @Test(dataProvider="ussd_ministatement", groups={ "ussd_ministatement","ussd_users" })
     public void get_ussd_ministatement(String phone, String message) {
 
         Response response;
@@ -705,6 +798,7 @@ public class USSDFunctionalTest {
 
             System.out.println("USSD Response for Mini statement: " + response.prettyPrint());
             assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
@@ -779,6 +873,7 @@ public class USSDFunctionalTest {
             System.out.println("response number: " + response.prettyPrint());
 
             assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
 
         } catch(AssertionError e){
             captor.println("<ul>");
