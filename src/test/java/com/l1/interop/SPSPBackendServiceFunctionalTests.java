@@ -198,10 +198,10 @@ public class SPSPBackendServiceFunctionalTests {
 	 * 
 	 * Then query it back to ensure that the update worked.
 	 * 
-	 * 2/27/2017 - Noticed this test is not complete or functional.  
+	 * 2/27/2017 - Noticed this test is not complete or functional so commenting it out for now.
 	 * 
 	 */
-//	@Test(groups={"spsp_backend_service_all"})
+//	@Test(groups={"spsp_backend_service_all"})  // Noticed this test is not complete or functional so commenting it out for now.
 	public void test_full_end_to_end_invoice_positive() {
 		
         final StringWriter twriter = new StringWriter();

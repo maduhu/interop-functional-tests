@@ -3,14 +3,17 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.l1.interop.SPSPBackendServiceFunctionalTests">
+      <class name="com.l1.interop.ILPLedgerAdapterFunctionalTest">
         <methods>
-          <include name="test_get_an_existing_invoice_positive" invocation-numbers="0 1"/>
-          <include name="afterClass"/>
-          <include name="setup"/>
+          <include name="prepareTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse" invocation-numbers="0"/>
           <include name="beforeClass"/>
+          <include name="afterClass"/>
+          <include name="prepareTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse" invocation-numbers="0"/>
+          <include name="prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse"/>
+          <include name="getPreparedTransfer_ForValidTransfer_ShouldReturn200_ShouldReturnValidResponse" invocation-numbers="0"/>
+          <include name="setup"/>
         </methods>
-      </class> <!-- com.l1.interop.SPSPBackendServiceFunctionalTests -->
+      </class> <!-- com.l1.interop.ILPLedgerAdapterFunctionalTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

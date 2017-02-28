@@ -44,10 +44,11 @@ public class ILPLedgerAdapterFunctionalTest {
 	
 	@BeforeClass(alwaysRun=true)
 	private void beforeClass() throws Exception {
-		InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
+		InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
 		prop.load(is);
 		
 		String environment = System.getProperty("env");
+		
 		if(environment != null){
 			is = ClassLoader.getSystemResourceAsStream("dfsp1-"+environment.toLowerCase()+".properties");
 		}
@@ -66,7 +67,7 @@ public class ILPLedgerAdapterFunctionalTest {
 		
 		System.out.println("**************************************************************************************************************");
         System.out.println("*                                                                                                            *");
-        System.out.println("*                         Tests running using the URL of :: " + url + "   *******************");
+        System.out.println("*                         Tests running using the URL of :: " + url + "                                      *");
         System.out.println("*                                                                                                            *");
         System.out.println("**************************************************************************************************************");
         
@@ -166,7 +167,7 @@ public class ILPLedgerAdapterFunctionalTest {
 	 * @param amount
 	 */
 	@Test(dataProvider="prepare_transfer_positive", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
-	public void prepareTransfer_ForValidSenderAndReceiver_ShouldReturn200_ShouldReturnValidResponse(String sender, String receiver, String amount){
+	public void prepareTransfer_ForValidSenderAndReceiver_ShouldReturn200_ShouldReturnValidResponse(String sender, String receiver, String receiverUserNumber, String amount){
 		
 		//String uuid = UUID.randomUUID().toString();
 		final StringWriter twriter = new StringWriter();
@@ -202,19 +203,19 @@ public class ILPLedgerAdapterFunctionalTest {
 			
 			String senderAccountNumber = response1.jsonPath().getString("id");
 			
-			System.out.println("3.2");
+//			System.out.println("3.2");
 			Response response32 = given().
 					contentType("application/json").
 				when().
 					get(url+"/ledger/accounts/"+receiver);
 			
-			System.out.println("3.2 response json: " + response32.asString());
+//			System.out.println("3.2 response json: " + response32.asString());
 			
 			assertThat("id", (String) response1.jsonPath().get("id"), not(equalTo("NotFoundError")) );
 			
 			String receiverAccountNumber = response32.jsonPath().getString("id");
 			
-			System.out.println("3.3 the 'toUserId = " + receiverAccountNumber);
+//			System.out.println("3.3 the 'toUserId = " + receiverAccountNumber);
 			
 			// =========================================================================================
 			//
@@ -227,19 +228,16 @@ public class ILPLedgerAdapterFunctionalTest {
 			// =========================================================================================
 			
 			String setupRequest = Json.createObjectBuilder()
-		            .add("receiver", "http://"+host+":3043/v1/receivers/"+26547070)  // should be the account #  // <<<< This works as long as it is a valid account number
-//		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiverAccountNumber)  // should be the account #
-//		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiver)  // should be the account #
-//		            .add("sourceAccount", "http://"+host+":8014/ledger/accounts/" + sender)  // name NOT account # BOB
-		            .add("sourceAccount", "http://"+host+":3043/ledger/accounts/" + 85555384)  // name NOT account # BOB  // <<<< This works as long as it is a valid account number
-		            .add("destinationAmount", amount)
-		            .add("memo", "Hi Bobb!")
+	            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiverUserNumber)  // should be the account #  // <<<< This works as long as it is a valid account number
+	            .add("sourceAccount", "http://"+host+":8014/ledger/accounts/" + sender)  // name NOT account # BOB
+	            .add("destinationAmount", amount)
+	            .add("memo", "Hi Bobb!")
 		            .add("sourceIdentifier", "9809890190934023")
 		            .build()
 		            .toString();
 			
 			
-			System.out.println("3.4");
+//			System.out.println("3.4");
 			
 			Response responseStep3 =
 			given().
@@ -255,11 +253,7 @@ public class ILPLedgerAdapterFunctionalTest {
 			
 			// =========================================================================================
 			//
-			// Step 4 
-			//
-			//
-			//
-			//
+			// Step 4 :: Prepare The Transfer request
 			//
 			// =========================================================================================
 				
@@ -284,9 +278,9 @@ public class ILPLedgerAdapterFunctionalTest {
 			
 			String jsonRequestUrl2 = "http://"+host+":8014"+"/ledger/transfers/"+setupResponse1.getString("id");
 
-			System.out.println("3.6");
-			System.out.println("3.6 :: body json :: " + prepareTransferRequest);
-			System.out.println("3.6 :: url :: " + jsonRequestUrl2);
+//			System.out.println("3.6");
+//			System.out.println("3.6 :: body json :: " + prepareTransferRequest);
+//			System.out.println("3.6 :: url :: " + jsonRequestUrl2);
 			
 			Response response2 =
 			given().
@@ -295,17 +289,6 @@ public class ILPLedgerAdapterFunctionalTest {
 				body(prepareTransferRequest).
 			when().
 				put(jsonRequestUrl2);
-//			then().
-//				statusCode(201).
-//				body("id",containsString(setupResponse1.getString("id"))).
-//				body("debits[0].account",containsString(sender)).
-//				body("debits[0].amount",equalTo(amount)).
-//				body("credits[0].account",containsString(receiver)).
-//				body("credits[0].amount",equalTo(amount)).
-//				body("execution_condition",equalTo(setupResponse1.getString("condition"))).
-//				body("expires_at",equalTo(setupResponse1.getString("expiresAt"))).
-//				body("state",equalTo("proposed"));
-			
 			
 			System.out.println("3.7: Final response: " + response2.asString());
 			
