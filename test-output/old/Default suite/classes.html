@@ -11,6 +11,11 @@
 </tr>
 <tr>
 <td>&nbsp;</td>
+<td>getPreparedTransfer_ForValidTransfer_ShouldReturn200_ShouldReturnValidResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
 <td>getPreparedTransfer_ForTransferThatDoesNotExist_ShouldReturn404_ShouldReturnErrorResponse</td>
 <td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
 </tr>
@@ -36,17 +41,17 @@
 </tr>
 <tr>
 <td>&nbsp;</td>
+<td>prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse</td>
+<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
 <td>fulfillTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse</td>
 <td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
 <td>getFulfilledTransfer_ForInvalidURIParameterInRequest_ShouldReturn400_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
-</tr>
-<tr>
-<td>&nbsp;</td>
-<td>getPreparedTransfer_ForValidTransfer_ShouldReturn200_ShouldReturnValidResponse</td>
 <td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
 </tr>
 <tr>
@@ -73,11 +78,6 @@
 <td>&nbsp;</td>
 <td>fulfillTransfer_ForUnproceesableEntity_ShouldReturn422_ShouldReturnErrorResponse</td>
 <td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
-</tr>
-<tr>
-<td>&nbsp;</td>
-<td>prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>

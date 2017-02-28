@@ -180,6 +180,7 @@ public class ILPLedgerAdapterFunctionalTest {
 			// Step 1 :: Get sender account ID from Name
 			//
 			// =========================================================================================
+			
 			System.out.println("3.1");
 			String fullPath = url+"/ledger/accounts/"+sender;
 			System.out.println("3.1 path: " + fullPath);
@@ -203,19 +204,13 @@ public class ILPLedgerAdapterFunctionalTest {
 			
 			String senderAccountNumber = response1.jsonPath().getString("id");
 			
-//			System.out.println("3.2");
 			Response response32 = given().
 					contentType("application/json").
 				when().
 					get(url+"/ledger/accounts/"+receiver);
 			
-//			System.out.println("3.2 response json: " + response32.asString());
-			
 			assertThat("id", (String) response1.jsonPath().get("id"), not(equalTo("NotFoundError")) );
-			
 			String receiverAccountNumber = response32.jsonPath().getString("id");
-			
-//			System.out.println("3.3 the 'toUserId = " + receiverAccountNumber);
 			
 			// =========================================================================================
 			//
@@ -235,9 +230,6 @@ public class ILPLedgerAdapterFunctionalTest {
 		            .add("sourceIdentifier", "9809890190934023")
 		            .build()
 		            .toString();
-			
-			
-//			System.out.println("3.4");
 			
 			Response responseStep3 =
 			given().
@@ -333,88 +325,125 @@ public class ILPLedgerAdapterFunctionalTest {
 
 	
 	@Test(dataProvider="prepare_transfer_positive", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
-	public void prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse(String sender, String receiver, String amount){
+	public void prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse(String sender, String receiver, String receiverUserNumber, String amount){
 		final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
 
 		try {
-			JsonPath fromUserResponse = given().
+			
+			// =========================================================================================
+			//
+			// Step 1 :: Get sender account Number from Name
+			//
+			// =========================================================================================
+			
+			Response fromUserResponse = given().
 				contentType("application/json").
 			when().
-				get(url+"/ledger/accounts/"+sender).jsonPath();
-			String fromId = fromUserResponse.getString("id");
+				get(url+"/ledger/accounts/"+sender);
+			
+			assertThat( "response http code", (Integer) fromUserResponse.getStatusCode(), equalTo(200));
+			assertThat("id", (String) fromUserResponse.jsonPath().get("id"), not(equalTo("NotFoundError")) );
+			
+			String senderAccountNumber = fromUserResponse.jsonPath().getString("id");
+			
+			// =========================================================================================
+			//
+			// Step 2 :: Get receiver account ID from Name
+			//
+			// =========================================================================================
 			
 			JsonPath toUserResponse = given().
 					contentType("application/json").
 				when().
 					get(url+"/ledger/accounts/"+receiver).jsonPath();
-			String toId = toUserResponse.getString("id");
 			
-//	original code		
-//			String setupRequest = Json.createObjectBuilder()
-//		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-//		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
-//		            .add("destinationAmount", amount)
-//		            .add("memo", "Hi Bobb!")
-//		            .add("sourceIdentifier", "")
-//		            .build()
-//		            .toString();
+			String receiverAccountNumber = toUserResponse.getString("id");
+			
+			// =========================================================================================
+			//
+			// Step 3 :: Setup Transfer Request JSON
+			//
+			// =========================================================================================
 			
 			String setupRequest = Json.createObjectBuilder()
-//		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver) original 
-		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiver)
-//		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender) original
-		            .add("sourceAccount", "http://"+host+":3043/ledger/accounts/" + sender)
+		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiverUserNumber)  
+		            .add("sourceAccount", "http://"+host+":8014/ledger/accounts/" + sender)  // name NOT account # BOB
 		            .add("destinationAmount", amount)
 		            .add("memo", "Hi Bobb!")
 		            .add("sourceIdentifier", "9809890190934023")
 		            .build()
 		            .toString();
+
 			
-			// TODO : Add AcceptThat to the following statement!
-			
-			JsonPath setupResponse = 
+			Response setupResponse = 
 			given().
 				contentType("application/json").
 				body(setupRequest).
 			when().
-	         	post(url+"/spsp/client/v1/setup").jsonPath();
+	         	post(url+"/spsp/client/v1/setup");
+			
+			assertThat( "response http code", (Integer) setupResponse.getStatusCode(), equalTo(201));
 				
+			
+			// =========================================================================================
+			//
+			// Step 4 :: Prepare The Transfer request
+			//
+			// =========================================================================================
+			
 			String prepareTransferRequest = Json.createObjectBuilder()
-											.add("id","http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id"))
+											.add("id","http://"+host+":8014"+"/ledger/transfers/"+setupResponse.jsonPath().getString("id"))
 											.add("ledger", "http://"+host+":8014"+"/ledger")
 											.add("debits", Json.createArrayBuilder().
 																add(Json.createObjectBuilder()
-																		.add("account", fromId)
+																		.add("account", senderAccountNumber)
 																		.add("amount", amount)))
 											.add("credits", Json.createArrayBuilder().
 																add(Json.createObjectBuilder()
-																		.add("account", toId)
+																		.add("account", receiverAccountNumber)
 																		.add("amount", amount)))
-											.add("execution_condition", setupResponse.getString("condition"))
-											.add("expires_at", setupResponse.getString("expiresAt"))
+											.add("execution_condition", setupResponse.jsonPath().getString("condition"))
+											.add("expires_at", setupResponse.jsonPath().getString("expiresAt"))
 											.build()
 											.toString();
 				
+			System.out.println("4.3");
 				
 			given().
 				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
 				contentType("application/json").
 				body(prepareTransferRequest).
 			when().
-				put("http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id"));
+				put("http://"+host+":8014"+"/ledger/transfers/"+setupResponse.jsonPath().getString("id"));
+			
+			
+			System.out.println("4.4");
+			
+			// =========================================================================================
+			//
+			// Step 5 :: Try to execute the Transfer request.  Should produce an already exists error
+			//
+			// =========================================================================================
 			
 			//Preparing the transfer again for the same id.
-			given().
+			Response transferResponse = given().
 				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
 				contentType("application/json").
 				body(prepareTransferRequest).
 			when().
-				put("http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id")).
-			then().
-				statusCode(422).
-				body("error_id",equalTo("AlreadyExistsError")).
-				body("message",equalTo("Can't modify transfer after execution."));
+				put("http://"+host+":8014"+"/ledger/transfers/"+setupResponse.jsonPath().getString("id"));
+			
+			System.out.println("4.4 :: transfer JSON :: " + transferResponse.asString());
+//			then().
+//				statusCode(422).
+//				body("error_id",equalTo("AlreadyExistsError")).
+//				body("message",equalTo("Can't modify transfer after execution."));
+			
+			assertThat( "response http code", (Integer) transferResponse.getStatusCode(), equalTo(422)); 
+			assertThat("id", transferResponse.jsonPath().get("id"), equalTo("AlreadyExistsError") );
+			assertThat("type", transferResponse.jsonPath().get("type"), equalTo("ledger.transfer.hold.alreadyExists") );
+			assertThat("message",transferResponse.jsonPath().get("message"), equalTo("Can't modify transfer after execution.") );
 			
 		} catch(java.lang.AssertionError e){
         	captor.println("<ul>");
@@ -454,18 +483,27 @@ public class ILPLedgerAdapterFunctionalTest {
 					.build()
 					.toString();
 			
-			given().
+			Response transferResponse = given().
 				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
 				contentType("application/json").
 				body(prepareTransferRequest).
 			when().
-				put("http://"+host+":8014"+"/ledger/transfers/"+"123").
-			then().
-				statusCode(422).
-				body("error_id",equalTo("InvalidUriParameterError")).
-				body("message",equalTo("id is not a valid Uuid")).
-				body("validationErrors[0].message",containsString("String does not match pattern:"));
-				//body("code",equalTo("id is not a valid Uuid")).
+				put("http://"+host+":8014"+"/ledger/transfers/"+"123");
+			
+			System.out.println("6.1 prepareTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse Json response :: " + transferResponse.asString());
+			
+//			then().
+//				statusCode(422).
+//				body("error_id",equalTo("InvalidUriParameterError")).
+//				body("message",equalTo("id is not a valid Uuid")).
+//				body("validationErrors[0].message",containsString("String does not match pattern:"));
+//				//// body("code",equalTo("id is not a valid Uuid")).
+			
+			System.out.println("http status code :: " + transferResponse.getStatusCode());
+			
+			assertThat("id", transferResponse.jsonPath().get("id"), equalTo("InvalidUriParameterError") );
+			assertThat("message",transferResponse.jsonPath().get("message"), equalTo("id is not a valid Uuid") );
+			assertThat( "response http code", (Integer) transferResponse.getStatusCode(), equalTo(200)); 
 				
 		} catch(java.lang.AssertionError e){
         	captor.println("<ul>");
@@ -492,18 +530,24 @@ public class ILPLedgerAdapterFunctionalTest {
 			
 			String prepareTransferRequest = "Not a valid request";
 			
-			given().
+			Response transferResponse = given().
 				config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
 				contentType("application/json").
 				body(prepareTransferRequest).
 			when().
-				put("http://"+host+":8014"+"/ledger/transfers/"+uuid).
-			then().
-				statusCode(400).
-				body("error_id",equalTo("InvalidBodyError")).
-				body("message",equalTo("Body did not match schema Transfer")).
-				body("validationErrors[0].message",containsString("Missing required property"));
-				//body("code",equalTo("id is not a valid Uuid")).
+				put("http://"+host+":8014"+"/ledger/transfers/"+uuid);
+//			then().
+//				statusCode(400).
+//				body("id",equalTo("InvalidBodyError")).
+//				body("message",equalTo("Body did not match schema Transfer")).
+//				body("validationErrors[0].message",containsString("Missing required property"));
+//				//body("code",equalTo("id is not a valid Uuid")).
+			
+			System.out.println("5.1 prepare_transfer_negative json response :: " + transferResponse.asString());
+			
+			assertThat( "response http code", (Integer) transferResponse.getStatusCode(), equalTo(400)); 
+			assertThat("error", transferResponse.jsonPath().get("error"), equalTo("Bad Request") );
+			assertThat("message",transferResponse.jsonPath().get("message"), equalTo("Invalid request payload JSON format") );
 				
 		} catch(java.lang.AssertionError e){
         	captor.println("<ul>");
@@ -521,32 +565,45 @@ public class ILPLedgerAdapterFunctionalTest {
 	
 	
 	@Test(dataProvider="get_prepared_transfer_positive", groups={"ilp_ledger_adapater_all", "ilp_ledger_adapater_prepare_transfer"})
-	public void getPreparedTransfer_ForValidTransfer_ShouldReturn200_ShouldReturnValidResponse(String sender, String receiver, String amount){
+	public void getPreparedTransfer_ForValidTransfer_ShouldReturn200_ShouldReturnValidResponse(String sender, String receiver, String receiverUserNumber, String amount){
 		
 		final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
         try {
-		JsonPath fromUserResponse = given().
+        	
+        	// =========================================================================================
+			//
+			// Step 1 :: Get sender account ID from Name
+			//
+			// =========================================================================================
+        	
+        	JsonPath fromUserResponse = given().
 				contentType("application/json").
 			when().
 				get(url+"/ledger/accounts/"+sender).jsonPath();
-			String fromId = fromUserResponse.getString("id");
+		
+			String senderAccountNumber = fromUserResponse.getString("id");
 			
 			System.out.println("2.1:  prepareTransfer Request");
+			
+			// =========================================================================================
+			//
+			// Step 2 :: Get receiver account ID from Name
+			//
+			// =========================================================================================
 			
 			JsonPath toUserResponse = given().
 					contentType("application/json").
 				when().
 					get(url+"/ledger/accounts/"+receiver).jsonPath();
-			String toId = toUserResponse.getString("id");
+			
+			String receiverAccountNumber = toUserResponse.getString("id");
 			System.out.println("2.2:  prepareTransfer Request");
 			
 			String setupRequest = Json.createObjectBuilder()
-//		            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver) original 
-		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiver)
-//		            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender) original
-		            .add("sourceAccount", "http://"+host+":3043/ledger/accounts/" + sender)
+		            .add("receiver", "http://"+host+":3043/v1/receivers/"+receiverUserNumber)  // This needs the User Number to work now
+		            .add("sourceAccount", "http://"+host+":8014/ledger/accounts/" + sender)    // This only needs name, not User number
 		            .add("destinationAmount", amount)
 		            .add("memo", "Hi Bobb!")
 		            .add("sourceIdentifier", "9809890190934023")
@@ -575,17 +632,17 @@ public class ILPLedgerAdapterFunctionalTest {
 
 			System.out.println("2.3.9 just called to prepare setupResponse");
 			System.out.println("2.4:  prepareTransfer Request :: " + setupResponse.prettyPrint());
-				
+		
 			String prepareTransferRequest = Json.createObjectBuilder()
 											.add("id","http://"+host+":8014"+"/ledger/transfers/"+setupResponse.getString("id"))
 											.add("ledger", "http://"+host+":8014"+"/ledger")
 											.add("debits", Json.createArrayBuilder().
 																add(Json.createObjectBuilder()
-																		.add("account", fromId)
+																		.add("account", senderAccountNumber)
 																		.add("amount", amount)))
 											.add("credits", Json.createArrayBuilder().
 																add(Json.createObjectBuilder()
-																		.add("account", toId)
+																		.add("account", receiverAccountNumber)
 																		.add("amount", amount)))
 											.add("execution_condition", setupResponse.getString("condition"))
 											.add("expires_at", setupResponse.getString("expiresAt"))
