@@ -4,85 +4,85 @@
 <th>Method name</th>
 <th>Groups</th>
 </tr><tr>
-<td>com.l1.interop.ILPLedgerAdapterFunctionalTest</td>
+<td>com.l1.interop.SPSPClientProxyFunctionalTest</td>
 <td>&nbsp;</td><td>&nbsp;</td></tr>
 <tr>
 <td align='center' colspan='3'>@Test</td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>getPreparedTransfer_ForValidTransfer_ShouldReturn200_ShouldReturnValidResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+<td>invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response</td>
+<td>spsp_client_proxy_invoice spsp_client_proxy_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>getPreparedTransfer_ForTransferThatDoesNotExist_ShouldReturn404_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+<td>quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse</td>
+<td>spsp_client_proxy_all spsp_client_proxy_quote </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>fulfillTransfer_ForValidRequest_ShouldReturn200_ShouldReturnValidResponse</td>
-<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
+<td>query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse</td>
+<td>spsp_client_proxy_all spsp_client_proxy_query </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>prepareTransfer_ForValidSenderAndReceiver_ShouldReturn200_ShouldReturnValidResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+<td>invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response</td>
+<td>spsp_client_proxy_invoice spsp_client_proxy_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>prepareTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+<td>quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse</td>
+<td>spsp_client_proxy_all spsp_client_proxy_quote </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>getFulfilledTransfer_ForFulfillmentThatDoesNotExist_ShouldReturn404_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_fulfilled_transfer ilp_ledger_adapater_all </td>
+<td>invoice_Get_withInvalidUri_ShoudlGet404</td>
+<td>spsp_client_proxy_invoice spsp_client_proxy_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>prepareTransfer_ForEntityThatAlreadyExists_ShouldReturn422_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+<td>setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse</td>
+<td>spsp_client_proxy_all spsp_client_proxy_payment_setup </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>fulfillTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
+<td>invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse</td>
+<td>spsp_client_proxy_invoice spsp_client_proxy_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>getFulfilledTransfer_ForInvalidURIParameterInRequest_ShouldReturn400_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+<td>invoice_POST_testingFor415UnsupportedMediaType</td>
+<td>spsp_client_proxy_invoice spsp_client_proxy_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>fulfillTransfer_ForUnmetCondition_ShouldReturn422_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
+<td>quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse</td>
+<td>spsp_client_proxy_all spsp_client_proxy_query </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>getFulfilledTransfer_ForValidFulfilledTransfer_ShouldReturn200_ShouldReturnTransferDetails</td>
-<td>ilp_ledger_adapater_prepare_fulfilled_transfer ilp_ledger_adapater_all </td>
+<td>quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse</td>
+<td>spsp_client_proxy_all spsp_client_proxy_quote </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>getPreparedTransfer_ForInvalidURIParameterInRequest_ShouldReturn400_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+<td>query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse</td>
+<td>spsp_client_proxy_all spsp_client_proxy_query </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>fulfillTransfer_ForInvalidRequestBody_ShouldReturn400_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
+<td>payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse</td>
+<td>spsp_client_proxy_all spsp_client_proxy_payment </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>fulfillTransfer_ForUnproceesableEntity_ShouldReturn422_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_fulfill_transfer ilp_ledger_adapater_all </td>
+<td>invoice_POST_testingFor404ResourceNotFound</td>
+<td>spsp_client_proxy_invoice spsp_client_proxy_all </td>
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>prepareTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse</td>
-<td>ilp_ledger_adapater_prepare_transfer ilp_ledger_adapater_all </td>
+<td>setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse</td>
+<td>spsp_client_proxy_all spsp_client_proxy_payment_setup </td>
 </tr>
 <tr>
 <td align='center' colspan='3'>@BeforeClass</td>

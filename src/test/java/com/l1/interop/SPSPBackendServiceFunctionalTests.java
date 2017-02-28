@@ -45,7 +45,7 @@ public class SPSPBackendServiceFunctionalTests {
 	
 	@BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
-        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
+        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
         prop.load(is);
         
         String environment = System.getProperty("env");
@@ -212,7 +212,6 @@ public class SPSPBackendServiceFunctionalTests {
         	// create 
         	String baseReceiverInvoicePath = "/receivers/invoices/";
             Response response =
-            		
             given().
             	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
             	contentType("application/json").
@@ -277,7 +276,6 @@ public class SPSPBackendServiceFunctionalTests {
         	String fullPath = url+"/spsp/client/v1/invoices/{invoiceId}";
         	System.out.println("Get invoice existing URL: " + fullPath);
             Response response = 
-            		
             given().
             	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
             	contentType("application/json").
@@ -291,6 +289,7 @@ public class SPSPBackendServiceFunctionalTests {
             
             assertThat(response.getStatusCode(), equalTo(200));
             
+            assertThat("json response", response.asString(), not(equalTo("Not Found")));
             assertThat(jsonPath.getString("account"), 		not(isEmptyOrNullString()));
             assertThat(jsonPath.getString("name"), 			not(isEmptyOrNullString()));
             assertThat(jsonPath.getString("currencyCode"), 	not(isEmptyOrNullString()));
@@ -316,9 +315,9 @@ public class SPSPBackendServiceFunctionalTests {
 	}
 	
 	
-	@Test(dataProvider="invoice_create_positive", groups={"spsp_backend_service_all"})
-	public void test_paying_an_invoice_positive(String invoiceUrl, String invoiceId, String submissionUrl, String senderIdentifier, String memo) {
-		
-	}
+//	@Test(dataProvider="invoice_create_positive", groups={"spsp_backend_service_all"})
+//	public void test_paying_an_invoice_positive(String invoiceUrl, String invoiceId, String submissionUrl, String senderIdentifier, String memo) {
+//		
+//	}
     
 }

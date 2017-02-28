@@ -53,7 +53,7 @@ public class USSDFunctionalTest {
 	
 	@BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
-        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
+        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
         prop.load(is);
         
         String environment = System.getProperty("env");

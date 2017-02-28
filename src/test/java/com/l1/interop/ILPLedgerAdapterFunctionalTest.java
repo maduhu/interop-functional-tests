@@ -491,14 +491,6 @@ public class ILPLedgerAdapterFunctionalTest {
 				put("http://"+host+":8014"+"/ledger/transfers/"+"123");
 			
 			System.out.println("6.1 prepareTransfer_ForInvalidURIParameter_ShouldReturn400_ShouldReturnErrorResponse Json response :: " + transferResponse.asString());
-			
-//			then().
-//				statusCode(422).
-//				body("error_id",equalTo("InvalidUriParameterError")).
-//				body("message",equalTo("id is not a valid Uuid")).
-//				body("validationErrors[0].message",containsString("String does not match pattern:"));
-//				//// body("code",equalTo("id is not a valid Uuid")).
-			
 			System.out.println("http status code :: " + transferResponse.getStatusCode());
 			
 			assertThat("id", transferResponse.jsonPath().get("id"), equalTo("InvalidUriParameterError") );
@@ -536,12 +528,6 @@ public class ILPLedgerAdapterFunctionalTest {
 				body(prepareTransferRequest).
 			when().
 				put("http://"+host+":8014"+"/ledger/transfers/"+uuid);
-//			then().
-//				statusCode(400).
-//				body("id",equalTo("InvalidBodyError")).
-//				body("message",equalTo("Body did not match schema Transfer")).
-//				body("validationErrors[0].message",containsString("Missing required property"));
-//				//body("code",equalTo("id is not a valid Uuid")).
 			
 			System.out.println("5.1 prepare_transfer_negative json response :: " + transferResponse.asString());
 			

@@ -52,7 +52,7 @@ public class SPSPClientProxyFunctionalTest {
       
     @BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
-        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
+        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
         prop.load(is);
         
         String environment = System.getProperty("env");
@@ -1044,6 +1044,8 @@ public class SPSPClientProxyFunctionalTest {
             	pathParam("invoiceId", invoiceId).
             when().
             	get(url+"/spsp/client/v1/invoices/{invoiceId}");
+            
+            System.out.println("Get JSON response from create invoice :: " + responseGet.asString());
 
             assertThat(responseGet.getStatusCode(), equalTo(200));
             
