@@ -1,6 +1,36 @@
 # interop-functional-tests
+
 Repo that holds the functional tests
 
+Contents:
+
+- [Deployment](#deployment)
+- [Configuration](#configuration)
+- [API](#api)
+- [Logging](#logging)
+- [Tests](#tests)
+
+## Deployment
+
+Please refer to Tests section.
+
+## Configuration
+
+pom.xml can be found at interop-functional-tests repo
+
+(Explanation of important config parameters)
+
+## API
+
+This repo does not contain an API.
+
+## Logging
+
+Sever path to logs is: /opt/mule/mule-dfsp1/logs
+
+(Explain important things about what gets logged or how to interpret the logs. Use subheaders if necessary.)
+
+## Tests
 
 - Steps to run tests:
 1. After checkout, at the project root folder issue "mvn clean test" command.
