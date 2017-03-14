@@ -45,6 +45,7 @@ public class SPSPClientProxyFunctionalTest {
     private static String host;
     private static String port;
     private static String url;
+    private static String invoiceUri;
     private Properties prop = new Properties();
     FileWriter writer;
     PrintStream captor;
@@ -65,6 +66,8 @@ public class SPSPClientProxyFunctionalTest {
         host = prop.getProperty("host");
         port = prop.getProperty("port");
         url = "http://"+host+":"+port;
+        invoiceUri = "/spsp/client/v1/invoices";
+        
         
         /*
          * 
@@ -1027,7 +1030,8 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	body(invoiceCreateRequest).
             when().
-	         	post(url+"/spsp/client/v1/invoices");
+	         	post(url+invoiceUri);
+                     
 
             System.out.println("creating invoice loc 1: response: " + response.prettyPrint());
             assertThat("create invoice", response.getStatusCode(), equalTo(201));
@@ -1043,7 +1047,7 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	pathParam("invoiceId", invoiceId).
             when().
-            	get(url+"/spsp/client/v1/invoices/{invoiceId}");
+            	get(url+invoiceUri + "{invoiceId}");
             
             System.out.println("Get JSON response from create invoice :: " + responseGet.asString());
 
