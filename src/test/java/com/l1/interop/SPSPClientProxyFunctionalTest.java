@@ -1,5 +1,6 @@
 package com.l1.interop;
 
+
 import static com.l1.interop.util.Utils.readCSVFile;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -44,6 +45,7 @@ public class SPSPClientProxyFunctionalTest {
     private static String host;
     private static String port;
     private static String url;
+    private static String invoiceUri;
     private Properties prop = new Properties();
     FileWriter writer;
     PrintStream captor;
@@ -51,7 +53,7 @@ public class SPSPClientProxyFunctionalTest {
       
     @BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
-        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1.properties");
+        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
         prop.load(is);
         
         String environment = System.getProperty("env");
@@ -64,6 +66,8 @@ public class SPSPClientProxyFunctionalTest {
         host = prop.getProperty("host");
         port = prop.getProperty("port");
         url = "http://"+host+":"+port;
+        invoiceUri = "/spsp/client/v1/invoices";
+        
         
         /*
          * 
@@ -1026,7 +1030,8 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	body(invoiceCreateRequest).
             when().
-	         	post(url+"/spsp/client/v1/invoices");
+	         	post(url+invoiceUri);
+                     
 
             System.out.println("creating invoice loc 1: response: " + response.prettyPrint());
             assertThat("create invoice", response.getStatusCode(), equalTo(201));
@@ -1042,7 +1047,9 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	pathParam("invoiceId", invoiceId).
             when().
-            	get(url+"/spsp/client/v1/invoices/{invoiceId}");
+            	get(url+invoiceUri + "{invoiceId}");
+            
+            System.out.println("Get JSON response from create invoice :: " + responseGet.asString());
 
             assertThat(responseGet.getStatusCode(), equalTo(200));
             

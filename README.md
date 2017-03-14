@@ -86,6 +86,18 @@ Example:
 * user_registration_all
 * user_registration_full_end_to_end
 
+###
+ USSD test groups
+* ussd_users - Execute all the functionalities (send money, sellgoods, checkbalance, manageaccount, ministatement, pendingtrans) related to the existing users
+* ussd_createuser - create the users if no users exists for functional test (creates 2 users)
+* ussd_sendmoney - Send money from user 1 to user 2
+* ussd_sellgoods - Sell goods from user 2 to User 1
+* ussd_checkbalance - Check the account balance for user
+* ussd_manageaccount - Manage the account for user
+* ussd_ministatement - get the account statement for an user
+* ussd_pendingtrans - Lists all pending transactions for an user
+
+
 ### FullPaymentWithNotifications test groups  (Don't use, still in development)
 * payment_setup_and_execute_with_notification
 
@@ -96,6 +108,8 @@ Example:
   - Interop User Registrations (11/28/2016)
   - Interop DFSP Directory     (11/28/2016)
   - Interop ILP Ledger Adapter (?)
+
+##
   
 ## Coming Soon:
   - Interop spsp backend services
