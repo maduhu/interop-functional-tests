@@ -58,7 +58,7 @@
                 </li>
                 <li>
                   <a href="#" class="navigator-link " panel-name="group-Default_suite">
-                    <span>2 groups</span>
+                    <span>1 group</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -101,17 +101,17 @@
                     <div class="method-list-content failed suite-Default_suite">
                       <span>
                         <img width="3%" src="failed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="com.l1.interop.SPSPClientProxyFunctionalTest" hash-for-method="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl2.com, sample_invoice_id2, http://submissionUrl.com, sample_senderIdentifier2, sampl...)">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl2.com, sample_invoice_id2, http://submissionUrl.com, sample_senderIdentifier2, sampl...)</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="com.l1.interop.SPSPBackendServiceFunctionalTests" hash-for-method="get_backend_services_receiver_positive">get_backend_services_receiver_positive</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                       <span>
                         <img width="3%" src="failed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="com.l1.interop.SPSPClientProxyFunctionalTest" hash-for-method="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl1.com, sample_invoice_id1, http://submissionUrl.com, sample_senderIdentifier1, sampl...)">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl1.com, sample_invoice_id1, http://submissionUrl.com, sample_senderIdentifier1, sampl...)</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="com.l1.interop.SPSPBackendServiceFunctionalTests" hash-for-method="test_get_an_existing_invoice_positive(Bob, 123, dfsp2.bob.dylan.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/your-...)">test_get_an_existing_invoice_positive(Bob, 123, dfsp2.bob.dylan.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/your-...)</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                       <span>
                         <img width="3%" src="failed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="com.l1.interop.SPSPClientProxyFunctionalTest" hash-for-method="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl3.com, sample_invoice_id3, http://submissionUrl.com, sample_senderIdentifier3, sampl...)">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl3.com, sample_invoice_id3, http://submissionUrl.com, sample_senderIdentifier3, sampl...)</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="com.l1.interop.SPSPBackendServiceFunctionalTests" hash-for-method="test_get_an_existing_invoice_positive(Sam, 456.com, dfsp2.sam.jones.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/y...)">test_get_an_existing_invoice_positive(Sam, 456.com, dfsp2.sam.jones.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/y...)</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content failed suite-Default_suite -->
@@ -129,157 +129,20 @@
           <div class="suite-Default_suite-class-failed">
             <div class="main-panel-header rounded-window-top">
               <img src="failed.png"/>
-              <span class="class-name">com.l1.interop.SPSPClientProxyFunctionalTest</span>
+              <span class="class-name">com.l1.interop.SPSPBackendServiceFunctionalTests</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl2.com, sample_invoice_id2, http://submissionUrl.com, sample_senderIdentifier2, sampl...)">
-                  </a> <!-- invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl2.com, sample_invoice_id2, http://submissionUrl.com, sample_senderIdentifier2, sampl...) -->
-                  <span class="method-name">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse</span>
-                  <span class="parameters">(http://sampleurl2.com, sample_invoice_id2, http://submissionUrl.com, sample_senderIdentifier2, sample memo2)</span>
-                  <div class="stack-trace">java.net.UnknownHostException: ec2-35-163-231-111.us-west-2.compute.amazonaws.com: nodename nor servname provided, or not known
-	at java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)
-	at java.net.InetAddress$2.lookupAllHostAddr(InetAddress.java:928)
-	at java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1323)
-	at java.net.InetAddress.getAllByName0(InetAddress.java:1276)
-	at java.net.InetAddress.getAllByName(InetAddress.java:1192)
-	at java.net.InetAddress.getAllByName(InetAddress.java:1126)
-	at org.apache.http.impl.conn.SystemDefaultDnsResolver.resolve(SystemDefaultDnsResolver.java:45)
-	at org.apache.http.impl.conn.DefaultClientConnectionOperator.resolveHostname(DefaultClientConnectionOperator.java:262)
-	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:161)
-	at org.apache.http.impl.conn.ManagedClientConnectionImpl.open(ManagedClientConnectionImpl.java:328)
-	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:612)
-	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:447)
-	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:884)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:55)
-	at org.apache.http.client.HttpClient$execute$0.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at org.apache.http.client.HttpClient$execute$0.call(Unknown Source)
-	at io.restassured.internal.RequestSpecificationImpl$RestAssuredHttpBuilder.doRequest(RequestSpecificationImpl.groovy:2035)
-	at io.restassured.internal.http.HTTPBuilder.doRequest(HTTPBuilder.java:494)
-	at io.restassured.internal.http.HTTPBuilder.request(HTTPBuilder.java:451)
-	at io.restassured.internal.http.HTTPBuilder$request$3.call(Unknown Source)
-	at io.restassured.internal.RequestSpecificationImpl.sendHttpRequest(RequestSpecificationImpl.groovy:1441)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
-	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1210)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1019)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:810)
-	at io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:48)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:58)
-	at io.restassured.internal.RequestSpecificationImpl.sendRequest(RequestSpecificationImpl.groovy:1228)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
-	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1210)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1019)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:810)
-	at io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:48)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:149)
-	at io.restassured.internal.filter.SendRequestFilter.filter(SendRequestFilter.groovy:30)
-	at io.restassured.filter.Filter$filter$0.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at io.restassured.internal.filter.FilterContextImpl.next(FilterContextImpl.groovy:72)
-	at io.restassured.filter.time.TimingFilter.filter(TimingFilter.java:56)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at io.restassured.internal.filter.FilterContextImpl.next(FilterContextImpl.groovy:72)
-	at io.restassured.filter.log.StatusCodeBasedLoggingFilter.filter(StatusCodeBasedLoggingFilter.java:93)
-	at io.restassured.filter.log.ResponseLoggingFilter.filter(ResponseLoggingFilter.java:31)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at io.restassured.internal.filter.FilterContextImpl.next(FilterContextImpl.groovy:72)
-	at io.restassured.filter.log.RequestLoggingFilter.filter(RequestLoggingFilter.java:124)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at io.restassured.filter.Filter$filter$0.call(Unknown Source)
-	at io.restassured.internal.filter.FilterContextImpl.next(FilterContextImpl.groovy:72)
-	at io.restassured.filter.FilterContext$next.call(Unknown Source)
-	at io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1638)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
-	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1210)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1019)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:810)
-	at io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:48)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:58)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:182)
-	at io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1644)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
-	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1210)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1019)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:810)
-	at io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:48)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:58)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:182)
-	at io.restassured.internal.RequestSpecificationImpl.get(RequestSpecificationImpl.groovy:167)
-	at io.restassured.internal.RequestSpecificationImpl.get(RequestSpecificationImpl.groovy)
-	at com.l1.interop.SPSPClientProxyFunctionalTest.invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(SPSPClientProxyFunctionalTest.java:1050)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:84)
-	at org.testng.internal.Invoker.invokeMethod(Invoker.java:714)
-	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
-	at org.testng.TestRunner.privateRun(TestRunner.java:767)
-	at org.testng.TestRunner.run(TestRunner.java:617)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:348)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:343)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:305)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:254)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1224)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1149)
-	at org.testng.TestNG.run(TestNG.java:1057)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:132)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:236)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:81)
-
-</div> <!-- stack-trace -->
-                </div> <!-- method-content -->
-              </div> <!-- method -->
-              <div class="method">
-                <div class="method-content">
-                  <a name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl1.com, sample_invoice_id1, http://submissionUrl.com, sample_senderIdentifier1, sampl...)">
-                  </a> <!-- invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl1.com, sample_invoice_id1, http://submissionUrl.com, sample_senderIdentifier1, sampl...) -->
-                  <span class="method-name">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse</span>
-                  <span class="parameters">(http://sampleurl1.com, sample_invoice_id1, http://submissionUrl.com, sample_senderIdentifier1, sample memo1)</span>
+                  <a name="get_backend_services_receiver_positive">
+                  </a> <!-- get_backend_services_receiver_positive -->
+                  <span class="method-name">get_backend_services_receiver_positive</span>
                   <div class="stack-trace">java.lang.AssertionError: 
-Expected: &lt;200&gt;
-     but: was &lt;404&gt;
+Expected: not (null or an empty string)
+     but: was null
 	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
 	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:8)
-	at com.l1.interop.SPSPClientProxyFunctionalTest.invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(SPSPClientProxyFunctionalTest.java:1054)
+	at com.l1.interop.SPSPBackendServiceFunctionalTests.get_backend_services_receiver_positive(SPSPBackendServiceFunctionalTests.java:166)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -302,103 +165,85 @@ Expected: &lt;200&gt;
 	at org.testng.TestNG.runSuitesLocally(TestNG.java:1149)
 	at org.testng.TestNG.run(TestNG.java:1057)
 	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:132)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:236)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:81)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:230)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:76)
+
+</div> <!-- stack-trace -->
+                  <em>
+(get_backend_services_receiver_positive)                  </em>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="test_get_an_existing_invoice_positive(Bob, 123, dfsp2.bob.dylan.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/your-...)">
+                  </a> <!-- test_get_an_existing_invoice_positive(Bob, 123, dfsp2.bob.dylan.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/your-...) -->
+                  <span class="method-name">test_get_an_existing_invoice_positive</span>
+                  <span class="parameters">(Bob, 123, dfsp2.bob.dylan.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/your-account/order-details?ie=UTF8&orderID=111-7777777-1111111)</span>
+                  <div class="stack-trace">io.restassured.path.json.exception.JsonPathException: Failed to parse the JSON document
+	at io.restassured.path.json.JsonPath$ExceptionCatcher.invoke(JsonPath.java:930)
+	at io.restassured.path.json.JsonPath$4.doParseWith(JsonPath.java:895)
+	at io.restassured.path.json.JsonPath$JsonParser.parseWith(JsonPath.java:975)
+	at io.restassured.path.json.JsonPath.get(JsonPath.java:201)
+	at io.restassured.path.json.JsonPath.getString(JsonPath.java:351)
+	at com.l1.interop.SPSPBackendServiceFunctionalTests.test_get_an_existing_invoice_positive(SPSPBackendServiceFunctionalTests.java:293)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:84)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:714)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
+	at org.testng.TestRunner.privateRun(TestRunner.java:767)
+	at org.testng.TestRunner.run(TestRunner.java:617)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:348)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:343)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:305)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:254)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1224)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1149)
+	at org.testng.TestNG.run(TestNG.java:1057)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:132)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:230)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:76)
+Caused by: groovy.json.JsonException: A JSON payload should start with an openning curly brace &apos;{&apos; or an openning square bracket &apos;[&apos;.
+Instead, &apos;&quot;Not Found&quot;&apos; was found on line: 1, column: 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:80)
+	at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrapNoCoerce.callConstructor(ConstructorSite.java:105)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:60)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:235)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:247)
+	at io.restassured.internal.path.json.ConfigurableJsonSlurper.parse(ConfigurableJsonSlurper.groovy:114)
+	at io.restassured.internal.path.json.ConfigurableJsonSlurper$parse.callCurrent(Unknown Source)
+	at io.restassured.internal.path.json.ConfigurableJsonSlurper.parseText(ConfigurableJsonSlurper.groovy:83)
+	at io.restassured.path.json.JsonPath$4$1.method(JsonPath.java:893)
+	at io.restassured.path.json.JsonPath$ExceptionCatcher.invoke(JsonPath.java:928)
+	... 29 more
 
 </div> <!-- stack-trace -->
                 </div> <!-- method-content -->
               </div> <!-- method -->
               <div class="method">
                 <div class="method-content">
-                  <a name="invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl3.com, sample_invoice_id3, http://submissionUrl.com, sample_senderIdentifier3, sampl...)">
-                  </a> <!-- invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl3.com, sample_invoice_id3, http://submissionUrl.com, sample_senderIdentifier3, sampl...) -->
-                  <span class="method-name">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse</span>
-                  <span class="parameters">(http://sampleurl3.com, sample_invoice_id3, http://submissionUrl.com, sample_senderIdentifier3, sample memo3)</span>
-                  <div class="stack-trace">java.net.UnknownHostException: ec2-35-163-231-111.us-west-2.compute.amazonaws.com
-	at java.net.InetAddress.getAllByName0(InetAddress.java:1280)
-	at java.net.InetAddress.getAllByName(InetAddress.java:1192)
-	at java.net.InetAddress.getAllByName(InetAddress.java:1126)
-	at org.apache.http.impl.conn.SystemDefaultDnsResolver.resolve(SystemDefaultDnsResolver.java:45)
-	at org.apache.http.impl.conn.DefaultClientConnectionOperator.resolveHostname(DefaultClientConnectionOperator.java:262)
-	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:161)
-	at org.apache.http.impl.conn.ManagedClientConnectionImpl.open(ManagedClientConnectionImpl.java:328)
-	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:612)
-	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:447)
-	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:884)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
-	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:55)
-	at org.apache.http.client.HttpClient$execute$0.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at org.apache.http.client.HttpClient$execute$0.call(Unknown Source)
-	at io.restassured.internal.RequestSpecificationImpl$RestAssuredHttpBuilder.doRequest(RequestSpecificationImpl.groovy:2035)
-	at io.restassured.internal.http.HTTPBuilder.post(HTTPBuilder.java:349)
-	at io.restassured.internal.http.HTTPBuilder$post$2.call(Unknown Source)
-	at io.restassured.internal.RequestSpecificationImpl.sendRequest(RequestSpecificationImpl.groovy:1209)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
-	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1210)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1019)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:810)
-	at io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:48)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:149)
-	at io.restassured.internal.filter.SendRequestFilter.filter(SendRequestFilter.groovy:30)
-	at io.restassured.filter.Filter$filter$0.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at io.restassured.internal.filter.FilterContextImpl.next(FilterContextImpl.groovy:72)
-	at io.restassured.filter.time.TimingFilter.filter(TimingFilter.java:56)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at io.restassured.internal.filter.FilterContextImpl.next(FilterContextImpl.groovy:72)
-	at io.restassured.filter.log.StatusCodeBasedLoggingFilter.filter(StatusCodeBasedLoggingFilter.java:93)
-	at io.restassured.filter.log.ResponseLoggingFilter.filter(ResponseLoggingFilter.java:31)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at io.restassured.internal.filter.FilterContextImpl.next(FilterContextImpl.groovy:72)
-	at io.restassured.filter.log.RequestLoggingFilter.filter(RequestLoggingFilter.java:124)
-	at io.restassured.filter.Filter$filter.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)
-	at io.restassured.filter.Filter$filter$0.call(Unknown Source)
-	at io.restassured.internal.filter.FilterContextImpl.next(FilterContextImpl.groovy:72)
-	at io.restassured.filter.FilterContext$next.call(Unknown Source)
-	at io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1638)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
-	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1210)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1019)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:810)
-	at io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:48)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:58)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:182)
-	at io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1644)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:93)
-	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1210)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1019)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:810)
-	at io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:48)
-	at org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:58)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:182)
-	at io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:171)
-	at io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)
-	at com.l1.interop.SPSPClientProxyFunctionalTest.invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(SPSPClientProxyFunctionalTest.java:1033)
+                  <a name="test_get_an_existing_invoice_positive(Sam, 456.com, dfsp2.sam.jones.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/y...)">
+                  </a> <!-- test_get_an_existing_invoice_positive(Sam, 456.com, dfsp2.sam.jones.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/y...) -->
+                  <span class="method-name">test_get_an_existing_invoice_positive</span>
+                  <span class="parameters">(Sam, 456.com, dfsp2.sam.jones.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/your-account/order-details?ie=UTF8&orderID=111-7777777-1111111)</span>
+                  <div class="stack-trace">io.restassured.path.json.exception.JsonPathException: Failed to parse the JSON document
+	at io.restassured.path.json.JsonPath$ExceptionCatcher.invoke(JsonPath.java:930)
+	at io.restassured.path.json.JsonPath$4.doParseWith(JsonPath.java:895)
+	at io.restassured.path.json.JsonPath$JsonParser.parseWith(JsonPath.java:975)
+	at io.restassured.path.json.JsonPath.get(JsonPath.java:201)
+	at io.restassured.path.json.JsonPath.getString(JsonPath.java:351)
+	at com.l1.interop.SPSPBackendServiceFunctionalTests.test_get_an_existing_invoice_positive(SPSPBackendServiceFunctionalTests.java:293)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -421,8 +266,23 @@ Expected: &lt;200&gt;
 	at org.testng.TestNG.runSuitesLocally(TestNG.java:1149)
 	at org.testng.TestNG.run(TestNG.java:1057)
 	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:132)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:236)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:81)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:230)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:76)
+Caused by: groovy.json.JsonException: A JSON payload should start with an openning curly brace &apos;{&apos; or an openning square bracket &apos;[&apos;.
+Instead, &apos;&quot;Not Found&quot;&apos; was found on line: 1, column: 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:80)
+	at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrapNoCoerce.callConstructor(ConstructorSite.java:105)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:247)
+	at io.restassured.internal.path.json.ConfigurableJsonSlurper.parse(ConfigurableJsonSlurper.groovy:114)
+	at io.restassured.internal.path.json.ConfigurableJsonSlurper$parse.callCurrent(Unknown Source)
+	at io.restassured.internal.path.json.ConfigurableJsonSlurper.parseText(ConfigurableJsonSlurper.groovy:83)
+	at io.restassured.path.json.JsonPath$4$1.method(JsonPath.java:893)
+	at io.restassured.path.json.JsonPath$ExceptionCatcher.invoke(JsonPath.java:928)
+	... 29 more
 
 </div> <!-- stack-trace -->
                 </div> <!-- method-content -->
@@ -432,7 +292,7 @@ Expected: &lt;200&gt;
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">/private/var/folders/18/1vtmgl5n51zdfdkxhcbd5y_r0000gn/T/testng-eclipse-1784113811/testng-customsuite.xml</span>
+            <span class="header-content">/private/var/folders/18/1vtmgl5n51zdfdkxhcbd5y_r0000gn/T/testng-eclipse--1592268282/testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -441,11 +301,7 @@ Expected: &lt;200&gt;
 &lt;suite name=&quot;Default suite&quot;&gt;
   &lt;test verbose=&quot;2&quot; name=&quot;Default test&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;com.l1.interop.SPSPClientProxyFunctionalTest&quot;&gt;
-        &lt;methods&gt;
-          &lt;include name=&quot;invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse&quot;/&gt;
-        &lt;/methods&gt;
-      &lt;/class&gt; &lt;!-- com.l1.interop.SPSPClientProxyFunctionalTest --&gt;
+      &lt;class name=&quot;com.l1.interop.SPSPBackendServiceFunctionalTests&quot;/&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Default test --&gt;
 &lt;/suite&gt; &lt;!-- Default suite --&gt;
@@ -470,18 +326,14 @@ Expected: &lt;200&gt;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="test-group">
-              <span class="test-group-name">spsp_client_proxy_all</span>
+              <span class="test-group-name">spsp_backend_service_all</span>
               <br/>
               <div class="method-in-group">
-                <span class="method-in-group-name">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse</span>
+                <span class="method-in-group-name">get_backend_services_receiver_positive</span>
                 <br/>
               </div> <!-- method-in-group -->
-            </div> <!-- test-group -->
-            <div class="test-group">
-              <span class="test-group-name">spsp_client_proxy_invoice</span>
-              <br/>
               <div class="method-in-group">
-                <span class="method-in-group-name">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse</span>
+                <span class="method-in-group-name">test_get_an_existing_invoice_positive</span>
                 <br/>
               </div> <!-- method-in-group -->
             </div> <!-- test-group -->
@@ -503,22 +355,22 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(3);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse')
-data.setCell(0, 2, 'com.l1.interop.SPSPClientProxyFunctionalTest')
-data.setCell(0, 3, 22465309);
+data.setCell(0, 1, 'get_backend_services_receiver_positive')
+data.setCell(0, 2, 'com.l1.interop.SPSPBackendServiceFunctionalTests')
+data.setCell(0, 3, 1517);
 data.setCell(1, 0, 1)
-data.setCell(1, 1, 'invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse')
-data.setCell(1, 2, 'com.l1.interop.SPSPClientProxyFunctionalTest')
-data.setCell(1, 3, 75436);
+data.setCell(1, 1, 'test_get_an_existing_invoice_positive')
+data.setCell(1, 2, 'com.l1.interop.SPSPBackendServiceFunctionalTests')
+data.setCell(1, 3, 250);
 data.setCell(2, 0, 2)
-data.setCell(2, 1, 'invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse')
-data.setCell(2, 2, 'com.l1.interop.SPSPClientProxyFunctionalTest')
-data.setCell(2, 3, 62);
+data.setCell(2, 1, 'test_get_an_existing_invoice_positive')
+data.setCell(2, 2, 'com.l1.interop.SPSPBackendServiceFunctionalTests')
+data.setCell(2, 3, 224);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 6 hours</span>
+              <span class="suite-total-time">Total running time: 1 seconds</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -533,42 +385,9 @@ return data;
         </div> <!-- panel -->
         <div panel-name="ignored-methods-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">14 ignored methods</span>
+            <span class="header-content">0 ignored methods</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
-            <div class="ignored-class-div">
-              <span class="ignored-class-name">com.l1.interop.SPSPClientProxyFunctionalTest</span>
-              <div class="ignored-methods-div">
-                <span class="ignored-method-name">invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response</span>
-                <br/>
-                <span class="ignored-method-name">setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse</span>
-                <br/>
-                <span class="ignored-method-name">payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse</span>
-                <br/>
-                <span class="ignored-method-name">invoice_POST_testingFor404ResourceNotFound</span>
-                <br/>
-                <span class="ignored-method-name">quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse</span>
-                <br/>
-                <span class="ignored-method-name">quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse</span>
-                <br/>
-                <span class="ignored-method-name">invoice_POST_testingFor415UnsupportedMediaType</span>
-                <br/>
-                <span class="ignored-method-name">query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse</span>
-                <br/>
-                <span class="ignored-method-name">invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response</span>
-                <br/>
-                <span class="ignored-method-name">quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse</span>
-                <br/>
-                <span class="ignored-method-name">setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse</span>
-                <br/>
-                <span class="ignored-method-name">quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse</span>
-                <br/>
-                <span class="ignored-method-name">query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse</span>
-                <br/>
-                <span class="ignored-method-name">invoice_Get_withInvalidUri_ShoudlGet404</span>
-                <br/>
-              </div> <!-- ignored-methods-div -->
-            </div> <!-- ignored-class-div -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
         <div panel-name="chronological-Default_suite" class="panel">
@@ -577,36 +396,36 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">com.l1.interop.SPSPClientProxyFunctionalTest</div> <!-- chronological-class-name -->
+              <div class="chronological-class-name">com.l1.interop.SPSPBackendServiceFunctionalTests</div> <!-- chronological-class-name -->
               <div class="configuration-test before">
                 <span class="method-name">setup</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-test before -->
               <div class="configuration-class before">
                 <span class="method-name">beforeClass</span>
-                <span class="method-start">1037 ms</span>
+                <span class="method-start">710 ms</span>
               </div> <!-- configuration-class before -->
               <div class="test-method">
                 <img src="failed.png">
                 </img>
-                <span class="method-name">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl1.com, sample_invoice_id1, http://submissionUrl.com, sample_senderIdentifier1, sampl...)</span>
-                <span class="method-start">1044 ms</span>
+                <span class="method-name">get_backend_services_receiver_positive</span>
+                <span class="method-start">713 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <img src="failed.png">
                 </img>
-                <span class="method-name">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl2.com, sample_invoice_id2, http://submissionUrl.com, sample_senderIdentifier2, sampl...)</span>
-                <span class="method-start">76482 ms</span>
+                <span class="method-name">test_get_an_existing_invoice_positive(Bob, 123, dfsp2.bob.dylan.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/your-...)</span>
+                <span class="method-start">2234 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <img src="failed.png">
                 </img>
-                <span class="method-name">invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(http://sampleurl3.com, sample_invoice_id3, http://submissionUrl.com, sample_senderIdentifier3, sampl...)</span>
-                <span class="method-start">22541822 ms</span>
+                <span class="method-name">test_get_an_existing_invoice_positive(Sam, 456.com, dfsp2.sam.jones.account, Bob Dylan, USD, $, 10.4, unpaid, https://www.example.com/gp/y...)</span>
+                <span class="method-start">2486 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-class after">
                 <span class="method-name">afterClass</span>
-                <span class="method-start">22541903 ms</span>
+                <span class="method-start">2711 ms</span>
               </div> <!-- configuration-class after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
