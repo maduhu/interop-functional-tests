@@ -159,7 +159,7 @@ public class SPSPBackendServiceFunctionalTests {
             
             JsonPath jsonPath = response.jsonPath();
             String responseJson = response.asString();
-            System.out.println("JSON response for get_backend_services_receiver_positive: " + responseJson);
+            System.out.println("JSON 3.9 response for get_backend_services_receiver_positive: " + responseJson);
             
             assertThat(response.getStatusCode(), equalTo(200));
             
