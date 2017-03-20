@@ -46,10 +46,10 @@ public class SPSPBackendServiceFunctionalTests {
 	@BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
 //        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-test.properties");
-		
 		InputStream is = ClassLoader.getSystemResourceAsStream("dfsp2-test.properties");
 //        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
-        prop.load(is);
+        
+		prop.load(is);
         
         String environment = System.getProperty("env");
         if(environment != null){

@@ -364,11 +364,11 @@ public class SPSPClientProxyFunctionalTest {
     public void query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(String receiverName, String receiverURI){
         
     	// failing as of 3/17/2017 BP.  Getting a 500 error.
-/*    	
- * 
- * On 3/17/2017 Test failed for the following errors:
- * dfsp1-qa
- * 
+	/*    	
+	 * 
+	 * On 3/17/2017 Test failed for the following errors:
+	 * dfsp1-qa
+	 * 
     	[03-17 17:14:44,178] INFO  [[interop-domain].api-httpListenerConfig.worker.315] api-main: Received request with traceID=77146f6e-4d73-4611-bb7a-af87acc00618 at path=/spsp/client/v1/query, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
     	[03-17 17:14:44,178] INFO  [[interop-domain].api-httpListenerConfig.worker.315] query: Proxying request for traceID=77146f6e-4d73-4611-bb7a-af87acc00618 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/query, method=get, receiver=http://ec2-52-37-54-209.us-west-2.compute.amazonaws.com:3046/v1/receivers/murthy
     	[03-17 17:15:14,628] ERROR [[interop-domain].api-httpListenerConfig.worker.315] DefaultMessagingExceptionStrategy: 
