@@ -53,7 +53,9 @@ public class SPSPClientProxyFunctionalTest {
       
     @BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
-        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
+        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp2-test.properties");
+//        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-test.properties");
+//        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
         prop.load(is);
         
         String environment = System.getProperty("env");
@@ -242,9 +244,55 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="query_positive", groups = { "spsp_client_proxy_all", "spsp_client_proxy_query" })
     public void query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(String receiverName, String receiverURI) throws Exception {
+    	
+    	// failing as of 3/17/2017 BP
+    	
+    	/*
+    	 * 
+    	 * 3/17/2017 Error:
+    	 *  dfsp1-qa
+    	 *  
+    	 * [03-17 17:06:28,734] INFO  [[interop-domain].api-httpListenerConfig.worker.315] api-main: Received request with traceID=4eb8925b-42d5-4128-bae7-e5826238538d at path=/spsp/client/v1/query, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+    			[03-17 17:06:28,734] INFO  [[interop-domain].api-httpListenerConfig.worker.315] query: Proxying request for traceID=4eb8925b-42d5-4128-bae7-e5826238538d to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/query, method=get, receiver=http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:3043/v1/receivers/26547070
+    			[03-17 17:06:28,797] ERROR [[interop-domain].api-httpListenerConfig.worker.315] DefaultMessagingExceptionStrategy: 
+    			********************************************************************************
+    			Message               : Response code 502 mapped as failure.
+    			Element               : /get:\/query:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:65 (HTTP)
+    			--------------------------------------------------------------------------------
+    			Exception stack is:
+    			Response code 502 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+    			  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+    			  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+    			  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+    			  
+    			  
+    			  
+			 	-------------------
+    			  
+    			dfsp2 test failed with the following errors:
+    			  
+    			  [03-20 17:43:54,035] INFO  [[interop-domain].api-httpListenerConfig.worker.377] api-main: Received request with traceID=be25003a-a762-4fd8-b1cc-cec10cdf7650 at path=/spsp/client/v1/query, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+				[03-20 17:43:54,036] INFO  [[interop-domain].api-httpListenerConfig.worker.377] query: Proxying request for traceID=be25003a-a762-4fd8-b1cc-cec10cdf7650 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/query, method=get, receiver=http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:3043/v1/receivers/26547070
+				[03-20 17:43:54,150] ERROR [[interop-domain].api-httpListenerConfig.worker.377] DefaultMessagingExceptionStrategy: 
+				********************************************************************************
+				Message               : Response code 502 mapped as failure.
+				Element               : /get:\/query:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:65 (HTTP)
+				--------------------------------------------------------------------------------
+				Exception stack is:
+				Response code 502 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+				  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+				  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+				  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+				  (164 more...)
+				
+				  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+				********************************************************************************
+	  */
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+        String urlPath = url+"/spsp/client/v1/query";
         
         try {
             
@@ -254,10 +302,12 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	param("receiver", receiverURI).
             when().
-            	get(url+"/spsp/client/v1/query");
+            	get(urlPath);
         	
+        	
+        	System.out.println("Url path for test <query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse> : " + urlPath + ", receiver uri parameter = " + receiverURI);
         	System.out.println("For query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse: http status::" + response.getStatusCode());
-        	System.out.println("**** json response payload: " + response.prettyPrint());
+        	System.out.println("**** json response payload: <" + response.asString() + ">");
         	
         	
         	/*
@@ -313,8 +363,136 @@ public class SPSPClientProxyFunctionalTest {
     @Test(dataProvider="query_negative", groups = { "spsp_client_proxy_all", "spsp_client_proxy_query" })
     public void query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(String receiverName, String receiverURI){
         
+    	// failing as of 3/17/2017 BP.  Getting a 500 error.
+/*    	
+ * 
+ * On 3/17/2017 Test failed for the following errors:
+ * dfsp1-qa
+ * 
+    	[03-17 17:14:44,178] INFO  [[interop-domain].api-httpListenerConfig.worker.315] api-main: Received request with traceID=77146f6e-4d73-4611-bb7a-af87acc00618 at path=/spsp/client/v1/query, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+    	[03-17 17:14:44,178] INFO  [[interop-domain].api-httpListenerConfig.worker.315] query: Proxying request for traceID=77146f6e-4d73-4611-bb7a-af87acc00618 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/query, method=get, receiver=http://ec2-52-37-54-209.us-west-2.compute.amazonaws.com:3046/v1/receivers/murthy
+    	[03-17 17:15:14,628] ERROR [[interop-domain].api-httpListenerConfig.worker.315] DefaultMessagingExceptionStrategy: 
+    	********************************************************************************
+    	Message               : Error sending HTTP request.
+    	Element               : /get:\/query:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:65 (HTTP)
+    	--------------------------------------------------------------------------------
+    	Exception stack is:
+    	Error sending HTTP request. (org.mule.api.MessagingException)
+    	  com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider.timeout(GrizzlyAsyncHttpProvider.java:433)
+    	  com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider$3.onTimeout(GrizzlyAsyncHttpProvider.java:281)
+    	  org.glassfish.grizzly.utils.IdleTimeoutFilter$DefaultWorker.doWork(IdleTimeoutFilter.java:401)
+    	  org.glassfish.grizzly.utils.IdleTimeoutFilter$DefaultWorker.doWork(IdleTimeoutFilter.java:380)
+    	  org.glassfish.grizzly.utils.DelayedExecutor$DelayedRunnable.run(DelayedExecutor.java:158)
+    	  java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+    	  java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+    	  java.lang.Thread.run(Thread.java:745)
+  			  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
+
+
+
+
+		------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+		
+	
+		[03-20 17:46:16,213] ERROR [[interop-domain].api-httpListenerConfig.worker.377] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : Error sending HTTP request.
+		Element               : /get:\/query:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:65 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		Error sending HTTP request. (org.mule.api.MessagingException)
+		  com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider.timeout(GrizzlyAsyncHttpProvider.java:433)
+		  com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider$3.onTimeout(GrizzlyAsyncHttpProvider.java:281)
+		  org.glassfish.grizzly.utils.IdleTimeoutFilter$DefaultWorker.doWork(IdleTimeoutFilter.java:401)
+		  org.glassfish.grizzly.utils.IdleTimeoutFilter$DefaultWorker.doWork(IdleTimeoutFilter.java:380)
+		  org.glassfish.grizzly.utils.DelayedExecutor$DelayedRunnable.run(DelayedExecutor.java:158)
+		  java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+		  java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+		  java.lang.Thread.run(Thread.java:745)
+		
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
+		
+		FAILED: query_InValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse("Murthy", "http://ec2-52-37-54-209.us-west-2.compute.amazonaws.com:3046/v1/receivers/murthy")
+		java.lang.AssertionError: response http code
+			Expected: <404>
+     			but: was <500>
+		
+    			
+*/
+    	
+    	
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+        
+//        Response response =
+//            	given().
+//                	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+//                	contentType("application/json").
+//                	param("receiver", receiverURI).
+//                when().
+//                	get(urlPath);
+        
+        
+        
+        String urlPath = url+"/spsp/client/v1/query";
+        Response response;
+        
+        try {
+            response = given().
+            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            contentType("application/json").
+            param("receiver", receiverURI).
+            when().
+            get(url+"/spsp/client/v1/query");
+//            then().
+//            statusCode(404).
+//            body("id",equalTo("Error")).
+//            body("message",containsString("500 Internal Server Error")).
+//            body("debug.stack",containsString("500 Internal Server Error"));
+            
+            
+            /*
+        	 * Note about the following java casting.  Due to a more strict generic enforcement in Java 8, we have to add the cast to make the compiler happy 
+        	 * when these tests are executed via "mvn clean test"
+        	 * 
+        	 */
+        	assertThat( "response http code", (Integer) response.getStatusCode(), equalTo(404));
+        	
+//        	need a sample for Message containg a value
+        	
+//        	assertThat("type", (String) response.jsonPath().get("type"), not(isEmptyOrNullString()) );
+//        	assertThat("type", (String) response.jsonPath().get("type"), equalTo("payee") );
+//        	
+//        	assertThat("account", (String) response.jsonPath().get("account"), not(isEmptyOrNullString()) );
+//        	
+//        	assertThat("currencyCode", (String) response.jsonPath().get("currencyCode"), not(isEmptyOrNullString()) );
+//        	assertThat("currencyCode", (String) response.jsonPath().get("currencyCode"), equalTo("USD") );
+//
+//        	assertThat("currencyCode", (String) response.jsonPath().get("currencyCode"), not(isEmptyOrNullString()) );
+//        	assertThat("currencySymbol", (String) response.jsonPath().get("currencySymbol"), equalTo("$") );
+//        	
+//        	assertThat("name", (String) response.jsonPath().get("name"), not(isEmptyOrNullString()) );
+//        	assertThat("name", (String) response.jsonPath().get("name"), containsString(receiverName) );
+//
+//        	assertThat("imageUrl", (String) response.jsonPath().get("imageUrl"), not(isEmptyOrNullString()) );
+//        	assertThat("imageUrl", (String) response.jsonPath().get("imageUrl"), StringContainsIgnoringCase.containsStringIgnoringCase(receiverName) );
+        	
+        	System.out.println("**** after tests for . ****");
+        	
+        }catch(java.lang.AssertionError e){
+            captor.println("<ul>");
+            captor.println("<h2>Test Case: <i>query_InValidReceiver_ShouldNotReceive200_ShouldReceiveErrorResponse</i></h2>");
+            captor.printf("<h3>%s</h3> %s, %s \n","parameters: ", receiverName, receiverURI);
+            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+            captor.print("<h3>Request and Response: </h3>");
+            captor.println("<pre>"+twriter.toString()+"</pre>");
+            captor.println("</ul>");
+            
+            throw e;
+        }
         
         try {
             given().
@@ -352,7 +530,59 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="quoteSourceAmount_positive", groups = { "spsp_client_proxy_all", "spsp_client_proxy_query" })
     public void quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse(String userAddress, String amount) {
+    	
+    	
+    	/*
+    	 * 
+    	 * On 3/17/2017 Failing for the following reasons:
+    	 * dfsp1-qa
+    	
+    	[03-17 17:36:55,669] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=edd0d9d3-4ed3-4553-9438-c0366aea515f at path=/spsp/client/v1/quoteSourceAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-17 17:36:55,675] INFO  [[interop-domain].api-httpListenerConfig.worker.193] quoteSourceAmount: Proxying request for interopID=edd0d9d3-4ed3-4553-9438-c0366aea515f to http://0.0.0.0:3042/v1/quoteSourceAmount, method=get, receiver=levelone.dfsp2.bob, source_amount=10
+		[03-17 17:36:55,681] ERROR [[interop-domain].api-httpListenerConfig.worker.193] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : Response code 500 mapped as failure.
+		Element               : /get:\/quoteSourceAmount:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:101 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+		  (164 more...)
+
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
         
+        
+        
+        ------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+
+		[03-20 17:50:09,335] INFO  [[interop-domain].api-httpListenerConfig.worker.377] api-main: Received request with traceID=1e496dba-0fba-4923-a98d-f6357adbcbfd at path=/spsp/client/v1/quoteSourceAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-20 17:50:09,355] INFO  [[interop-domain].api-httpListenerConfig.worker.377] quoteSourceAmount: Proxying request for traceID=1e496dba-0fba-4923-a98d-f6357adbcbfd to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/quoteSourceAmount, method=get, receiver=levelone.dfsp2.bob, source_amount=10
+		[03-20 17:50:09,425] ERROR [[interop-domain].api-httpListenerConfig.worker.377] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : Response code 500 mapped as failure.
+		Element               : /get:\/quoteSourceAmount:api-config/processors/7 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:94 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+		  (164 more...)
+		
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		  
+		  
+		  FAILED: quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse("levelone.dfsp2.bob", "10")
+			java.lang.AssertionError: 1 expectation failed.
+			Expected status code <200> doesn't match actual status code <500>.
+		  
+		
+        *
+        */
+		
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -397,6 +627,60 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="quoteSourceAmount_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_quote" })
     public void quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(String userAddress, String amount) {
+    	
+    	/*
+    	 * 
+    	 * On 3/17/2017 test failed for the following reasons:
+    	 * while point to dfsp1-qa
+    	 * 
+    	[03-17 17:39:34,044] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=615c3568-768b-4147-a66b-963d0fac4ba5 at path=/spsp/client/v1/quoteSourceAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-17 17:39:34,050] INFO  [[interop-domain].api-httpListenerConfig.worker.193] quoteSourceAmount: Proxying request for interopID=615c3568-768b-4147-a66b-963d0fac4ba5 to http://0.0.0.0:3042/v1/quoteSourceAmount, method=get, receiver=levelone.dfsp2.bob, source_amount=10
+		[03-17 17:39:34,252] ERROR [[interop-domain].api-httpListenerConfig.worker.193] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : Response code 500 mapped as failure.
+		Element               : /get:\/quoteSourceAmount:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:101 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+		  (164 more...)
+
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
+		
+		
+		
+		
+		
+		------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+		
+		[03-20 17:53:55,854] INFO  [[interop-domain].api-httpListenerConfig.worker.377] api-main: Received request with traceID=effae0d1-b10e-4fe0-83c8-58ff8367e9b6 at path=/spsp/client/v1/quoteSourceAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-20 17:53:55,854] INFO  [[interop-domain].api-httpListenerConfig.worker.377] quoteSourceAmount: Proxying request for traceID=effae0d1-b10e-4fe0-83c8-58ff8367e9b6 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/quoteSourceAmount, method=get, receiver=levelone.dfsp2.bob, source_amount=10
+		[03-20 17:53:55,895] ERROR [[interop-domain].api-httpListenerConfig.worker.377] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : Response code 500 mapped as failure.
+		Element               : /get:\/quoteSourceAmount:api-config/processors/7 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:94 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+		  (164 more...)
+		
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
+		
+		Response code 500 mapped as failure.
+		response from quoteSourceAmount_ForInValidReceiver :: Response code 500 mapped as failure.
+		 http status code: 500
+		
+		
+    	 */
+    			
+    			
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
@@ -461,6 +745,57 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="quoteDestinationAmount_positive", groups={ "spsp_client_proxy_all", "spsp_client_proxy_quote" })
     public void quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(String userAddress, String amount){
+    	
+    /*	
+     * 
+     * On 3/17/2017 test failed for the following reasons 
+     * while point to dfsp1-qa
+     * 
+    	[03-17 17:41:14,790] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=6c5baa85-4633-4526-8b38-beb20d135e0b at path=/spsp/client/v1/quoteDestinationAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-17 17:41:14,796] INFO  [[interop-domain].api-httpListenerConfig.worker.193] quoteDestinationAmount: Proxying request for interopID=6c5baa85-4633-4526-8b38-beb20d135e0b to http://0.0.0.0:3042/v1/quoteDestinationAmount, method=get, receiver=levelone.dfsp2.bob, destination_amount=10
+		[03-17 17:41:14,880] ERROR [[interop-domain].api-httpListenerConfig.worker.193] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : Response code 500 mapped as failure.
+		Element               : /get:\/quoteDestinationAmount:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:129 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+		  (164 more...)
+
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
+		
+		
+		
+		------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+		
+		[03-20 18:23:12,106] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=5d42662c-40ac-4448-9bac-72b0b42e1c3a at path=/spsp/client/v1/quoteDestinationAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-20 18:23:12,107] INFO  [[interop-domain].api-httpListenerConfig.worker.407] quoteDestinationAmount: Proxying request for traceID=5d42662c-40ac-4448-9bac-72b0b42e1c3a to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/quoteDestinationAmount, method=get, receiver=levelone.dfsp2.bob, destination_amount=10
+		[03-20 18:23:12,198] ERROR [[interop-domain].api-httpListenerConfig.worker.407] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : Response code 500 mapped as failure.
+		Element               : /get:\/quoteDestinationAmount:api-config/processors/7 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:123 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+		  (164 more...)
+		
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
+		
+		
+		FAILED: quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse("levelone.dfsp2.bob", "10")
+		java.lang.AssertionError: 1 expectation failed.
+		Expected status code <200> doesn't match actual status code <500>.
+
+		*/
+		
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
@@ -506,7 +841,61 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="quoteDestinationAmount_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_quote" })
     public void quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(String userAddress, String amount){
+    	
+    	/*
+    	 * 
+    	 * On 3/17/2017 tests are failing for the following reason:
+    	 * dfsp1 qa
+    	 * 
+    	[03-17 18:05:57,905] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=19772d6f-d12d-4b41-b1ae-4e81597d50a7 at path=/spsp/client/v1/quoteDestinationAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-17 18:05:57,910] INFO  [[interop-domain].api-httpListenerConfig.worker.193] quoteDestinationAmount: Proxying request for interopID=19772d6f-d12d-4b41-b1ae-4e81597d50a7 to http://0.0.0.0:3042/v1/quoteDestinationAmount, method=get, receiver=levelone.dfsp2.john, destination_amount=10
+		[03-17 18:05:58,049] ERROR [[interop-domain].api-httpListenerConfig.worker.193] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : Response code 500 mapped as failure.
+		Element               : /get:\/quoteDestinationAmount:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:129 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+		  (164 more...)
+
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
         
+        
+        
+        ------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+		
+		[03-20 19:24:36,770] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=295d201f-9f4c-485b-8b42-b87acc7473b4 at path=/spsp/client/v1/quoteDestinationAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-20 19:24:36,771] INFO  [[interop-domain].api-httpListenerConfig.worker.407] quoteDestinationAmount: Proxying request for traceID=295d201f-9f4c-485b-8b42-b87acc7473b4 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/quoteDestinationAmount, method=get, receiver=levelone.dfsp2.john, destination_amount=10
+		[03-20 19:24:36,811] ERROR [[interop-domain].api-httpListenerConfig.worker.407] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : Response code 500 mapped as failure.
+		Element               : /get:\/quoteDestinationAmount:api-config/processors/7 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:123 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+		  (164 more...)
+		
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+        
+        
+        
+        Response code 500 mapped as failure.
+		response from quoteDestinationAmount_ForInValidReceiver :: Response code 500 mapped as failure.
+ 			http status code: 500
+			Response code 500 mapped as failure.
+        
+        
+        *
+        */
+    	
+    	
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -564,7 +953,58 @@ public class SPSPClientProxyFunctionalTest {
      * @param amount
      */
     @Test(dataProvider="setup_positive", groups={ "spsp_client_proxy_all", "spsp_client_proxy_payment_setup" })
-    public void setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(String sender, String receiver, String amount){
+    public void setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(String sender, String receiver, String amount) {
+    	
+    	
+    	/*
+    	 * On 3/17/2017 tests failed for the following reasons:
+    	 * using dfsp1 qa
+    	 *     	
+    	[03-17 18:07:16,390] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=b71d212f-6149-41c2-8742-6d6c5dbb8616 at path=/spsp/client/v1/setup, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-17 18:07:16,402] INFO  [[interop-domain].api-httpListenerConfig.worker.193] setup: Proxying request for interopID=b71d212f-6149-41c2-8742-6d6c5dbb8616 to http://0.0.0.0:3042/v1/setup, method=post: {"receiver":"http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:3046/v1/receivers/85555384","sourceAccount":"http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:8088/ledger/accounts/26547070","destinationAmount":"100","memo":"Hi Bobb!","sourceIdentifier":""}
+		[03-17 18:07:16,418] ERROR [[interop-domain].api-httpListenerConfig.worker.193] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : For input string: "400-499" (java.lang.NumberFormatException).
+		Element               : /post:\/setup:application\/json:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:168 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		For input string: "400-499" (java.lang.NumberFormatException). (org.mule.api.MessagingException)
+		  java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+		  java.lang.Integer.parseInt(Integer.java:492)
+		  java.lang.Integer.parseInt(Integer.java:527)
+		  org.mule.module.http.internal.request.RangeStatusCodeValidator.belongs(RangeStatusCodeValidator.java:32)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:35)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  (157 more...)
+
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
+
+
+		------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+		
+		
+		03-20 19:28:24,797] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=2e96f113-6fb8-42df-ae3b-cd73a2324721 at path=/spsp/client/v1/setup, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-20 19:28:24,797] WARN  [[interop-domain].api-httpListenerConfig.worker.407] Configuration: No matching patterns for URI /setup
+		[03-20 19:28:24,799] ERROR [[interop-domain].api-httpListenerConfig.worker.407] MappingExceptionListener: 
+		********************************************************************************
+		Message               : /setup
+		Element               : /api-main/processors/2 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy-api.xml:61 (APIkit Router)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		/setup (org.mule.module.apikit.exception.NotFoundException)
+		  org.mule.module.apikit.AbstractConfiguration$2.load(AbstractConfiguration.java:164)
+		
+		
+		
+		FAILED: setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse("26547070", "85555384", "100")
+		java.lang.AssertionError: 
+		Expected: <201>
+		     but: was <404>
+
+    	*/
+    			
+    			
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
@@ -627,6 +1067,8 @@ public class SPSPClientProxyFunctionalTest {
         }
     }
     
+    
+    
     /**
      *
      * @param sender
@@ -635,6 +1077,92 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="setup_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_payment_setup" })
     public void setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(String sender, String receiver, String amount){
+    	
+    	/*
+    	 * On 3/17/2017 test failed for the following reasons:
+    	 * on dfsp1 qa
+    	 * 
+    	[03-17 22:56:38,078] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=62cedd42-7de4-4634-9d74-1d98ba6168e8 at path=/spsp/client/v1/setup, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-17 22:56:38,083] INFO  [[interop-domain].api-httpListenerConfig.worker.193] setup: Proxying request for interopID=62cedd42-7de4-4634-9d74-1d98ba6168e8 to http://0.0.0.0:3042/v1/setup, method=post: {"receiver":"http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:3046/v1/receivers/jane","sourceAccount":"http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:8088/ledger/accounts/john","destinationAmount":"100","memo":"Hi Bobb!","sourceIdentifier":""}
+		[03-17 22:56:38,096] ERROR [[interop-domain].api-httpListenerConfig.worker.193] DefaultMessagingExceptionStrategy: 
+		********************************************************************************
+		Message               : For input string: "400-499" (java.lang.NumberFormatException).
+		Element               : /post:\/setup:application\/json:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:168 (HTTP)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		For input string: "400-499" (java.lang.NumberFormatException). (org.mule.api.MessagingException)
+		  java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+		  java.lang.Integer.parseInt(Integer.java:492)
+		  java.lang.Integer.parseInt(Integer.java:527)
+		  org.mule.module.http.internal.request.RangeStatusCodeValidator.belongs(RangeStatusCodeValidator.java:32)
+		  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:35)
+		  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+		  (157 more...)
+		
+		  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+		********************************************************************************
+
+    	
+    	
+    	
+    	------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+    	
+    	[03-20 19:30:40,028] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=f9f833ef-7b4d-490d-89f5-536175c9f996 at path=/spsp/client/v1/setup, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-20 19:30:40,028] WARN  [[interop-domain].api-httpListenerConfig.worker.407] Configuration: No matching patterns for URI /setup
+		[03-20 19:30:40,028] ERROR [[interop-domain].api-httpListenerConfig.worker.407] MappingExceptionListener: 
+		********************************************************************************
+		Message               : /setup
+		Element               : /api-main/processors/2 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy-api.xml:61 (APIkit Router)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		/setup (org.mule.module.apikit.exception.NotFoundException)
+
+    	
+    	{
+		    "debug": {
+		        "cause": {
+		            "isRootCause": true,
+		            "message": "/setup",
+		            "stackInfo": [
+		                "org.mule.module.apikit.AbstractConfiguration$2.load(AbstractConfiguration.java:164)",
+		                "org.mule.module.apikit.AbstractConfiguration$2.load(AbstractConfiguration.java:155)",
+		                "com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3527)",
+		                "com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2319)",
+		                "com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2282)",
+		                "com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2197)",
+		                "com.google.common.cache.LocalCache.get(LocalCache.java:3937)",
+		                "com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:3941)",
+		                "com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:4824)",
+		                "org.mule.module.apikit.AbstractRouter.processRouterRequest(AbstractRouter.java:159)",
+		                "... 89 stack entries skipped, final entry below ...",
+		                "java.lang.Thread.run(Thread.java:745)"
+		            ]
+		        },
+		        "message": "/setup (org.mule.module.apikit.exception.NotFoundException).",
+		        "stackInfo": [
+		            "org.mule.execution.ExceptionToMessagingExceptionExecutionInterceptor.execute(ExceptionToMessagingExceptionExecutionInterceptor.java:42)",
+		            "org.mule.execution.MessageProcessorNotificationExecutionInterceptor.execute(MessageProcessorNotificationExecutionInterceptor.java:108)",
+		            "org.mule.execution.MessageProcessorExecutionTemplate.execute(MessageProcessorExecutionTemplate.java:44)",
+		            "org.mule.processor.BlockingProcessorExecutor.executeNext(BlockingProcessorExecutor.java:88)",
+		            "org.mule.processor.BlockingProcessorExecutor.execute(BlockingProcessorExecutor.java:59)",
+		            "org.mule.processor.chain.DefaultMessageProcessorChain.doProcess(DefaultMessageProcessorChain.java:80)",
+		            "org.mule.processor.chain.AbstractMessageProcessorChain.process(AbstractMessageProcessorChain.java:74)",
+		            "org.mule.execution.ExceptionToMessagingExceptionExecutionInterceptor.execute(ExceptionToMessagingExceptionExecutionInterceptor.java:27)",
+		            "org.mule.execution.MessageProcessorExecutionTemplate.execute(MessageProcessorExecutionTemplate.java:44)",
+		            "org.mule.processor.BlockingProcessorExecutor.executeNext(BlockingProcessorExecutor.java:98)",
+		            "... 92 stack entries skipped, final entry below ...",
+		            "java.lang.Thread.run(Thread.java:745)"
+		        ]
+		    },
+		    "error": {
+		        "id": "Resource not found",
+		        "message": "Failed to process request for traceID=f9f833ef-7b4d-490d-89f5-536175c9f996: /setup"
+		    }
+		}
+    	
+    	
+    	*/
+    			
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
@@ -691,18 +1219,112 @@ public class SPSPClientProxyFunctionalTest {
     }
     
     
+    
     @Test(dataProvider="payment_positive", groups={ "spsp_client_proxy_all", "spsp_client_proxy_payment" })
-    public void payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiver, String amount){
+    public void payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiverUserNumber, String amount){
+    	
+    	/*
+    	 * Test failed 3/17/2017.  Different from the errors above.
+    	 * 
+    	 * This is the same data number format related to the ILP ledger adapter test.  Receiver is a number, an sender is a Name.  
+    	 * Fix, all that I believe that is needed is change the data in the test csv file
+    	 * 
+    	 * 3/17/2017 4:58pm the following test fail for the following reasons:
+    	 * in env dsfp1 qa
+    	 * 
+    	 *  [03-17 22:57:52,747] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=e10f8688-ca34-40e0-b222-71e02fbf5886 at path=/spsp/client/v1/setup, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
+			[03-17 22:57:52,752] INFO  [[interop-domain].api-httpListenerConfig.worker.193] setup: Proxying request for interopID=e10f8688-ca34-40e0-b222-71e02fbf5886 to http://0.0.0.0:3042/v1/setup, method=post: {"receiver":"http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:3043/v1/receivers/26547070","sourceAccount":"http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:8088/ledger/accounts/bob","destinationAmount":"100","memo":"Hi Bobb!","sourceIdentifier":"9809890190934023"}
+			[03-17 22:57:52,849] ERROR [[interop-domain].api-httpListenerConfig.worker.193] DefaultMessagingExceptionStrategy: 
+			********************************************************************************
+			Message               : For input string: "400-499" (java.lang.NumberFormatException).
+			Element               : /post:\/setup:application\/json:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:168 (HTTP)
+			--------------------------------------------------------------------------------
+			Exception stack is:
+			For input string: "400-499" (java.lang.NumberFormatException). (org.mule.api.MessagingException)
+			  java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+			  java.lang.Integer.parseInt(Integer.java:492)
+			  java.lang.Integer.parseInt(Integer.java:527)
+			  org.mule.module.http.internal.request.RangeStatusCodeValidator.belongs(RangeStatusCodeValidator.java:32)
+			  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:35)
+			  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+			  (157 more...)
+			
+			  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+			********************************************************************************
+    	 
+    	 
+    	 ------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+    	 
+    	 [03-20 19:35:09,435] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=4817082c-af0a-4a98-a5a9-de46e9607f1e at path=/spsp/client/v1/setup, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
+		[03-20 19:35:09,436] WARN  [[interop-domain].api-httpListenerConfig.worker.407] Configuration: No matching patterns for URI /setup
+		[03-20 19:35:09,436] ERROR [[interop-domain].api-httpListenerConfig.worker.407] MappingExceptionListener: 
+		********************************************************************************
+		Message               : /setup
+		Element               : /api-main/processors/2 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy-api.xml:61 (APIkit Router)
+		--------------------------------------------------------------------------------
+		Exception stack is:
+		/setup (org.mule.module.apikit.exception.NotFoundException)
+
+    	 
+    	 1 ========== setup for valid receiver, payment request json: {"receiver":"http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3043/v1/receivers/26547070","sourceAccount":"http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:8014/ledger/accounts/bob","destinationAmount":"100","memo":"Hi Bobb!","sourceIdentifier":"9809890190934023"}, post url: http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:8088/spsp/client/v1/setup, should get 200 but failing
+			{
+			    "debug": {
+			        "cause": {
+			            "isRootCause": true,
+			            "message": "/setup",
+			            "stackInfo": [
+			                "org.mule.module.apikit.AbstractConfiguration$2.load(AbstractConfiguration.java:164)",
+			                "org.mule.module.apikit.AbstractConfiguration$2.load(AbstractConfiguration.java:155)",
+			                "com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3527)",
+			                "com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2319)",
+			                "com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2282)",
+			                "com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2197)",
+			                "com.google.common.cache.LocalCache.get(LocalCache.java:3937)",
+			                "com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:3941)",
+			                "com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:4824)",
+			                "org.mule.module.apikit.AbstractRouter.processRouterRequest(AbstractRouter.java:159)",
+			                "... 89 stack entries skipped, final entry below ...",
+			                "java.lang.Thread.run(Thread.java:745)"
+			            ]
+			        },
+			        "message": "/setup (org.mule.module.apikit.exception.NotFoundException).",
+			        "stackInfo": [
+			            "org.mule.execution.ExceptionToMessagingExceptionExecutionInterceptor.execute(ExceptionToMessagingExceptionExecutionInterceptor.java:42)",
+			            "org.mule.execution.MessageProcessorNotificationExecutionInterceptor.execute(MessageProcessorNotificationExecutionInterceptor.java:108)",
+			            "org.mule.execution.MessageProcessorExecutionTemplate.execute(MessageProcessorExecutionTemplate.java:44)",
+			            "org.mule.processor.BlockingProcessorExecutor.executeNext(BlockingProcessorExecutor.java:88)",
+			            "org.mule.processor.BlockingProcessorExecutor.execute(BlockingProcessorExecutor.java:59)",
+			            "org.mule.processor.chain.DefaultMessageProcessorChain.doProcess(DefaultMessageProcessorChain.java:80)",
+			            "org.mule.processor.chain.AbstractMessageProcessorChain.process(AbstractMessageProcessorChain.java:74)",
+			            "org.mule.execution.ExceptionToMessagingExceptionExecutionInterceptor.execute(ExceptionToMessagingExceptionExecutionInterceptor.java:27)",
+			            "org.mule.execution.MessageProcessorExecutionTemplate.execute(MessageProcessorExecutionTemplate.java:44)",
+			            "org.mule.processor.BlockingProcessorExecutor.executeNext(BlockingProcessorExecutor.java:98)",
+			            "... 92 stack entries skipped, final entry below ...",
+			            "java.lang.Thread.run(Thread.java:745)"
+			        ]
+			    },
+			    "error": {
+			        "id": "Resource not found",
+			        "message": "Failed to process request for traceID=4817082c-af0a-4a98-a5a9-de46e9607f1e: /setup"
+			    }
+			}
+
+
+    	 * 
+    	 */
         
+
+    	
         String setupRequest = Json.createObjectBuilder()
-        .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-        .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+        .add("receiver", "http://"+host+":3043/v1/receivers/"+receiverUserNumber)  // needs to be an account #
+        .add("sourceAccount", "http://"+host+":8014/ledger/accounts/"+sender)  // needs to be a Name, not an account number
         .add("destinationAmount", amount)
         .add("memo", "Hi Bobb!")
-        .add("sourceIdentifier", "")
+        .add("sourceIdentifier", "9809890190934023")
         .build()
         .toString();
-        
+    	
+       
         System.out.println("setupRequest for payment post: " + setupRequest);
         System.out.println("1 ========== setup for valid receiver, payment request json: " + setupRequest + ", post url: "  + url+"/spsp/client/v1/setup" + ", should get 200 but failing");
         
@@ -712,6 +1334,16 @@ public class SPSPClientProxyFunctionalTest {
         	body(setupRequest).
         when().
         	post(url+"/spsp/client/v1/setup");
+        
+        
+        /*Response responseStep3 =
+    			given().
+    				contentType("application/json").
+    				body(setupRequest).
+    			when().
+    	         	post(url+"/spsp/client/v1/setup");
+        
+        */
         
         System.out.println("response from post to setup payment: " + response.prettyPrint());
         assertThat("setup for payment worked before calling ", response.getStatusCode(), equalTo(201));
@@ -821,6 +1453,52 @@ public class SPSPClientProxyFunctionalTest {
     @Test(dataProvider="invoice_GET_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
         
+    	
+    	/*
+    	 * 3/17/2017 The following test fail for the following errors
+    	 * Env: dfsp1 qa
+    	 * 
+    	 * 
+    	 *  [03-17 22:59:44,427] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=9480a3ab-3c7b-4103-99fb-476477472aa0 at path=/spsp/client/v1/invoices/bad/http%3A%2F%2Flocalhost%3A8082%2Fspsp%2Fclient%2Fv1%2Finvoice%3FinvoiceUrl%3Dhttp%3A%2F%2Fbrian.com, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+			[03-17 22:59:44,427] WARN  [[interop-domain].api-httpListenerConfig.worker.193] Configuration: No matching patterns for URI /invoices/bad/http:%2F%2Flocalhost:8082%2Fspsp%2Fclient%2Fv1%2Finvoice?invoiceUrl=http:%2F%2Fbrian.com
+			[03-17 22:59:44,428] ERROR [[interop-domain].api-httpListenerConfig.worker.193] MappingExceptionListener: 
+			********************************************************************************
+			Message               : /invoices/bad/http:%2F%2Flocalhost:8082%2Fspsp%2Fclient%2Fv1%2Finvoice?invoiceUrl=http:%2F%2Fbrian.com
+			Element               : /api-main/processors/2 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy-api.xml:39 (APIkit Router)
+			--------------------------------------------------------------------------------
+			Exception stack is:
+			/invoices/bad/http:%2F%2Flocalhost:8082%2Fspsp%2Fclient%2Fv1%2Finvoice?invoiceUrl=http:%2F%2Fbrian.com (org.mule.module.apikit.exception.NotFoundException)
+			  org.mule.module.apikit.AbstractConfiguration$2.load(AbstractConfiguration.java:166)
+			  org.mule.module.apikit.AbstractConfiguration$2.load(AbstractConfiguration.java:157)
+			  com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3527)
+			  com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2319)
+			  com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2282)
+			  com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2197)
+			  com.google.common.cache.LocalCache.get(LocalCache.java:3937)
+			  com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:3941)
+			  com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:4824)
+			  org.mule.module.apikit.AbstractRouter.processRouterRequest(AbstractRouter.java:159)
+			  (90 more...)
+			
+			  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+			********************************************************************************
+
+
+
+
+		------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+    	 
+		
+		3/20/2017 test passed on dfps2 test.
+		
+		
+
+
+    	 * 
+    	 * 
+    	 */
+    	
+    	
         /*
          * Temporary host url to call the local version of this test to ensure that it works.
          * Sample URL:  http://localhost:8081/spsp/client/v1/invoice?invoiceUrl=http://brian.com
@@ -904,6 +1582,14 @@ public class SPSPClientProxyFunctionalTest {
     @Test(dataProvider="invoice_GET_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
         
+    	/*
+    	 * 3/17/2017 Test passed
+    	 * 
+    	 * 3/20/2017 test passed too.
+    	 * 
+    	 */
+    	
+    	
         String urlPath = "/spsp/client/v1/invoiceXXX";
         
         final StringWriter twriter = new StringWriter();
@@ -948,6 +1634,12 @@ public class SPSPClientProxyFunctionalTest {
     @Test(testName="invoice_GET_goodBaseUrlButWithBadInvoiceUrl_ShouldGet404_ResourceNotFound", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_Get_withInvalidUri_ShoudlGet404() {
         
+    	/*
+    	 * 3/17/2017 Test passed in dfsp1 qa
+    	 * 
+    	 * 3/20/2017 test passed on dfsp2 test
+    	 * 
+    	 */
         
         // Override the URL for local testing until Brian gets this working locally.
 //        String url = "http://localhost:8081";
@@ -993,6 +1685,53 @@ public class SPSPClientProxyFunctionalTest {
     @Test(dataProvider="invoice_create_positive", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(String invoiceUrl, String invoiceId, String submissionUrl, String senderIdentifier, String memo) {
         
+    	/*
+    	 * 3/17/2017 The following test fails with a weird error 
+    	 * 
+    	 * 
+    	 * 
+    	 *  [03-17 23:13:18,918] INFO  [[interop-domain].api-httpListenerConfig.worker.198] api-main: Received request for interopID=2fb3a599-9ad4-46aa-a38f-266a2b63e4fe at path=/spsp/client/v1/invoices, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
+			[03-17 23:13:18,922] INFO  [[interop-domain].api-httpListenerConfig.worker.198] invoice: Proxying request for interopID=2fb3a599-9ad4-46aa-a38f-266a2b63e4fe to http://0.0.0.0:3042/v1//invoices, method=post: {"invoiceUrl":"sampleurl1.com","invoiceId":"12341","submissionUrl":"http://submissionUrl.com","senderIdentifier":"sample_senderIdentifier1","memo":"sample memo1"}
+			[03-17 23:13:19,555] INFO  [[interop-domain].api-httpListenerConfig.worker.198] setup: Returning post:/invoice response for interopID=2fb3a599-9ad4-46aa-a38f-266a2b63e4fe, http.status=null: {"invoiceUrl":"sampleurl1.com","invoiceId":"12341","senderIdentifier":"sample_senderIdentifier1","memo":"sample memo1","submissionUrl":"http://submissionUrl.com"}
+			
+			It looks like the core error is in the follwoing url;
+			
+			                       |
+ 			                       V
+			http://0.0.0.0:3042/v1//invoices, method=post: 
+			{"invoiceUrl":"sampleurl1.com","invoiceId":"12341","submissionUrl":"http://submissionUrl.com","senderIdentifier":"sample_senderIdentifier1","memo":"sample memo1"}
+			
+			
+			
+			
+			------------------- 	dfsp2 test failed with the following errors: 3/20/2017  ------------------- 	
+			
+			[03-20 19:46:58,874] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=c5261144-ea2b-46b4-9961-1c0b019c6d67 at path=/spsp/client/v1/invoices, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
+			[03-20 19:46:58,874] INFO  [[interop-domain].api-httpListenerConfig.worker.407] invoice: Proxying request for traceID=c5261144-ea2b-46b4-9961-1c0b019c6d67 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/invoices, method=post: {"invoiceUrl":"sampleurl2.com","invoiceId":"12342","submissionUrl":"http://submissionUrl.com","senderIdentifier":"sample_senderIdentifier2","memo":"sample memo2"}
+			[03-20 19:47:00,262] INFO  [[interop-domain].api-httpListenerConfig.worker.407] setup: Returning post:/invoice response for traceID=c5261144-ea2b-46b4-9961-1c0b019c6d67, http.status=null: {"invoiceUrl":"sampleurl2.com","invoiceId":"12342","senderIdentifier":"sample_senderIdentifier2","memo":"sample memo2","submissionUrl":"http://submissionUrl.com"}
+			[03-20 19:47:00,449] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=839abcf1-820f-4852-af51-3ccf955cd016 at path=/spsp/client/v1/invoices/12342, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+			[03-20 19:47:00,449] INFO  [[interop-domain].api-httpListenerConfig.worker.407] invoice: Proxying request for traceID=839abcf1-820f-4852-af51-3ccf955cd016 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/invoices, method=get, invoiceUrl=null
+			[03-20 19:47:00,451] INFO  [[interop-domain].api-httpListenerConfig.worker.407] invoice: Returning get:/invoice response for traceID=839abcf1-820f-4852-af51-3ccf955cd016, invoiceUrl=null, http.status=null: Not Found
+			
+			
+			Url for post invoice: http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:8088/spsp/client/v1/invoices
+			creating invoice loc 1:: response: 
+			Get JSON response from create invoice :: "Not Found"
+			"Not Found"
+			**** Response from invoice get :: invoice_POST_ForValidInvoice :: "Not Found"
+			"Not Found"
+			Url for post invoice: http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:8088/spsp/client/v1/invoices
+			creating invoice loc 1:: response: 
+			Get JSON response from create invoice :: "Not Found"
+			"Not Found"
+			**** Response from invoice get :: invoice_POST_ForValidInvoice :: "Not Found"
+			
+			
+    	 */
+    	
+    	
+    	
+    	
 /*
          New Sample as of 11/29/2016
          	{
@@ -1003,7 +1742,8 @@ public class SPSPClientProxyFunctionalTest {
 		  		"memo": "sample memo"
 			}
 */
-        
+    	   
+    	
         String invoiceCreateRequest = Json.createObjectBuilder()
         .add("invoiceUrl", invoiceUrl)
         .add("invoiceId", invoiceId)				// new
@@ -1016,6 +1756,7 @@ public class SPSPClientProxyFunctionalTest {
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        String urlPath = url+invoiceUri;
         
         try {
             
@@ -1030,10 +1771,11 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	body(invoiceCreateRequest).
             when().
-	         	post(url+invoiceUri);
+            	post(urlPath);
                      
 
-            System.out.println("creating invoice loc 1: response: " + response.prettyPrint());
+            System.out.println("Url for post invoice: " + urlPath);
+            System.out.println("creating invoice loc 1:: response: " + response.asString());
             assertThat("create invoice", response.getStatusCode(), equalTo(201));
             
             /*
@@ -1047,7 +1789,7 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	pathParam("invoiceId", invoiceId).
             when().
-            	get(url+invoiceUri + "{invoiceId}");
+            	get(url+invoiceUri + "/{invoiceId}");  // need the slash here as it is a URI parameter and the invoice URI does not account for the final slash.
             
             System.out.println("Get JSON response from create invoice :: " + responseGet.asString());
 
@@ -1096,6 +1838,13 @@ public class SPSPClientProxyFunctionalTest {
     
     @Test(testName="invoice_post_404_resouce_not_found", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_POST_testingFor404ResourceNotFound() {
+    	
+    	/*
+    	 * 3/17/2017 Test passed/succeeded.  
+    	 * 
+    	 * 3/20/2017 Test passed
+    	 * 
+    	 */
         
         String invoiceCreateRequest = Json.createObjectBuilder()
         .add("invoiceUrl", "invoice_url_goes_here")
@@ -1146,6 +1895,15 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(testName="invoice_post_415_and_500_unsupported_media_type", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_POST_testingFor415UnsupportedMediaType() {
+    	
+    	/*
+    	 * 
+    	 * 3/17/2017 test passed in dfsp1 qa
+    	 * 3/20/2017 test passed on dfps2 test
+    	 * 
+    	 * 
+    	 * 
+    	 */
         
         String invoiceCreateRequest = Json.createObjectBuilder()
         .add("invoiceUrl", "invoice_url_goes_here")
