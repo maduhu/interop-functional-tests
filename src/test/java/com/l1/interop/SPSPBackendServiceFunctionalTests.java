@@ -154,6 +154,9 @@ public class SPSPBackendServiceFunctionalTests {
     	 *   
     	 *  
     	 *  Test failed on dfsp2-test  :: Looks like the data is the only problem.  Might need to now have the receiver in the file, but created during the test so it can adapt to each environment.
+    	 *  Consider creating a receiver on the fly by leveraging 
+    	 *  	setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse from the SPSP Client Proxy Functional Test to create one on the fly.
+    	 *  
     	 *  
     	    [03-20 20:25:48,860] INFO  [[interop-domain].api-httpListenerConfig.worker.431] spsp-backend-api-main: Received request with traceID=92c0f2b4-d0e6-4c5b-854b-ef7c8c0c40ea at path=/spsp/backend/v1/receivers/54200545
 			[03-20 20:25:48,860] INFO  [[interop-domain].api-httpListenerConfig.worker.431] spsp-backend-fetch-payee: Processing request for GET on http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:8010/receivers/54200545, traceID=92c0f2b4-d0e6-4c5b-854b-ef7c8c0c40ea, payee=54200545
@@ -171,7 +174,7 @@ public class SPSPBackendServiceFunctionalTests {
     	 *  
     	 */
 		
-		// TODO  Need to add the receiver ID from a file not hard coded 
+		// TODO  Need to add the receiver ID from a file not hard coded.  
 		
         String urlPath = "/spsp/backend/v1/receivers/54200545";  // Need to add the receiver ID from a file not hard coded 
         

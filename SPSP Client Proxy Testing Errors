@@ -311,53 +311,54 @@ Failure #6
     public void quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(String userAddress, String amount) {
     	
 /*
- * 
- * On 3/17/2017 test failed for the following reasons:
- * while point to dfsp1-qa
- * 
-[03-17 17:39:34,044] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=615c3568-768b-4147-a66b-963d0fac4ba5 at path=/spsp/client/v1/quoteSourceAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
-[03-17 17:39:34,050] INFO  [[interop-domain].api-httpListenerConfig.worker.193] quoteSourceAmount: Proxying request for interopID=615c3568-768b-4147-a66b-963d0fac4ba5 to http://0.0.0.0:3042/v1/quoteSourceAmount, method=get, receiver=levelone.dfsp2.bob, source_amount=10
-[03-17 17:39:34,252] ERROR [[interop-domain].api-httpListenerConfig.worker.193] DefaultMessagingExceptionStrategy: 
-********************************************************************************
-Message               : Response code 500 mapped as failure.
-Element               : /get:\/quoteSourceAmount:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:101 (HTTP)
---------------------------------------------------------------------------------
-Exception stack is:
-Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
-  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
-  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
-  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
-  (164 more...)
-
-  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
-********************************************************************************
-
-
-
-
-
-------------------- 	dfsp2 test failed with the following errors: ------------------- 	
-
-[03-20 17:53:55,854] INFO  [[interop-domain].api-httpListenerConfig.worker.377] api-main: Received request with traceID=effae0d1-b10e-4fe0-83c8-58ff8367e9b6 at path=/spsp/client/v1/quoteSourceAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
-[03-20 17:53:55,854] INFO  [[interop-domain].api-httpListenerConfig.worker.377] quoteSourceAmount: Proxying request for traceID=effae0d1-b10e-4fe0-83c8-58ff8367e9b6 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/quoteSourceAmount, method=get, receiver=levelone.dfsp2.bob, source_amount=10
-[03-20 17:53:55,895] ERROR [[interop-domain].api-httpListenerConfig.worker.377] DefaultMessagingExceptionStrategy: 
-********************************************************************************
-Message               : Response code 500 mapped as failure.
-Element               : /get:\/quoteSourceAmount:api-config/processors/7 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:94 (HTTP)
---------------------------------------------------------------------------------
-Exception stack is:
-Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
-  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
-  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
-  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
-  (164 more...)
-
-  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
-********************************************************************************
-
-Response code 500 mapped as failure.
-response from quoteSourceAmount_ForInValidReceiver :: Response code 500 mapped as failure.
- http status code: 500
+	 * 
+	 * On 3/17/2017 test failed for the following reasons:
+	 * while point to dfsp1-qa
+	 * 
+	[03-17 17:39:34,044] INFO  [[interop-domain].api-httpListenerConfig.worker.193] api-main: Received request for interopID=615c3568-768b-4147-a66b-963d0fac4ba5 at path=/spsp/client/v1/quoteSourceAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+	[03-17 17:39:34,050] INFO  [[interop-domain].api-httpListenerConfig.worker.193] quoteSourceAmount: Proxying request for interopID=615c3568-768b-4147-a66b-963d0fac4ba5 to http://0.0.0.0:3042/v1/quoteSourceAmount, method=get, receiver=levelone.dfsp2.bob, source_amount=10
+	[03-17 17:39:34,252] ERROR [[interop-domain].api-httpListenerConfig.worker.193] DefaultMessagingExceptionStrategy: 
+	********************************************************************************
+	Message               : Response code 500 mapped as failure.
+	Element               : /get:\/quoteSourceAmount:api-config/processors/6 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:101 (HTTP)
+	--------------------------------------------------------------------------------
+	Exception stack is:
+	Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+	  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+	  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+	  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+	  (164 more...)
+	
+	  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+	********************************************************************************
+	
+	
+	
+	
+	On 3/20/2017 Test failed for the following errors:
+				dfsp2-test
+	------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+	
+	[03-20 17:53:55,854] INFO  [[interop-domain].api-httpListenerConfig.worker.377] api-main: Received request with traceID=effae0d1-b10e-4fe0-83c8-58ff8367e9b6 at path=/spsp/client/v1/quoteSourceAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+	[03-20 17:53:55,854] INFO  [[interop-domain].api-httpListenerConfig.worker.377] quoteSourceAmount: Proxying request for traceID=effae0d1-b10e-4fe0-83c8-58ff8367e9b6 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/quoteSourceAmount, method=get, receiver=levelone.dfsp2.bob, source_amount=10
+	[03-20 17:53:55,895] ERROR [[interop-domain].api-httpListenerConfig.worker.377] DefaultMessagingExceptionStrategy: 
+	********************************************************************************
+	Message               : Response code 500 mapped as failure.
+	Element               : /get:\/quoteSourceAmount:api-config/processors/7 @ interop-spsp-clientproxy-0.4.8-SNAPSHOT:spsp-client-proxy.xml:94 (HTTP)
+	--------------------------------------------------------------------------------
+	Exception stack is:
+	Response code 500 mapped as failure. (org.mule.module.http.internal.request.ResponseValidatorException)
+	  org.mule.module.http.internal.request.SuccessStatusCodeValidator.validate(SuccessStatusCodeValidator.java:37)
+	  org.mule.module.http.internal.request.DefaultHttpRequester.validateResponse(DefaultHttpRequester.java:356)
+	  org.mule.module.http.internal.request.DefaultHttpRequester.innerProcess(DefaultHttpRequester.java:344)
+	  (164 more...)
+	
+	  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+	********************************************************************************
+	
+	Response code 500 mapped as failure.
+	response from quoteSourceAmount_ForInValidReceiver :: Response code 500 mapped as failure.
+	 http status code: 500
 
 
  */
@@ -391,7 +392,8 @@ public void quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldRecei
 	********************************************************************************
 	
 	
-	
+	On 3/20/2017 Test failed for the following errors:
+			dfsp2-test
 	------------------- 	dfsp2 test failed with the following errors: ------------------- 	
 	
 	[03-20 18:23:12,106] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=5d42662c-40ac-4448-9bac-72b0b42e1c3a at path=/spsp/client/v1/quoteDestinationAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
@@ -450,7 +452,8 @@ public void quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldRec
 	********************************************************************************
     
     
-    
+    On 3/20/2017 Test failed for the following errors:
+			dfsp2-test
     ------------------- 	dfsp2 test failed with the following errors: ------------------- 	
 	
 	[03-20 19:24:36,770] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=295d201f-9f4c-485b-8b42-b87acc7473b4 at path=/spsp/client/v1/quoteDestinationAmount, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
@@ -515,6 +518,9 @@ public void setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(Str
 	********************************************************************************
 
 
+
+	On 3/20/2017 Test failed for the following errors:
+	dfsp2-test
 	------------------- 	dfsp2 test failed with the following errors: ------------------- 	
 	
 	
@@ -572,7 +578,8 @@ public void setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(S
 
 	
 	
-	
+	On 3/20/2017 Test failed for the following errors:
+	dfsp2-test
 	------------------- 	dfsp2 test failed with the following errors: ------------------- 	
 	
 	[03-20 19:30:40,028] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=f9f833ef-7b4d-490d-89f5-536175c9f996 at path=/spsp/client/v1/setup, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
@@ -669,9 +676,11 @@ Failure #11
 			********************************************************************************
     	 
     	 
-    	 ------------------- 	dfsp2 test failed with the following errors: ------------------- 	
+    	On 3/20/2017 Test failed for the following errors:
+		dfsp2-test
+    	------------------- 	dfsp2 test failed with the following errors: ------------------- 	
     	 
-    	 [03-20 19:35:09,435] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=4817082c-af0a-4a98-a5a9-de46e9607f1e at path=/spsp/client/v1/setup, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
+    	[03-20 19:35:09,435] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=4817082c-af0a-4a98-a5a9-de46e9607f1e at path=/spsp/client/v1/setup, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
 		[03-20 19:35:09,436] WARN  [[interop-domain].api-httpListenerConfig.worker.407] Configuration: No matching patterns for URI /setup
 		[03-20 19:35:09,436] ERROR [[interop-domain].api-httpListenerConfig.worker.407] MappingExceptionListener: 
 		********************************************************************************
@@ -769,7 +778,8 @@ public void invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response
 
 
 
-
+	On 3/20/2017 Test failed for the following errors:
+	dfsp2-test
 	------------------- 	dfsp2 test failed with the following errors: ------------------- 	
 	 
 	
@@ -807,7 +817,8 @@ Failure #13
 			
 			
 			
-			
+			On 3/20/2017 Test failed for the following errors:
+			dfsp2-test
 			------------------- 	dfsp2 test failed with the following errors: 3/20/2017  ------------------- 	
 			
 			[03-20 19:46:58,874] INFO  [[interop-domain].api-httpListenerConfig.worker.407] api-main: Received request with traceID=c5261144-ea2b-46b4-9961-1c0b019c6d67 at path=/spsp/client/v1/invoices, method=POST, Content-Type=application/json; charset=UTF-8, Authorization=null
