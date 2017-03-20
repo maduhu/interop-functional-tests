@@ -16,9 +16,7 @@ Please refer to Tests section.
 
 ## Configuration
 
-pom.xml can be found at interop-functional-tests repo
-
-(Explanation of important config parameters)
+[pom.xml](./pom.xml) can be found in the repo
 
 ## API
 
@@ -26,9 +24,7 @@ This repo does not contain an API.
 
 ## Logging
 
-Sever path to logs is: /opt/mule/mule-dfsp1/logs
-
-(Explain important things about what gets logged or how to interpret the logs. Use subheaders if necessary.)
+Contains test reports and logs are not relevant to be specific. Please refer to #2-#4 under the Tests section (Steps to run)
 
 ## Tests
 
@@ -43,8 +39,6 @@ This allows functional tests to run a set of more targeted tests, and not the wh
 Since this is the initial release with the ability to run specific groups of tests,
 our groupings may not be perfect or ideal.  Please let the ModusBox developers know
 if you have suggestions for better groupings.
-
-
 
 Example:
   The test suite that we are using for running functional tests, TestNG, allows various ways of running 1 or more tests at a time.
@@ -97,10 +91,8 @@ Example:
 * ussd_ministatement - get the account statement for an user
 * ussd_pendingtrans - Lists all pending transactions for an user
 
-
 ### FullPaymentWithNotifications test groups  (Don't use, still in development)
 * payment_setup_and_execute_with_notification
-
 
 
 ## Current Interop projects covered by functional tests:
