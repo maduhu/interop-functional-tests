@@ -5,8 +5,8 @@ These functional tests are now scheduled to run automatically daily:
 Schedule and servers: 
 - DFSP1-Test    Scheduled @ 7 am and 5 pm PDT
 
-The output from these test executions are located: 
-# to be determined
+The output from these test executions will be located in the following directories: 
+### to be determined
 
 
 - Steps to run tests:
