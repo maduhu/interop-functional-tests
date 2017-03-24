@@ -1,6 +1,13 @@
 # interop-functional-tests
 Repo that holds the functional tests
 
+These functional tests are now scheduled to run automatically daily: 
+Schedule and servers: 
+- DFSP1-Test    Scheduled @ 7 am and 5 pm PDT
+
+The output from these test executions are located: 
+# to be determined
+
 
 - Steps to run tests:
 1. After checkout, at the project root folder issue "mvn clean test" command.
