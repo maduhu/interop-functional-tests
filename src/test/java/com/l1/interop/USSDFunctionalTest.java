@@ -171,10 +171,10 @@ public class USSDFunctionalTest {
         return testCases.iterator();
     }
 
-    @DataProvider(name = "ussd_negative")
-    private Iterator<Object []> ussdNegative( ) throws Exception
+   @DataProvider(name = "ussd_transaction")
+    private Iterator<Object []> ussdTransaction( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_negative.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_transaction.csv");
         return testCases.iterator();
     }
 
@@ -204,7 +204,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for create user 1: " + ussdposRequest);
+            System.out.println("USSD Request: Scenario-create user 1 : ------->>>>: " + ussdposRequest);
 
             response =
                     given().
@@ -239,15 +239,18 @@ public class USSDFunctionalTest {
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("USSD Response for create user 1: " + response.prettyPrint());
+            //System.out.println("USSD Response: Scenario-create user 1 : ------->>>>: " + response.prettyPrint());
+            System.out.println("USSD Response: Scenario-create user 1 : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
-            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
+            //assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
             captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.println("<h2>Test Case: <i>USSD Function Test : Scenario-create user 1</i></h2>");
             captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
             captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
             captor.print("<h3>Request and Response: </h3>");
@@ -285,7 +288,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for create user2: " + ussdposRequest);
+            System.out.println("USSD Request: Scenario-create user 2 : ------->>>>: " + ussdposRequest);
 
             response =
                     given().
@@ -298,7 +301,7 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for create user2: " + response.getStatusCode());
+            System.out.println("USSD Response: Scenario-create user 2 : ------->>>>: " + response.getStatusCode());
 
             /*
         	 * Response for the service will always on test/html format
@@ -320,15 +323,16 @@ public class USSDFunctionalTest {
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("USSD Response for create user: " + response.prettyPrint());
+            //System.out.println("USSD Response for create user: " + response.prettyPrint());
+            System.out.println("USSD Response: Scenario-create user 2 : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
-            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
             captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.println("<h2>Test Case: <i>USSD Function Test : Scenario-create user 2</i></h2>");
             captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
             captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
             captor.print("<h3>Request and Response: </h3>");
@@ -366,7 +370,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for Send Money: " + ussdposRequest);
+            System.out.println("USSD Request: Scenario-Send Money : ------->>>>: " + ussdposRequest);
 
             response =
                     given().
@@ -379,7 +383,7 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for Send Money: " + response.getStatusCode());
+            System.out.println("USSD Response: Scenario-Send Money : ------->>>>: " + response.getStatusCode());
 
         	/*
         	 * Response for the service will always on test/html format
@@ -400,15 +404,16 @@ public class USSDFunctionalTest {
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("USSD Response for Send Money: " + response.prettyPrint());
+            //System.out.println("USSD Response for Send Money: " + response.prettyPrint());
+            System.out.println("USSD Response: Scenario-Send Money : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
-            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
             captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.println("<h2>Test Case: <i>USSD Function Test : Scenario-Send Money</i></h2>");
             captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
             captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
             captor.print("<h3>Request and Response: </h3>");
@@ -446,7 +451,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for Sell Goods: " + ussdposRequest);
+            System.out.println("USSD Request: Scenario-Sell Goods : ------->>>>: " + ussdposRequest);
 
             response =
                     given().
@@ -459,7 +464,7 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for Sell Goods: " + response.getStatusCode());
+            System.out.println("USSD Response: Scenario-Sell Goods : ------->>>>: " + response.getStatusCode());
 
         	/*
         	 * Response for the service will always on test/html format
@@ -476,16 +481,17 @@ public class USSDFunctionalTest {
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("USSD Response for Sell Goods: " + response.prettyPrint());
+            //System.out.println("USSD Response for Sell Goods: " + response.prettyPrint());
+            System.out.println("USSD Response: Scenario-Sell Goods : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
-            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
 
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
             captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.println("<h2>Test Case: <i>USSD Function Test : Scenario-Sell Goods</i></h2>");
             captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
             captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
             captor.print("<h3>Request and Response: </h3>");
@@ -523,7 +529,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for Pending Transactions: " + ussdposRequest);
+            System.out.println("USSD Request: Scenario-Pending Transactions : ------->>>>: " + ussdposRequest);
 
             response =
                     given().
@@ -536,7 +542,7 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for Pending Transactions: " + response.getStatusCode());
+            System.out.println("USSD Response: Scenario-Pending Transactions : ------->>>>: " + response.getStatusCode());
 
         	/*
         	 * Response for the service will always on test/html format
@@ -554,16 +560,17 @@ public class USSDFunctionalTest {
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("USSD Response for Pending Transactions: " + response.prettyPrint());
+            //System.out.println("USSD Response for Pending Transactions: " + response.prettyPrint());
+            System.out.println("USSD Response: Scenario-Pending Transactions : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
-            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
 
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
             captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.println("<h2>Test Case: <i>USSD Function Test : Scenario-Pending Transactions</i></h2>");
             captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
             captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
             captor.print("<h3>Request and Response: </h3>");
@@ -601,7 +608,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for Manage Accounts: " + ussdposRequest);
+            System.out.println("USSD Request: Scenario-Manage Accounts : ------->>>>: " + ussdposRequest);
 
             response =
                     given().
@@ -614,7 +621,7 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for Manage Accounts: " + response.getStatusCode());
+            System.out.println("USSD Response: Scenario-Manage Accounts : ------->>>>: " + response.getStatusCode());
 
         	/*
         	 * Response for the service will always on test/html format
@@ -640,16 +647,17 @@ public class USSDFunctionalTest {
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("USSD Response for Manage Accounts: " + response.prettyPrint());
+            //System.out.println("USSD Response for Manage Accounts: " + response.prettyPrint());
+            System.out.println("USSD Response: Scenario-Manage Accounts : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
-            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
 
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
             captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.println("<h2>Test Case: <i>USSD Function Test : Scenario-Manage Accounts</i></h2>");
             captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
             captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
             captor.print("<h3>Request and Response: </h3>");
@@ -687,7 +695,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for Check Balance: " + ussdposRequest);
+            System.out.println("USSD Request: Scenario-Check Balance : ------->>>>: " + ussdposRequest);
 
             response =
                     given().
@@ -700,7 +708,7 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for Check Balance: " + response.getStatusCode());
+            System.out.println("USSD Response: Scenario-Check Balance : ------->>>>: " + response.getStatusCode());
 
         	/*
         	 * Response for the service will always on test/html format
@@ -716,15 +724,16 @@ public class USSDFunctionalTest {
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("USSD Response for Check Balance: " + response.prettyPrint());
+            //System.out.println("USSD Response for Check Balance: " + response.prettyPrint());
+            System.out.println("USSD Response: Scenario-Check Balance : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
-            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
             captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.println("<h2>Test Case: <i>USSD Function Test : Scenario-Check Balance</i></h2>");
             captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
             captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
             captor.print("<h3>Request and Response: </h3>");
@@ -762,7 +771,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for Mini Statement: " + ussdposRequest);
+            System.out.println("USSD Request: Scenario-Mini Statement : ------->>>>: " + ussdposRequest);
 
             response =
                     given().
@@ -775,7 +784,7 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for Mini Statement: " + response.getStatusCode());
+            System.out.println("USSD Response: Scenario-Mini Statement : ------->>>>: " + response.getStatusCode());
 
         	/*
         	 * Response for the service will always on test/html format
@@ -796,14 +805,16 @@ public class USSDFunctionalTest {
         	 */
             assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("USSD Response for Mini statement: " + response.prettyPrint());
-            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
-            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //System.out.println("USSD Response for Mini statement: " + response.prettyPrint());
+            System.out.println("USSD Response: Scenario-Mini Statement : ------->>>>: " + response.xmlPath().getString ("Message").trim());
+
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
         } catch(AssertionError e){
             captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.println("<h2>Test Case: <i>USSD Function Test : Scenario-Mini Statement</i></h2>");
             captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
             captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
             captor.print("<h3>Request and Response: </h3>");
@@ -815,8 +826,8 @@ public class USSDFunctionalTest {
 
     }
 
-    @Test(dataProvider="ussd_negative", groups={ "ussd_negative" })
-    public void get_ussd_negative(String phone, String message) {
+   @Test(dataProvider="ussd_transaction", groups={ "ussd_transaction" })
+    public void get_ussd_transaction(String phone, String message) {
 
         Response response;
         String urlPath = "/ussd";
@@ -841,7 +852,7 @@ public class USSDFunctionalTest {
                     .build()
                     .toString();
 
-            System.out.println("USSD Request for negative scenario: " + ussdposRequest);
+            System.out.println("USSD Request: Scenario-Transaction : ------->>>>: " + ussdposRequest);
 
             response =
                     given().
@@ -853,7 +864,7 @@ public class USSDFunctionalTest {
 
             http_status = response.getStatusCode();
 
-            System.out.println("USSD Response code for positive scenario: " + response.getStatusCode());
+            System.out.println("USSD Response: Scenario-Transaction : ------->>>>: " + response.getStatusCode());
 
         	/*
         	 * Response for the service will always on test/html format
@@ -868,16 +879,16 @@ public class USSDFunctionalTest {
                     <PhoneNumber></PhoneNumber>
                 </UssdResponse>
         	 */
-            assertThat(response.getStatusCode(), anyOf(equalTo(200)));
+           assertThat(response.getStatusCode(), anyOf(equalTo(200)));
 
-            System.out.println("response number: " + response.prettyPrint());
+            System.out.println("USSD Response: Scenario-Transaction : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
-            assertThat(response.prettyPrint(), not(containsString("HTTP error")));
+            //assertThat(response.xmlPath().getString("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString("Message"), not(containsString("HTTP error")));
 
         } catch(AssertionError e){
             captor.println("<ul>");
-            captor.println("<h2>Test Case: <i>test_POST_registering_a_Digital_Financial_Service_Provider</i></h2>");
+            captor.println("<h2>Test Case: <i>USSD Function Test : Scenario - Money Transaction</i></h2>");
             captor.printf("<h3>%s</h3> %s \n","parameters: ", "None");
             captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
             captor.print("<h3>Request and Response: </h3>");
