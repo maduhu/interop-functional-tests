@@ -80,8 +80,7 @@ Example:
 * user_registration_all
 * user_registration_full_end_to_end
 
-###
- USSD test groups
+### USSD test groups
 * ussd_users - Execute all the functionalities (send money, sellgoods, checkbalance, manageaccount, ministatement, pendingtrans) related to the existing users
 * ussd_createuser - create the users if no users exists for functional test (creates 2 users)
 * ussd_sendmoney - Send money from user 1 to user 2
@@ -94,6 +93,15 @@ Example:
 ### FullPaymentWithNotifications test groups  (Don't use, still in development)
 * payment_setup_and_execute_with_notification
 
+### Automation of test cases
+
+The above test cases are automated using the shell scripts and scheduled to trigger the script daily twice (7am and 5pm) PT.
+
+Execution logs for those test cases can be viewed under the path : /home/ec2-user/scripts/modusbox/FunctionalTest/Executionlog.log
+
+Test Reports (in html format) can be viewed at : /home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests/target/surefire-reports
+
+Failure Reports are placed under the path : /home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests/target/failure-reports
 
 ## Current Interop projects covered by functional tests:
   - Interop spsp clientproxy   (12/2/2016)
