@@ -1,3 +1,17 @@
+
+Status Updates:
+----------------------------------------------
+
+Date      Env           # Pass     	# Fail
+-------   ----------    ------    	------- 
+3/31/17   DFSP2-Test	5			17
+          DFSP1-QA		0			22
+          Local			
+        
+
+
+
+
 Failure #1 
 
  @Test(dataProvider="query_positive", groups = { "spsp_client_proxy_all", "spsp_client_proxy_query" })
@@ -10,7 +24,7 @@ Failure #1
     	 * 3/17/2017 Error:
     	 *  dfsp1-qa
     	 *  
-    	 * [03-17 17:06:28,734] INFO  [[interop-domain].api-httpListenerConfig.worker.315] api-main: Received request with traceID=4eb8925b-42d5-4128-bae7-e5826238538d at path=/spsp/client/v1/query, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+    	 *  [03-17 17:06:28,734] INFO  [[interop-domain].api-httpListenerConfig.worker.315] api-main: Received request with traceID=4eb8925b-42d5-4128-bae7-e5826238538d at path=/spsp/client/v1/query, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
 			[03-17 17:06:28,734] INFO  [[interop-domain].api-httpListenerConfig.worker.315] query: Proxying request for traceID=4eb8925b-42d5-4128-bae7-e5826238538d to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/query, method=get, receiver=http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:3043/v1/receivers/26547070
 			[03-17 17:06:28,797] ERROR [[interop-domain].api-httpListenerConfig.worker.315] DefaultMessagingExceptionStrategy: 
 			********************************************************************************
@@ -28,7 +42,7 @@ Failure #1
 			dfsp2-test
 		 	-------------------	dfsp2 test failed with the following errors:
 			  
-			  [03-20 17:43:54,035] INFO  [[interop-domain].api-httpListenerConfig.worker.377] api-main: Received request with traceID=be25003a-a762-4fd8-b1cc-cec10cdf7650 at path=/spsp/client/v1/query, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
+			[03-20 17:43:54,035] INFO  [[interop-domain].api-httpListenerConfig.worker.377] api-main: Received request with traceID=be25003a-a762-4fd8-b1cc-cec10cdf7650 at path=/spsp/client/v1/query, method=GET, Content-Type=application/json; charset=UTF-8, Authorization=null
 			[03-20 17:43:54,036] INFO  [[interop-domain].api-httpListenerConfig.worker.377] query: Proxying request for traceID=be25003a-a762-4fd8-b1cc-cec10cdf7650 to http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/query, method=get, receiver=http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:3043/v1/receivers/26547070
 			[03-20 17:43:54,150] ERROR [[interop-domain].api-httpListenerConfig.worker.377] DefaultMessagingExceptionStrategy: 
 			********************************************************************************
@@ -783,7 +797,7 @@ public void invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response
 	------------------- 	dfsp2 test failed with the following errors: ------------------- 	
 	 
 	
-	>>>>  3/20/2017 test passed on dfps2 test.  <<<< Because of this, we might not need to do anything as the code will be migrated from 
+	>>>>  3/20/2017 test passed on dfps2 test.  <<<< Because of this, we might not need to do anything as the code will be migrated from test
 	
 	
 
@@ -808,7 +822,7 @@ Failure #13
 			[03-17 23:13:18,922] INFO  [[interop-domain].api-httpListenerConfig.worker.198] invoice: Proxying request for interopID=2fb3a599-9ad4-46aa-a38f-266a2b63e4fe to http://0.0.0.0:3042/v1//invoices, method=post: {"invoiceUrl":"sampleurl1.com","invoiceId":"12341","submissionUrl":"http://submissionUrl.com","senderIdentifier":"sample_senderIdentifier1","memo":"sample memo1"}
 			[03-17 23:13:19,555] INFO  [[interop-domain].api-httpListenerConfig.worker.198] setup: Returning post:/invoice response for interopID=2fb3a599-9ad4-46aa-a38f-266a2b63e4fe, http.status=null: {"invoiceUrl":"sampleurl1.com","invoiceId":"12341","senderIdentifier":"sample_senderIdentifier1","memo":"sample memo1","submissionUrl":"http://submissionUrl.com"}
 			
-			It looks like the core error is in the follwoing url;
+			It looks like the core error is in the following url;
 			
 			                       |
  			                       V
