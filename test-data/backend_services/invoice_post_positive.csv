@@ -1,3 +1,1 @@
-http://sampleurl1.com,sample_invoice_id1,http://submissionUrl.com,sample_senderIdentifier1,sample memo1
-http://sampleurl2.com,sample_invoice_id2,http://submissionUrl.com,sample_senderIdentifier2,sample memo2
-http://sampleurl3.com,sample_invoice_id3,http://submissionUrl.com,sample_senderIdentifier3,sample memo3
+http://ec2-35-166-189-14.us-west-2.compute.amazonaws.com:3043/v1/receivers/invoices/70,66422611,Invoice from bob dylan,invoice,levelone.dfsp1.bob.~psk.8duzf6uemVY.b4zjiZ88bawUvjTDUu3zrQ,USD,17,unpaid
