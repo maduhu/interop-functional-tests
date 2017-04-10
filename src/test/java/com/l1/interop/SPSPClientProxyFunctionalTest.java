@@ -45,6 +45,7 @@ public class SPSPClientProxyFunctionalTest {
     private static String host;
     private static String port;
     private static String url;
+    private static String invoiceUri;
     private Properties prop = new Properties();
     FileWriter writer;
     PrintStream captor;
@@ -52,7 +53,9 @@ public class SPSPClientProxyFunctionalTest {
       
     @BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
-        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
+        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp2-test.properties");
+//        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-test.properties");
+//        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
         prop.load(is);
         
         String environment = System.getProperty("env");
@@ -65,6 +68,8 @@ public class SPSPClientProxyFunctionalTest {
         host = prop.getProperty("host");
         port = prop.getProperty("port");
         url = "http://"+host+":"+port;
+        invoiceUri = "/spsp/client/v1/invoices";
+        
         
         /*
          * 
@@ -239,9 +244,20 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="query_positive", groups = { "spsp_client_proxy_all", "spsp_client_proxy_query" })
     public void query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(String receiverName, String receiverURI) throws Exception {
+    	
+    	/*
+    	 * 
+    	 * 3/17/2017 Error:
+    	 *  dfsp1-qa
+    	 * 
+    	 * On 3/20/2017 Test failed
+		 *	dfsp2-test
+    	 */
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+        String urlPath = url+"/spsp/client/v1/query";
         
         try {
             
@@ -251,10 +267,12 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	param("receiver", receiverURI).
             when().
-            	get(url+"/spsp/client/v1/query");
+            	get(urlPath);
         	
+        	
+        	System.out.println("Url path for test <query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse> : " + urlPath + ", receiver uri parameter = " + receiverURI);
         	System.out.println("For query_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse: http status::" + response.getStatusCode());
-        	System.out.println("**** json response payload: " + response.prettyPrint());
+        	System.out.println("**** json response payload: <" + response.asString() + ">");
         	
         	
         	/*
@@ -313,6 +331,84 @@ public class SPSPClientProxyFunctionalTest {
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
+        
+        /*    	
+    	 * 
+    	 * On 3/17/2017 Test failed for the following errors:
+    	 * dfsp1-qa
+    	 * 
+    		On 3/20/2017 Test failed for the following errors:
+    		dfsp2-test
+    		
+         */
+        
+//        Response response =
+//            	given().
+//                	config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+//                	contentType("application/json").
+//                	param("receiver", receiverURI).
+//                when().
+//                	get(urlPath);
+        
+        
+        
+        String urlPath = url+"/spsp/client/v1/query";
+        Response response;
+        
+        try {
+            response = given().
+            config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
+            contentType("application/json").
+            param("receiver", receiverURI).
+            when().
+            get(url+"/spsp/client/v1/query");
+//            then().
+//            statusCode(404).
+//            body("id",equalTo("Error")).
+//            body("message",containsString("500 Internal Server Error")).
+//            body("debug.stack",containsString("500 Internal Server Error"));
+            
+            
+            /*
+        	 * Note about the following java casting.  Due to a more strict generic enforcement in Java 8, we have to add the cast to make the compiler happy 
+        	 * when these tests are executed via "mvn clean test"
+        	 * 
+        	 */
+        	assertThat( "response http code", (Integer) response.getStatusCode(), equalTo(404));
+        	
+//        	need a sample for Message containg a value
+        	
+//        	assertThat("type", (String) response.jsonPath().get("type"), not(isEmptyOrNullString()) );
+//        	assertThat("type", (String) response.jsonPath().get("type"), equalTo("payee") );
+//        	
+//        	assertThat("account", (String) response.jsonPath().get("account"), not(isEmptyOrNullString()) );
+//        	
+//        	assertThat("currencyCode", (String) response.jsonPath().get("currencyCode"), not(isEmptyOrNullString()) );
+//        	assertThat("currencyCode", (String) response.jsonPath().get("currencyCode"), equalTo("USD") );
+//
+//        	assertThat("currencyCode", (String) response.jsonPath().get("currencyCode"), not(isEmptyOrNullString()) );
+//        	assertThat("currencySymbol", (String) response.jsonPath().get("currencySymbol"), equalTo("$") );
+//        	
+//        	assertThat("name", (String) response.jsonPath().get("name"), not(isEmptyOrNullString()) );
+//        	assertThat("name", (String) response.jsonPath().get("name"), containsString(receiverName) );
+//
+//        	assertThat("imageUrl", (String) response.jsonPath().get("imageUrl"), not(isEmptyOrNullString()) );
+//        	assertThat("imageUrl", (String) response.jsonPath().get("imageUrl"), StringContainsIgnoringCase.containsStringIgnoringCase(receiverName) );
+        	
+        	System.out.println("**** after tests for . ****");
+        	
+        }catch(java.lang.AssertionError e){
+            captor.println("<ul>");
+            captor.println("<h2>Test Case: <i>query_InValidReceiver_ShouldNotReceive200_ShouldReceiveErrorResponse</i></h2>");
+            captor.printf("<h3>%s</h3> %s, %s \n","parameters: ", receiverName, receiverURI);
+            captor.println("<h3>Failure Message: </h3>"+e.getLocalizedMessage());
+            captor.print("<h3>Request and Response: </h3>");
+            captor.println("<pre>"+twriter.toString()+"</pre>");
+            captor.println("</ul>");
+            
+            throw e;
+        }
+        
         try {
             given().
             config(RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(tcaptor).and().enableLoggingOfRequestAndResponseIfValidationFails())).
@@ -349,7 +445,17 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="quoteSourceAmount_positive", groups = { "spsp_client_proxy_all", "spsp_client_proxy_query" })
     public void quoteSourceAmount_ForValidReceiver_ShouldRecive200_ShouldReceiveValidResponse(String userAddress, String amount) {
-        
+    	
+
+    	/*
+    	 * 
+    	 * On 3/17/2017 Failing for the following reasons:
+    	 * dfsp1-qa
+         *
+         * On 3/20/2017 Test failed for the following errors:
+	   	 * dfsp2-test
+		 *
+		 */
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -394,7 +500,17 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="quoteSourceAmount_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_quote" })
     public void quoteSourceAmount_ForInValidReceiver_ShouldRecive404_ShouldReceiveErrorResponse(String userAddress, String amount) {
-        
+    	
+    	/*    	
+    	 * 
+    	 * On 3/17/2017 Test failed 
+    	 * dfsp1-qa
+    	 * 
+    	 * On 3/20/2017 Test failed 
+    	 * dfsp2-test
+    	 * 
+    	 */
+    	
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -458,7 +574,17 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="quoteDestinationAmount_positive", groups={ "spsp_client_proxy_all", "spsp_client_proxy_quote" })
     public void quoteDestinationAmount_ForValidReceiver_ShouldReceive200_ShouldReceiveValidResponse(String userAddress, String amount){
-        
+    	
+    	/*    	
+    	 * 
+    	 * On 3/17/2017 Test failed 
+    	 * dfsp1-qa
+    	 * 
+    	 * On 3/20/2017 Test failed 
+    	 * dfsp2-test
+    	 * 
+    	 */
+    	
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -503,7 +629,18 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="quoteDestinationAmount_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_quote" })
     public void quoteDestinationAmount_ForInValidReceiver_ShouldReceive404_ShouldReceiveErrorResponse(String userAddress, String amount){
-        
+    	
+    	/*    	
+    	 * 
+    	 * On 3/17/2017 Test failed 
+    	 * dfsp1-qa
+    	 * 
+    	 * On 3/20/2017 Test failed 
+    	 * dfsp2-test
+    	 * 
+    	 */
+    	
+    	
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -561,8 +698,17 @@ public class SPSPClientProxyFunctionalTest {
      * @param amount
      */
     @Test(dataProvider="setup_positive", groups={ "spsp_client_proxy_all", "spsp_client_proxy_payment_setup" })
-    public void setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(String sender, String receiver, String amount){
-        
+    public void setUp_ForValidReceiver_ShouldReturn201_ShouldReturnValidResponse(String sender, String receiver, String amount) {
+    	
+    	/*
+    	 * On 3/17/2017 tests failed 
+    	 * using dfsp1 qa
+    	 *     	
+    	 * On 3/20/2017 Test failed 
+    	 *  dfsp2-test
+    	 */
+    	
+    	
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -624,6 +770,8 @@ public class SPSPClientProxyFunctionalTest {
         }
     }
     
+    
+    
     /**
      *
      * @param sender
@@ -632,7 +780,15 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(dataProvider="setup_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_payment_setup" })
     public void setUp_ForInValidReceiver_ShouldReturn404_ShouldReturnErrorResponse(String sender, String receiver, String amount){
-        
+    	
+    	/*
+    	 * On 3/17/2017 test failed 
+    	 * on dfsp1 qa
+		 * 	
+    	 * On 3/20/2017 Test failed 
+    	 * dfsp2-test
+    	 * 
+    	 */
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
         
@@ -688,18 +844,29 @@ public class SPSPClientProxyFunctionalTest {
     }
     
     
+    
     @Test(dataProvider="payment_positive", groups={ "spsp_client_proxy_all", "spsp_client_proxy_payment" })
-    public void payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiver, String amount){
-        
+    public void payment_ForValidReceiver_ShouldReceive200_ShouldReturnValidResponse(String sender, String receiverUserNumber, String amount){
+    	
+    	/*
+    	 * On 3/17/2017 test failed 
+    	 * on dfsp1 qa
+		 * 	
+    	 * On 3/20/2017 Test failed 
+    	 * dfsp2-test
+    	 * 
+    	 */
+    	
         String setupRequest = Json.createObjectBuilder()
-        .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-        .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+        .add("receiver", "http://"+host+":3043/v1/receivers/"+receiverUserNumber)  // needs to be an account #
+        .add("sourceAccount", "http://"+host+":8014/ledger/accounts/"+sender)  // needs to be a Name, not an account number
         .add("destinationAmount", amount)
         .add("memo", "Hi Bobb!")
-        .add("sourceIdentifier", "")
+        .add("sourceIdentifier", "9809890190934023")
         .build()
         .toString();
-        
+    	
+       
         System.out.println("setupRequest for payment post: " + setupRequest);
         System.out.println("1 ========== setup for valid receiver, payment request json: " + setupRequest + ", post url: "  + url+"/spsp/client/v1/setup" + ", should get 200 but failing");
         
@@ -709,6 +876,16 @@ public class SPSPClientProxyFunctionalTest {
         	body(setupRequest).
         when().
         	post(url+"/spsp/client/v1/setup");
+        
+        
+        /*Response responseStep3 =
+    			given().
+    				contentType("application/json").
+    				body(setupRequest).
+    			when().
+    	         	post(url+"/spsp/client/v1/setup");
+        
+        */
         
         System.out.println("response from post to setup payment: " + response.prettyPrint());
         assertThat("setup for payment worked before calling ", response.getStatusCode(), equalTo(201));
@@ -818,6 +995,16 @@ public class SPSPClientProxyFunctionalTest {
     @Test(dataProvider="invoice_GET_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_GetInvoiceDetails_ForInvalidInvoice_ShouldReceive404Response(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
         
+    	/*
+    	 * On 3/17/2017 test failed 
+    	 * on dfsp1 qa
+		 * 	
+    	 * On 3/20/2017 Test Passed   <<<< 
+    	 * dfsp2-test
+    	 * 
+    	 */
+
+    	
         /*
          * Temporary host url to call the local version of this test to ensure that it works.
          * Sample URL:  http://localhost:8081/spsp/client/v1/invoice?invoiceUrl=http://brian.com
@@ -901,6 +1088,13 @@ public class SPSPClientProxyFunctionalTest {
     @Test(dataProvider="invoice_GET_negative", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_Get_Ensure404WithInvalidURL_ShouldReceive404Response(String personName, String invoiceUrl, String account, String name, String currencyCode, String currencySymbol, String amount, String status, String invoiceInfo) {
         
+    	/*
+    	 * 3/17/2017 Test passed
+    	 * 3/20/2017 test passed too.
+    	 * 
+    	 */
+    	
+    	
         String urlPath = "/spsp/client/v1/invoiceXXX";
         
         final StringWriter twriter = new StringWriter();
@@ -945,6 +1139,11 @@ public class SPSPClientProxyFunctionalTest {
     @Test(testName="invoice_GET_goodBaseUrlButWithBadInvoiceUrl_ShouldGet404_ResourceNotFound", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_Get_withInvalidUri_ShoudlGet404() {
         
+    	/*
+    	 * 3/17/2017 Test passed in dfsp1 qa
+    	 * 3/20/2017 test passed on dfsp2 test
+    	 * 
+    	 */
         
         // Override the URL for local testing until Brian gets this working locally.
 //        String url = "http://localhost:8081";
@@ -990,7 +1189,17 @@ public class SPSPClientProxyFunctionalTest {
     @Test(dataProvider="invoice_create_positive", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_POST_ForValidInvoice_ShouldReceiveInvoiceDetailValidResponse(String invoiceUrl, String invoiceId, String submissionUrl, String senderIdentifier, String memo) {
         
-/*
+    	/*
+    	 * 3/17/2017 The following test fails with a weird error 
+    	 * 
+    	 * 
+		 * On 3/20/2017 Test failed for the following errors:
+		 * dfsp2-test
+		 *
+		 */
+    	
+    	
+    	/*
          New Sample as of 11/29/2016
          	{
 		  		"invoiceUrl": "http://sampleurl.com",
@@ -999,8 +1208,9 @@ public class SPSPClientProxyFunctionalTest {
 		  		"senderIdentifier": "sample_senderIdentifier",
 		  		"memo": "sample memo"
 			}
-*/
-        
+    	 */
+    	   
+    	
         String invoiceCreateRequest = Json.createObjectBuilder()
         .add("invoiceUrl", invoiceUrl)
         .add("invoiceId", invoiceId)				// new
@@ -1013,6 +1223,7 @@ public class SPSPClientProxyFunctionalTest {
         
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        String urlPath = url+invoiceUri;
         
         try {
             
@@ -1027,9 +1238,11 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	body(invoiceCreateRequest).
             when().
-	         	post(url+"/spsp/client/v1/invoices");
+            	post(urlPath);
+                     
 
-            System.out.println("creating invoice loc 1: response: " + response.prettyPrint());
+            System.out.println("Url for post invoice: " + urlPath);
+            System.out.println("creating invoice loc 1:: response: " + response.asString());
             assertThat("create invoice", response.getStatusCode(), equalTo(201));
             
             /*
@@ -1043,7 +1256,7 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	pathParam("invoiceId", invoiceId).
             when().
-            	get(url+"/spsp/client/v1/invoices/{invoiceId}");
+            	get(url+invoiceUri + "/{invoiceId}");  // need the slash here as it is a URI parameter and the invoice URI does not account for the final slash.
             
             System.out.println("Get JSON response from create invoice :: " + responseGet.asString());
 
@@ -1092,6 +1305,13 @@ public class SPSPClientProxyFunctionalTest {
     
     @Test(testName="invoice_post_404_resouce_not_found", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_POST_testingFor404ResourceNotFound() {
+    	
+    	/*
+    	 * 3/17/2017 Test passed/succeeded.  
+    	 * 
+    	 * 3/20/2017 Test passed
+    	 * 
+    	 */
         
         String invoiceCreateRequest = Json.createObjectBuilder()
         .add("invoiceUrl", "invoice_url_goes_here")
@@ -1142,6 +1362,13 @@ public class SPSPClientProxyFunctionalTest {
      */
     @Test(testName="invoice_post_415_and_500_unsupported_media_type", groups={ "spsp_client_proxy_all", "spsp_client_proxy_invoice" })
     public void invoice_POST_testingFor415UnsupportedMediaType() {
+    	
+    	/*
+    	 * 
+    	 * 3/17/2017 test passed in dfsp1 qa
+    	 * 3/20/2017 test passed on dfps2 test
+    	 * 
+    	 */
         
         String invoiceCreateRequest = Json.createObjectBuilder()
         .add("invoiceUrl", "invoice_url_goes_here")

@@ -1,13 +1,32 @@
 # interop-functional-tests
+
 Repo that holds the functional tests
 
-These functional tests are now scheduled to run automatically daily: 
-Schedule and servers: 
-- DFSP1-Test    Scheduled @ 7 am and 5 pm PDT
+Contents:
 
-The output from these test executions will be located in the following directories: 
-### to be determined
+- [Deployment](#deployment)
+- [Configuration](#configuration)
+- [API](#api)
+- [Logging](#logging)
+- [Tests](#tests)
 
+## Deployment
+
+Please refer to Tests section.
+
+## Configuration
+
+[pom.xml](./pom.xml) can be found in the repo
+
+## API
+
+This repo does not contain an API.
+
+## Logging
+
+Contains test reports and logs are not relevant to be specific. Please refer to #2-#4 under the Tests section (Steps to run)
+
+## Tests
 
 - Steps to run tests:
 1. After checkout, at the project root folder issue "mvn clean test" command.
@@ -20,8 +39,6 @@ This allows functional tests to run a set of more targeted tests, and not the wh
 Since this is the initial release with the ability to run specific groups of tests,
 our groupings may not be perfect or ideal.  Please let the ModusBox developers know
 if you have suggestions for better groupings.
-
-
 
 Example:
   The test suite that we are using for running functional tests, TestNG, allows various ways of running 1 or more tests at a time.
@@ -63,8 +80,7 @@ Example:
 * user_registration_all
 * user_registration_full_end_to_end
 
-###
- USSD test groups
+### USSD test groups
 * ussd_users - Execute all the functionalities (send money, sellgoods, checkbalance, manageaccount, ministatement, pendingtrans) related to the existing users
 * ussd_createuser - create the users if no users exists for functional test (creates 2 users)
 * ussd_sendmoney - Send money from user 1 to user 2
@@ -74,11 +90,18 @@ Example:
 * ussd_ministatement - get the account statement for an user
 * ussd_pendingtrans - Lists all pending transactions for an user
 
-
 ### FullPaymentWithNotifications test groups  (Don't use, still in development)
 * payment_setup_and_execute_with_notification
 
+### Automation of test cases
 
+The above test cases are automated using the shell scripts and scheduled to trigger the script daily twice (7am and 5pm) PT.
+
+Execution logs for those test cases can be viewed under the path : /home/ec2-user/scripts/modusbox/FunctionalTest/Executionlog.log
+
+Test Reports (in html format) can be viewed at : /home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests/target/surefire-reports
+
+Failure Reports are placed under the path : /home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests/target/failure-reports
 
 ## Current Interop projects covered by functional tests:
   - Interop spsp clientproxy   (12/2/2016)
