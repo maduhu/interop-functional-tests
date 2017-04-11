@@ -250,6 +250,7 @@ public class USSDFunctionalTest {
             //assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
             //assertThat(response.prettyPrint(), not(containsString("HTTP error")));
             //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            System.out.println("BP: reponse: " + response.toString());
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
