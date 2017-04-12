@@ -27,7 +27,7 @@ There are two basic types of functional tests in the interop-functional-tests pr
 Currently, the functional test are hosted on the DFSP1 test server.  This reduces the complexity environment setup and execution of the tests.
 	In order to run the tests, you must log on to the dfsp1 test server.  This requires a security file, called "interop-dev1.pem”.  This can be downloaded from GitHub from the following URL: https://github.com/LevelOneProject/Docs/tree/master/AWS/Infrastructure/PI4-Test-Env
 
-		Then click on the interop-dev1.pem file to down it.  Save it to a location on your local hard drive.
+Then click on the interop-dev1.pem file to down it.  Save it to a location on your local hard drive.
 
 
 ## How to run functional test
