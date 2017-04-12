@@ -1,11 +1,11 @@
-Dependencies 
+## Dependencies 
 
 	The ModusBox’s Interop Functional tests are based on several Java frameworks and therefore requires Java 1.8 to run.  
 	Additionally, all of the Interop projects are Apache Maven based for build automation, so Maven is required as well.
 	Git is needed to check out the source code from our GitHub software repository.
 
 
-Functional Tests
+## Functional Tests
 
 	Currently there are two basic types of functional tests in the interop-functional-tests project:
 
@@ -19,7 +19,7 @@ Functional Tests
 		USSDFunctionalTest.java
 
 
-Setup / Configuration
+## Setup / Configuration
 
 	Currently, the functional test are hosted on the DFSP1 test server.  This reduces the complexity environment setup and execution of the tests.
 	In order to run the tests, you must log on to the dfsp1 test server.  This requires a security file, called "interop-dev1.pem”.  This can be downloaded from GitHub from the following URL: https://github.com/LevelOneProject/Docs/tree/master/AWS/Infrastructure/PI4-Test-Env
@@ -27,7 +27,7 @@ Setup / Configuration
 		Then click on the interop-dev1.pem file to down it.  Save it to a location on your local hard drive.
 
 
-How to run functional test
+## How to run functional test
 
 	Perform the following two steps to run the functional test and to see the functional test output.
 
@@ -48,7 +48,7 @@ How to run functional test
 		The second switch, “-Devn=“ tells the functional test which environment you want it to test against.   There are two values to choose from “test” or “qa”.  Both will execute using DFSP1.
 
 
-Analyze the results 
+## Analyze the results 
 
 	There are two type of output.  
 	The first is the output directly from the test run.  Below is an example of the output directly from Maven test command line
@@ -72,7 +72,7 @@ Analyze the results
 	
 	The above command, copied the USSD-Functional-Tests.html from the AWS server to you local hard drive and called it “local-USSD-Functional-Tests.html”.  You can call this file what ever you want.  This example, we added the “local-“ prefix so it is clear that this is the local file name.  
 	
-Triage
+## Triage
 
 	Under construction
 
