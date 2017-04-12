@@ -1,15 +1,11 @@
 # Running the Interop Functional Test
 
-We have a new and improved means to run the Interop Functional Test.  
+	We have a new and improved means to run the Interop Functional Test.  This new approach requires no local changes or no installation of any software on your computer.
 
 
 ## Dependencies 
 
-	The Interop Functional tests are based on several Java frameworks and therefore requires Java 1.8 to run.  
-	Additionally, all of the Interop projects are Apache Maven based for build automation, so Maven is required as well.
-	Git is needed to check out the source code from our GitHub software repository.
-	
-	Now that we can run the functional tests directly on the server, these dependencies are already resolved.
+	Now that we can run the functional tests directly on the server, these dependencies are already resolved and 
 
 
 ## Functional Tests
