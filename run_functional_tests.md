@@ -43,8 +43,8 @@ Perform the two steps below to run the functional tests and see the results.
   * This will ensure the functional test code is up to date with the Master branch from GitHub.
 
 ###	Step 2.  Execute the functional tests
-        * To execute a functional test, issue the following command:
-        * _mvn test -Dgroups=ussd_createuser -Denv=test_
+* To execute a functional test, issue the following command:
+  * _mvn test -Dgroups=ussd_createuser -Denv=test_
 
 		The above command uses two java command line switches.  -Dgroups=   specifies what groups (or collections of tests) that need to be run.  The readme.md in the “interop-functional-test” GitHub project has a list of groups that are available for use.
 
