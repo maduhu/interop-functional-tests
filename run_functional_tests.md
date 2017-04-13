@@ -45,16 +45,14 @@ Perform the two steps below to run the functional tests and see the results.
 ###	Step 2.  Execute the functional tests
 * To execute a functional test, issue the following command:
   * _mvn test -Dgroups=ussd_createuser -Denv=test_
-
-		The above command uses two java command line switches.  -Dgroups=   specifies what groups (or collections of tests) that need to be run.  The readme.md in the “interop-functional-test” GitHub project has a list of groups that are available for use.
-
-		The second switch, “-Denv=“ specifies the environment against which the test should run. There are two values to choose from “test” or “qa”.  Both will execute using DFSP1.
+* The above command uses two java command line switches.  -Dgroups=   specifies what groups (or collections of tests) that need to be run.  The readme.md in the “interop-functional-test” GitHub project has a list of groups that are available for use.
+* The second switch, “-Denv=“ specifies the environment against which the test should run. There are two values to choose from “test” or “qa”.  Both will execute using DFSP1.
 
 
 ## Analyze the results 
 
 There are two types of output from the functional tests:
-	* The first is the output directly from the test run.  Below is an example of the output directly from Maven test command line
+* The first is the output directly from the test run.  Below is an example of the output directly from Maven test command line
 
 Results :  
     Tests run: 22, Failures: 0, Errors: 0, Skipped: 0
@@ -68,7 +66,7 @@ The above output tells you that 22 tests were executed, zero failed, zero errors
 Report output folder:
 /home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests/target/failure-reports
 
-* How to copy a report to your local hard drive for viewing
+#### How to copy a report to your local hard drive for viewing
 	
 To copy a report file to your local hard drive from your local PC/Mac, issue the following command where you saved the “inter-dev1.pem” file.
 _scp -i "interop-dev1.pem" ec2-user@ec2-35-166-189-14.us-west-2.compute.amazonaws.com:/home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests/target/failure-reports/USSD-Functional-Tests.html   local-USSD-Functional-Tests.html_
