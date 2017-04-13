@@ -35,12 +35,12 @@ Then click on the interop-dev1.pem file to download it.  Save it to a location o
 Perform the two steps below to run the functional tests and see the results.
 
 ###	Step 1.  Make sure the code base is up-to-date
-        * Log in to dfsp1-test
-            * _ssh -i "interop-dev1.pem" ec2-user@ec2-35-166-189-14.us-west-2.compute.amazonaws.com_
-        * Change directory to where the functional tests are located
-			_cd /home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests_
-        * Issue the command “_updateFunctionalTests.sh_”. (This name could change but this is what is should be at the time of this writing)
-            * This will ensure the functional test code is up to date with the Master branch from GitHub.
+* Log in to dfsp1-test
+  * _ssh -i "interop-dev1.pem" ec2-user@ec2-35-166-189-14.us-west-2.compute.amazonaws.com_
+* Change directory to where the functional tests are located
+  * _cd /home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests_
+* Issue the command “_updateFunctionalTests.sh_”. (This name could change but this is what is should be at the time of this writing)
+  * This will ensure the functional test code is up to date with the Master branch from GitHub.
 
 ###	Step 2.  Execute the functional tests
         * To execute a functional test, issue the following command:
