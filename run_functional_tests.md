@@ -54,17 +54,16 @@ Perform the two steps below to run the functional tests and see the results.
 There are two types of output from the functional tests:
 * The first is the output directly from the test run.  Below is an example of the output directly from Maven test command line
 
-Results :  
-    Tests run: 22, Failures: 0, Errors: 0, Skipped: 0
+        Results :  
+        Tests run: 22, Failures: 0, Errors: 0, Skipped: 0
 
-The above output tells you that 22 tests were executed, zero failed, zero errors, and zero were skipped. 
-
+        The above output tells you that 22 tests were executed, zero failed, zero errors, and zero were skipped. 
 
 * The second type of output contains HTML reports the tests produce when Errors are encountered. 
 	Since these reports are HTML, they are best viewed if you copy the files to your local PC/Mac and open with your favorite browser or html editor.
 
-Report output folder:
-/home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests/target/failure-reports
+        Report output folder:
+        /home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests/target/failure-reports
 
 #### How to copy a report to your local hard drive for viewing
 	
