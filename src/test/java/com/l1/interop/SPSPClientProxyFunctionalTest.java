@@ -49,16 +49,21 @@ public class SPSPClientProxyFunctionalTest {
     private Properties prop = new Properties();
     FileWriter writer;
     PrintStream captor;
+    boolean localTesting;
     
       
     @BeforeClass(alwaysRun=true)
     private void beforeClass() throws Exception {
-        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp2-test.properties");
 //        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-test.properties");
+    	InputStream is = ClassLoader.getSystemResourceAsStream("dfsp2-test.properties");
 //        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp1-qa.properties");
+//        InputStream is = ClassLoader.getSystemResourceAsStream("dfsp2-qa.properties");
+        
         prop.load(is);
+        localTesting = false;
         
         String environment = System.getProperty("env");
+        System.out.println("Environment = " + environment);
         
         if(environment != null){
             is = ClassLoader.getSystemResourceAsStream("dfsp1-"+environment.toLowerCase()+".properties");
@@ -76,7 +81,7 @@ public class SPSPClientProxyFunctionalTest {
          * Override url for local testing
          * 
          */
-//        url = "http://localhost:8081";
+//        url = "http://localhost:8088";  localTesting=true;  // by comment out this line to use the mule properties file.
         
         System.out.println("**************************************************************************************************************");
         System.out.println("*                                                                                                            *");
@@ -454,10 +459,22 @@ public class SPSPClientProxyFunctionalTest {
          *
          * On 3/20/2017 Test failed for the following errors:
 	   	 * dfsp2-test
+	   	 * 
+	   	 * 
+	   	 * 4/4/17:  The url that is being used for the call to the SPSP proxy server is not valid, hence the 500 error.  
+	   	 * 			When testing locally, it defaults the 0.0.0.0 host (which is not hosting the service, duh) and the port is 3042.  So for testing locally, I set the spsp-client-service.host variable to point
+	   	 *          to a URL that I hope will get a valid response.  i.e. "http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com".  I will not check this change in.
+	   	 *          
+	   	 *          http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:3042/v1/quoteSourceAmount
 		 *
 		 */
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        
+        System.out.println("user Address: " + userAddress + ", Amount = " + amount);
+        
+        String fullPath = url+"/spsp/client/v1/quoteSourceAmount";
+        System.out.println("..quoteSourceAmount url = " + fullPath);
         
         try {
             
@@ -468,7 +485,7 @@ public class SPSPClientProxyFunctionalTest {
             param("receiver", userAddress).
             param("sourceAmount",amount).
             when().
-            get(url+"/spsp/client/v1/quoteSourceAmount").
+            get(fullPath).
             then().
             statusCode(200).extract().jsonPath();
             
@@ -706,16 +723,32 @@ public class SPSPClientProxyFunctionalTest {
     	 *     	
     	 * On 3/20/2017 Test failed 
     	 *  dfsp2-test
+    	 *  
+    	 *  
+    	 * 4/5/2017: 
+    	 * 
+    	 * 
     	 */
     	
+    	System.out.println("Sender: " + sender + ", Receiver = " + receiver + ", amount = " + amount);
     	
         final StringWriter twriter = new StringWriter();
         final PrintStream tcaptor = new PrintStream(new WriterOutputStream(twriter), true);
+        String fullPath = url+"/spsp/client/v1/setup";
+        
+        
+        // Even when we override the URL, it does not override the HOST or PORT.
+        
+        String receiverUrl = "http://"+host+":3046/v1/receivers/"+receiver;
+        String sourceAccountUrl = "http://"+host+":8088/ledger/accounts/"+sender;
+        
+        System.out.println("receiverUrl="+receiverUrl+" :: sourceAccountUrl="+sourceAccountUrl+" :: call URL="+fullPath);
+        
         
         try {
             String json = Json.createObjectBuilder()
-            .add("receiver", "http://"+host+":3046/v1/receivers/"+receiver)
-            .add("sourceAccount", "http://"+host+":8088/ledger/accounts/"+sender)
+            .add("receiver", receiverUrl)  
+            .add("sourceAccount", sourceAccountUrl) 
             .add("destinationAmount", amount)
             .add("memo", "Hi Bobb!")
             .add("sourceIdentifier", "")
@@ -728,7 +761,7 @@ public class SPSPClientProxyFunctionalTest {
             	contentType("application/json").
             	body(json).
             when().
-            	post(url+"/spsp/client/v1/setup");
+            	post(fullPath);
 //            then().
 //            	statusCode(201).
 //            	body("id",is(not(""))).
@@ -744,11 +777,9 @@ public class SPSPClientProxyFunctionalTest {
              * have a bunch of assertThat() to ensure all is good.  This is a bit more detailed testing
              * 
              */
-            String sourceAccountSendValue = "http://"+host+":8088/ledger/accounts/"+sender;
             String sourceAccountReturnValue = jsonPath.getString("sourceAccount");
-//            assertThat("receiver", sourceReiverPath, equalTo(receiverPathTest));  // as of 12/8/2016 Receiver does not appear in the JSON response.
             
-            assertThat("sourceAccount", sourceAccountSendValue, equalTo(sourceAccountReturnValue)); 
+            assertThat("sourceAccount", sourceAccountUrl, equalTo(sourceAccountReturnValue)); 
             assertThat("condition", jsonPath.getString("condition"), not(isEmptyOrNullString()));
             assertThat("address", jsonPath.getString("address"), not(isEmptyOrNullString()));
             assertThat("sourceAmount", jsonPath.getString("sourceAmount"), not(isEmptyOrNullString()));

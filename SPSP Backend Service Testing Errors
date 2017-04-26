@@ -12,7 +12,7 @@ public void get_backend_services_receiver_positive() {
  *   
  *   
  *  
- *  Test failed on dfsp2-test  :: Looks like the data is the only problem.  Might need to now have the receiver in the file, but created during the test so it can adapt to each environment.
+ *  Test failed on dfsp2-test  :: Looks like the data is the only problem.  Might need to not have the receiver in the file, but created during the test so it can adapt to each environment by creating and retrieving the receiver.  
  *  
     [03-20 20:25:48,860] INFO  [[interop-domain].api-httpListenerConfig.worker.431] spsp-backend-api-main: Received request with traceID=92c0f2b4-d0e6-4c5b-854b-ef7c8c0c40ea at path=/spsp/backend/v1/receivers/54200545
 	[03-20 20:25:48,860] INFO  [[interop-domain].api-httpListenerConfig.worker.431] spsp-backend-fetch-payee: Processing request for GET on http://ec2-35-166-236-69.us-west-2.compute.amazonaws.com:8010/receivers/54200545, traceID=92c0f2b4-d0e6-4c5b-854b-ef7c8c0c40ea, payee=54200545
@@ -43,7 +43,7 @@ Test Failure #2
  * 
  * 
  * 
- * *                                                                                                            *
+ *                                                                                                             *
 	**************************************************************************************************************
 	Get invoice existing URL: http://ec2-35-163-231-111.us-west-2.compute.amazonaws.com:8088/spsp/client/v1/invoices/{invoiceId}
 	Response JSON from call: "Not Found"
