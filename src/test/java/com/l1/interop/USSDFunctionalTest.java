@@ -244,7 +244,8 @@ public class USSDFunctionalTest {
 
             //assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
             //assertThat(response.prettyPrint(), not(containsString("HTTP error")));
-            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
@@ -326,7 +327,8 @@ public class USSDFunctionalTest {
             //System.out.println("USSD Response for create user: " + response.prettyPrint());
             System.out.println("USSD Response: Scenario-create user 2 : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
@@ -407,7 +409,8 @@ public class USSDFunctionalTest {
             //System.out.println("USSD Response for Send Money: " + response.prettyPrint());
             System.out.println("USSD Response: Scenario-Send Money : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
@@ -484,7 +487,8 @@ public class USSDFunctionalTest {
             //System.out.println("USSD Response for Sell Goods: " + response.prettyPrint());
             System.out.println("USSD Response: Scenario-Sell Goods : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
 
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
@@ -563,7 +567,8 @@ public class USSDFunctionalTest {
             //System.out.println("USSD Response for Pending Transactions: " + response.prettyPrint());
             System.out.println("USSD Response: Scenario-Pending Transactions : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
 
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
@@ -650,7 +655,8 @@ public class USSDFunctionalTest {
             //System.out.println("USSD Response for Manage Accounts: " + response.prettyPrint());
             System.out.println("USSD Response: Scenario-Manage Accounts : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
 
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
@@ -727,7 +733,8 @@ public class USSDFunctionalTest {
             //System.out.println("USSD Response for Check Balance: " + response.prettyPrint());
             System.out.println("USSD Response: Scenario-Check Balance : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
@@ -808,7 +815,8 @@ public class USSDFunctionalTest {
             //System.out.println("USSD Response for Mini statement: " + response.prettyPrint());
             System.out.println("USSD Response: Scenario-Mini Statement : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            //assertThat(response.xmlPath().getString ("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
 
@@ -883,7 +891,8 @@ public class USSDFunctionalTest {
 
             System.out.println("USSD Response: Scenario-Transaction : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            //assertThat(response.xmlPath().getString("Message"), not(containsString("Wrong Input")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString("Message"), not(containsString("HTTP error")));
 
         } catch(AssertionError e){
