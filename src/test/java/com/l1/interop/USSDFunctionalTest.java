@@ -43,6 +43,7 @@ public class USSDFunctionalTest {
 	private static String host;
 	private static String port;
 	private static String url;
+	private static String env;
 
 	
 	private Properties prop = new Properties();
@@ -65,7 +66,8 @@ public class USSDFunctionalTest {
         host = prop.getProperty("host");
         port = prop.getProperty("ussd_port");
         url = "http://"+host+":"+port;
-        
+        env = environment.toLowerCase();
+
         /*
          * 
          * Override url for local testing
@@ -118,67 +120,67 @@ public class USSDFunctionalTest {
     @DataProvider(name = "ussd_createuser1")
     private Iterator<Object []> ussdcreateuser1( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_createuser.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/" + env + "/ussd_createuser.csv");
         return testCases.iterator();
     }
 
     @DataProvider(name = "ussd_createuser2")
     private Iterator<Object []> ussdcreateuser2( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_createuser_1.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/" + env + "/ussd_createuser_1.csv");
         return testCases.iterator();
     }
 
     @DataProvider(name = "ussd_sendmoney")
     private Iterator<Object []> ussdsendmoney( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_sendmoney.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/" + env + "/ussd_sendmoney.csv");
         return testCases.iterator();
     }
 
     @DataProvider(name = "ussd_sellgoods")
     private Iterator<Object []> ussdsellgoods( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_sellgoods.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/" + env + "/ussd_sellgoods.csv");
         return testCases.iterator();
     }
 
     @DataProvider(name = "ussd_pendingtrans")
     private Iterator<Object []> ussdpendingtrans( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_pendingtrans.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/" + env + "/ussd_pendingtrans.csv");
         return testCases.iterator();
     }
 
     @DataProvider(name = "ussd_manageaccount")
     private Iterator<Object []> ussdmanageaccount( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_manageaccount.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/" + env + "/ussd_manageaccount.csv");
         return testCases.iterator();
     }
 
     @DataProvider(name = "ussd_checkbalance")
     private Iterator<Object []> ussdcheckbalance( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_checkbalance.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/" + env + "/ussd_checkbalance.csv");
         return testCases.iterator();
     }
 
     @DataProvider(name = "ussd_ministatement")
     private Iterator<Object []> ussdministatement( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_ministatement.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/" + env + "/ussd_ministatement.csv");
         return testCases.iterator();
     }
 
    @DataProvider(name = "ussd_transaction")
     private Iterator<Object []> ussdTransaction( ) throws Exception
     {
-        List<Object []> testCases = readCSVFile("test-data/ussd/ussd_transaction.csv");
+        List<Object []> testCases = readCSVFile("test-data/ussd/" + env + "/ussd_transaction.csv");
         return testCases.iterator();
     }
 
-    @Test(dataProvider="ussd_createuser1",groups={ "ussd_createuser" })
+    @Test(dataProvider="ussd_createuser1",groups={ "ussd_createuser1" })
 	public void get_ussd_createuser1(String phone, String message) {
 
         Response response;
@@ -244,7 +246,7 @@ public class USSDFunctionalTest {
 
             //assertThat(response.prettyPrint(), not(containsString("Wrong Input")));
             //assertThat(response.prettyPrint(), not(containsString("HTTP error")));
-            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );
@@ -263,7 +265,7 @@ public class USSDFunctionalTest {
 
     }
 
-    @Test(dataProvider="ussd_createuser2",groups={ "ussd_createuser" })
+    @Test(dataProvider="ussd_createuser2",groups={ "ussd_createuser2" })
     public void get_ussd_createuser2(String phone, String message) {
 
         Response response;
@@ -327,7 +329,7 @@ public class USSDFunctionalTest {
             //System.out.println("USSD Response for create user: " + response.prettyPrint());
             System.out.println("USSD Response: Scenario-create user 2 : ------->>>>: " + response.xmlPath().getString ("Message").trim());
 
-            assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
+            //assertThat(response.xmlPath().getString ("Message"), not(containsString("There are no accounts associated with this phone")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("User Not Found")));
             assertThat(response.xmlPath().getString ("Message"), not(containsString("HTTP error")));
             //jsonReponseMap = JsonTransformer.stringToMap( response.prettyPrint() );

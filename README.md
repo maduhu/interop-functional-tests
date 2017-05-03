@@ -104,6 +104,10 @@ Test Reports (in html format) can be viewed at : /home/ec2-user/scripts/modusbox
 
 Failure Reports are placed under the path : /home/ec2-user/scripts/modusbox/FunctionalTest/interop-functional-tests/target/failure-reports
 
+### Crontab command to schedule the functional test
+
+0 7,17 * * * /home/ec2-user/scripts/modusbox/FunctionalTest/TestUSSD.sh >> /home/ec2-user/scripts/modusbox/FunctionalTest/Executionlog.log 2>&1
+
 ## Current Interop projects covered by functional tests:
   - Interop spsp clientproxy   (12/2/2016)
   - Interop User Registrations (11/28/2016)
