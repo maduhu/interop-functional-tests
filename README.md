@@ -1,5 +1,7 @@
 # interop-functional-tests
 
+Update: This environment is deprecated and as of 6th July 2017. Currently for end to end testing JMeter [scripts](https://github.com/LevelOneProject/interop-performance/tree/master/JMeter) located in the interop-performance project can be used.
+
 x
 Repo that holds the functional tests
 
